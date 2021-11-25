@@ -1,10 +1,10 @@
-package com.chess.controller;
+package com.chess.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ControllerApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {

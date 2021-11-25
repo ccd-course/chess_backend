@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.chess</groupId>
-	<artifactId>controller</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>controller</name>
+	<name>backend</name>
 	<description>chess controller service</description>
 	<properties>
 		<java.version>17</java.version>
