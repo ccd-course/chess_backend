@@ -12,10 +12,11 @@ public class NewGameController {
 
     @GetMapping
     public NewGameObject newGame(@RequestParam(value = "playerNumber") int playerNumber){
-        //call of createNewGame method with parameter playerNumber
+        //TODO: call of createNewGame method with parameter playerNumber
         //returns the gameID and the chessboard
 
         //just testing
+        //http://localhost:8080/newGame?playerNumber=3
         Object[][] chessboard = new Object[2][3];
         chessboard[0][0] = "Test";
         int gameID = 1;
