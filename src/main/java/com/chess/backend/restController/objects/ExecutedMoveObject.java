@@ -1,5 +1,14 @@
 package com.chess.backend.restController.objects;
 
+/**
+ * This class is send as a response from the {@link com.chess.backend.restController.controller.ExecutedMoveController}.
+ *
+ * It contains the following fields: <br>
+ * {@link validation} - the validation state of the move ({@link ValidationResponse}) <br>
+ * {@link chessboard} - the chessboard
+ *
+ * @author Hannes Stuetzer
+ */
 public class ExecutedMoveObject {
     private ValidationResponse validation;
     private Object[][] chessboard;

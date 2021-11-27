@@ -6,10 +6,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This class handles the API-call to create a new game.
+ *
+ * @author Hannes Stuetzer
+ */
 @RestController
 @RequestMapping("/newGame")
 public class NewGameController {
 
+    /**
+     * @param playerNumber the number of players.
+     * @return Returns a {@link NewGameObject}.
+     */
     @GetMapping
     public NewGameObject newGame(@RequestParam(value = "playerNumber") int playerNumber){
         //TODO: call of createNewGame method with parameter playerNumber

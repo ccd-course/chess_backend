@@ -6,10 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This class handles the API-call to get all possible moves for a piece.
+ *
+ * @author Hannes Stuetzer
+ */
 @RestController
 @RequestMapping("/moveRequest")
 public class MoveRequestController {
 
+    /**
+     * @param gameID the ID of the current game.
+     * @param piecePosition the current position of the piece.
+     * @return Returns a {@link MoveRequestObject}.
+     */
     @GetMapping
     public MoveRequestObject sendPossibleMoves(@RequestParam(value = "gameID") int gameID,
                                                @RequestParam(value = "piecePosition") int[] piecePosition){

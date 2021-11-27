@@ -7,9 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This class handles the API-call regarding the executed move for a piece.
+ *
+ * @author Hannes Stuetzer
+ */
 @RestController
 @RequestMapping("/executedMove")
 public class ExecutedMoveController {
+    /**
+     * @param gameID the ID of the current game.
+     * @param previousPiecePosition the previous position of the piece (before the move).
+     * @param newPiecePosition the new position of the piece after the move.
+     * @return Returns an {@link ExecutedMoveObject}.
+     */
     @GetMapping
     public ExecutedMoveObject executedMove(@RequestParam(value = "gameID") int gameID,
                                            @RequestParam(value = "previousPiecePosition") int[] previousPiecePosition,
