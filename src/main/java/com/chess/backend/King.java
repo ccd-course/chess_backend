@@ -45,32 +45,11 @@ public class King extends Piece
 {
 
     public boolean wasMotion = false;//maybe change to: 'wasMotioned'
-    //public boolean checked     = false;
-    public static short value = 99;
-    private static final Image imageWhite = GUI.loadImage("King-W.png");
-    private static final Image imageBlack = GUI.loadImage("King-B.png");
 
     King(Chessboard chessboard, Player player)
     {
         super(chessboard, player);
-        //this.setImages("King-W.png", "King-B.png");
         this.symbol = "K";
-        this.setImage();
-        //this.image = imageWhite;
-    }
-
-    @Override
-    void setImage()
-    {
-        if (this.player.color == this.player.color.black)
-        {
-            image = imageBlack;
-        }
-        else
-        {
-            image = imageWhite;
-        }
-        orgImage = image;
     }
 
     /**

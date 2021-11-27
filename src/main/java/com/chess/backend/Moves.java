@@ -31,7 +31,6 @@ import java.util.Stack;
  * that the moves taken by player are correct.
  * All moves which was taken by current player are saving as List of Strings
  * The history of moves is printing in a table
- * @param game The current game
  */
 public class Moves extends AbstractTableModel
 {
@@ -442,7 +441,7 @@ public class Moves extends AbstractTableModel
         return str;
     }
 
-    /** Method to set all moves from String with validation test (usefoul for network game)
+    /** Method to set all moves from String with validation test (useful for network game)
      *  @param  moves String to set in String like PGN with full-notation format
      */
     public void setMoves(String moves)
@@ -488,7 +487,8 @@ public class Moves extends AbstractTableModel
         {
             if (!Moves.isMoveCorrect(locMove.trim())) //if not
             {
-                JOptionPane.showMessageDialog(this.game, Settings.lang("invalid_file_to_load") + move);
+                // TODO: Send message to frontend?
+                // JOptionPane.showMessageDialog(this.game, Settings.lang("invalid_file_to_load") + move);
                 return;//show message and finish reading game
             }
         }
@@ -536,7 +536,8 @@ public class Moves extends AbstractTableModel
                 
                 if (!canMove) //if move is illegal
                 {
-                    JOptionPane.showMessageDialog(this.game, Settings.lang("illegal_move_on") + locMove);
+                    // TODO: Send message to frontend about illegal move
+                    // JOptionPane.showMessageDialog(this.game, Settings.lang("illegal_move_on") + locMove);
                     return;//finish reading game and show message
                 }
                 continue;
@@ -589,7 +590,8 @@ public class Moves extends AbstractTableModel
             canMove = this.game.simulateMove(xFrom, yFrom, xTo, yTo);
             if (!canMove) //if move is illegal
             {
-                JOptionPane.showMessageDialog(this.game, Settings.lang("illegal_move_on") + locMove);
+                // TODO: Send message to frontend about illegal move
+                // JOptionPane.showMessageDialog(this.game, Settings.lang("illegal_move_on") + locMove);
                 this.game.chessboard.activeSquare = null;
                 return;//finish reading game and show message
             }
