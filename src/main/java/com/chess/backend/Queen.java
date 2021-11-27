@@ -39,30 +39,11 @@ import java.util.ArrayList;
 public class Queen extends Piece
 {
 
-    public static short value = 9;
-    protected static final Image imageWhite = GUI.loadImage("Queen-W.png");
-    protected static final Image imageBlack = GUI.loadImage("Queen-B.png");
-
     Queen(Chessboard chessboard, Player player)
     {
         super(chessboard, player);//call initializer of super type: Piece
         //this.setImages("Queen-W.png", "Queen-B.png");
         this.symbol = "Q";
-        this.setImage();
-    }
-
-    @Override
-    void setImage()
-    {
-        if (this.player.color == this.player.color.black)
-        {
-            image = imageBlack;
-        }
-        else
-        {
-            image = imageWhite;
-        }
-        orgImage = image;
     }
 
     /**

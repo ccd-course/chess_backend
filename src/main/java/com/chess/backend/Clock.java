@@ -93,25 +93,25 @@ public class Clock
      */
     public String prepareString()
     {
-        String strMin = new String();
-        Integer time_min = new Integer(this.get_left_time() / 60);
-        Integer time_sec = new Integer(this.get_left_time() % 60);
+        String strMin = "";
+        int time_min = this.get_left_time() / 60;
+        int time_sec = this.get_left_time() % 60;
         if (time_min < 10)
         {//prepare MINUTES
-            strMin = "0" + time_min.toString();
+            strMin = "0" + time_min;
         }
         else
         {
-            strMin = time_min.toString();
+            strMin = String.valueOf(time_min);
         }
         String result = new String(strMin + ":");
         if (time_sec < 10)
         {//prepare SECONDS
-            result = result + "0" + time_sec.toString();
+            result = result + "0" + time_sec;
         }
         else
         {
-            result = result + time_sec.toString();
+            result = result + time_sec;
         }
 
         return result;

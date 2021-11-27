@@ -28,31 +28,11 @@ import java.util.ArrayList;
  */
 public class Knight extends Piece
 {
-
-    public static short value = 3;
-    protected static final Image imageWhite = GUI.loadImage("Knight-W.png");
-    protected static final Image imageBlack = GUI.loadImage("Knight-B.png");
-
     Knight(Chessboard chessboard, Player player)
     {
         super(chessboard, player);//call initializer of super type: Piece
         //this.setImages("Knight-W.png", "Knight-B.png");
         this.symbol = "N";
-        this.setImage();
-    }
-
-    @Override
-    void setImage()
-    {
-        if (this.player.color == this.player.color.black)
-        {
-            image = imageBlack;
-        }
-        else
-        {
-            image = imageWhite;
-        }
-        orgImage = image;
     }
 
     /**

@@ -39,31 +39,9 @@ import java.util.ArrayList;
  */
 public class Bishop extends Piece
 {
-
-    public static short value = 3;
-    protected static final Image imageWhite = GUI.loadImage("Bishop-W.png");
-    protected static final Image imageBlack = GUI.loadImage("Bishop-B.png");
-
-    Bishop(Chessboard chessboard, Player player)
-    {
+    Bishop(Chessboard chessboard, Player player) {
         super(chessboard, player);      //call initializer of super type: Piece
-        //this.setImages("Bishop-W.png", "Bishop-B.png");
         this.symbol = "B";
-        this.setImage();
-    }
-
-    @Override
-    void setImage()
-    {
-        if (this.player.color == this.player.color.black)
-        {
-            image = imageBlack;
-        }
-        else
-        {
-            image = imageWhite;
-        }
-        orgImage = image;
     }
 
     /**

@@ -25,9 +25,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /** Class to representing the full game time
- * @param game The current game
  */
-public class GameClock extends JPanel implements Runnable
+public class GameClock implements Runnable
 {
 
     public Clock clock1;
@@ -61,8 +60,6 @@ public class GameClock extends JPanel implements Runnable
         {
             thread.start();
         }
-        this.drawBackground();
-        this.setDoubleBuffered(true);
     }
 
     /** Method to init game clock
@@ -92,79 +89,6 @@ public class GameClock extends JPanel implements Runnable
         }
     }
 
-    /** Method of drawing graphical background of clock
-     */
-    void drawBackground()
-    {
-        Graphics gr = this.background.getGraphics();
-        Graphics2D g2d = (Graphics2D) gr;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        Font font = new Font("Serif", Font.ITALIC, 20);
-
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(5, 30, 80, 30);
-        g2d.setFont(font);
-
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(85, 30, 90, 30);
-        g2d.drawRect(5, 30, 170, 30);
-        g2d.drawRect(5, 60, 170, 30);
-        g2d.drawLine(85, 30, 85, 90);
-        font = new Font("Serif", Font.ITALIC, 16);
-        g2d.drawString(settings.playerWhite.getName(), 10, 50);
-        g2d.setColor(Color.WHITE);
-        g2d.drawString(settings.playerBlack.getName(), 100, 50);
-        this.bufferedGraphics = this.background.getGraphics();
-    }
-
-    /**
-    Annotation to superclass Graphics drawing the clock graphics
-     * @param g Graphics2D Capt object to paint
-     */
-    @Override
-    public void paint(Graphics g)
-    {
-        //System.out.println("rysuje zegary");
-        super.paint(g);
-        white_clock = this.clock1.prepareString();
-        black_clock = this.clock2.prepareString();
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(this.background, 0, 0, this);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        Font font = new Font("Serif", Font.ITALIC, 20);
-        g2d.drawImage(this.background, 0, 0, this);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(5, 30, 80, 30);
-        g2d.setFont(font);
-
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(85, 30, 90, 30);
-        g2d.drawRect(5, 30, 170, 30);
-        g2d.drawRect(5, 60, 170, 30);
-        g2d.drawLine(85, 30, 85, 90);
-        font = new Font("Serif", Font.ITALIC, 14);
-        g2d.drawImage(this.background, 0, 0, this);
-        g2d.setFont(font);
-        g.drawString(settings.playerWhite.getName(), 10, 50);
-        g.setColor(Color.WHITE);
-        g.drawString(settings.playerBlack.getName(), 100, 50);
-        g2d.setFont(font);
-        g.setColor(Color.BLACK);
-        g2d.drawString(white_clock, 10, 80);
-        g2d.drawString(black_clock, 90, 80);
-    }
-
-    /**
-    Annotation to superclass Graphics updateing clock graphisc
-     * @param g Graphics2D Capt object to paint
-     */
-    @Override
-    public void update(Graphics g)
-    {
-        paint(g);
-    }
 
     /** Method of swiching the players clocks
      */
@@ -225,7 +149,6 @@ public class GameClock extends JPanel implements Runnable
             {
                 if (this.runningClock.decrement())
                 {
-                    repaint();
                     try
                     {
                         thread.sleep(1000);

@@ -25,11 +25,11 @@ import java.util.ArrayList;
 
 /**
  * Class to represent a pawn piece
- * Pawn can move only forvard and can beat only across
- * In first move pawn can move 2 sqares
- * pawn can be upgreade to rook, knight, bishop, Queen if it's in the
- * squers nearest the side where opponent is lockated
- * Firat move of pawn:
+ * Pawn can move only forward and can beat only across
+ * In first move pawn can move 2 squares
+ * pawn can be upgrade to rook, knight, bishop, Queen if it's in the
+ * squares nearest the side where opponent is located
+ * First move of pawn:
  *       |_|_|_|_|_|_|_|_|7
 |_|_|_|_|_|_|_|_|6
 |_|_|_|X|_|_|_|_|5
@@ -63,32 +63,11 @@ import java.util.ArrayList;
  */
 public class Pawn extends Piece
 {
-
-    boolean down;
-    protected static final Image imageWhite = GUI.loadImage("Pawn-W.png");
-    protected static final Image imageBlack = GUI.loadImage("Pawn-B.png");
-    public static short value = 1;
-
     Pawn(Chessboard chessboard, Player player)
     {
         super(chessboard, player);
         //this.setImages("Pawn-W.png", "Pawn-B.png");
         this.symbol = "";
-        this.setImage();
-    }
-
-    @Override
-    void setImage()
-    {
-        if (this.player.color == this.player.color.black)
-        {
-            image = imageBlack;
-        }
-        else
-        {
-            image = imageWhite;
-        }
-        orgImage = image;
     }
 
     /**
@@ -276,10 +255,5 @@ public class Pawn extends Piece
         }
 
         return list;
-    }
-
-    void promote(Piece newPiece)
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
