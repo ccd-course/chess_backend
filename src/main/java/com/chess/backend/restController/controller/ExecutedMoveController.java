@@ -1,7 +1,6 @@
 package com.chess.backend.restController.controller;
 
 import com.chess.backend.restController.objects.ExecutedMoveObject;
-import com.chess.backend.restController.objects.NewGameObject;
 import com.chess.backend.restController.objects.ValidationResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
