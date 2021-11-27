@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /** Class to represent chessboard. Chessboard is made from squares.
- * It is setting the squers of chessboard and sets the pieces(pawns)
- * witch the owner is current player on it.
+ * It is setting the squares of chessboard and sets the pieces(pawns)
+ * which the owner is current player on it.
  */
 public class Chessboard
 {
