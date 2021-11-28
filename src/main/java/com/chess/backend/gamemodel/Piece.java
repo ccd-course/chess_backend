@@ -24,7 +24,7 @@ public class Piece {
 
         switch (this.type){
             case PAWN:
-                allowedMoves.addAll(new MoveDiagonal(game).concretise());
+                allowedMoves.addAll(MoveDiagonal.concretise(game, false, false));
         }
 
         return allowedMoves;
