@@ -18,7 +18,9 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
+
+import com.chess.backend.gamemodel.Player;
 
 /** Class to represent seperate wall-clock for one player.
  *  Full ChessClock is represented by GameClock object (two clock - one for each player)
