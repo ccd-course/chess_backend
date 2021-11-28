@@ -1,12 +1,10 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.abstractmoves.MoveDiagonal;
-import com.chess.backend.gamemodel.contants.Color;
-import com.chess.backend.gamemodel.contants.PieceType;
+import com.chess.backend.gamemodel.constants.Color;
+import com.chess.backend.gamemodel.constants.PieceType;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Piece {
     private PieceType type;
@@ -21,12 +19,28 @@ public class Piece {
         this.color = color;
     }
 
-    public ArrayList<Move> getAllowedMoves(Game game){
+    public ArrayList<Move> getAllowedFullMoves(Game game){
         ArrayList<Move> allowedMoves = new ArrayList<>();
 
         switch (this.type){
             case PAWN:
                 allowedMoves.addAll(new MoveDiagonal(game).concretise());
+        }
+
+        return allowedMoves;
+    }
+
+    /** The old jchess components expect an ArrayList of Squares instead of Moves. Therefore we need to convert our
+     * AllowedFullMoves.
+     *  @return ArrayList of possible Squares to move to.
+     */
+    public ArrayList<Square> getAllowedMoves(Game game){
+        ArrayList<Move> allowedFullMoves = getAllowedFullMoves(game);
+        ArrayList<Square> allowedMoves = new ArrayList<>();
+
+        for (Move move:
+             allowedFullMoves) {
+            allowedMoves.add(move.getTo());
         }
 
         return allowedMoves;

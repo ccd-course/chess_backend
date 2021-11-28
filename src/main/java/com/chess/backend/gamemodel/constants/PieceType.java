@@ -1,4 +1,4 @@
-package com.chess.backend.gamemodel.contants;
+package com.chess.backend.gamemodel.constants;
 
 public enum PieceType {
     PAWN("Pawn", ""),

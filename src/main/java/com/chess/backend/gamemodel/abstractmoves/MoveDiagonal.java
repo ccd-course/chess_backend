@@ -15,10 +15,18 @@ public class MoveDiagonal implements AbstractMove {
 
     public MoveDiagonal(Game game) {
         this.game = game;
+        this.attack = true;
+        this.jump = false;
+    }
+
+    public MoveDiagonal(Game game, boolean attack, boolean jump) {
+        this.game = game;
+        this.attack = attack;
+        this.jump = jump;
     }
 
     public Set<Move> concretise(){
-        // TODO: Implement
+
         return new HashSet<>();
     }
 

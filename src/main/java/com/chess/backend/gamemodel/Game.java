@@ -49,84 +49,13 @@ public class Game
 
     }
 
-
-    /** Method checking in with of line there is an error
-     *  @param  br BufferedReader class object to operate on
-     *  @param  srcStr String class object with text which variable you want to get in file
-     *  @return String with searched variable in file (whole line)
-     *  @throws ReadGameError class object when something goes wrong when reading file
-     */
-    static public String getLineWithVar(BufferedReader br, String srcStr) throws ReadGameError
-    {
-        String str = new String();
-        while (true)
-        {
-            try
-            {
-                str = br.readLine();
-            }
-            catch (java.io.IOException exc)
-            {
-                System.out.println("Something wrong reading file: " + exc);
-            }
-            if (str == null)
-            {
-                throw new ReadGameError();
-            }
-            if (str.startsWith(srcStr))
-            {
-                return str;
-            }
-        }
-    }
-
-    /** Method to get value from loaded txt line
-     *  @param line Line which is readed
-     *  @return result String with loaded value
-     *  @throws ReadGameError object class when something goes wrong
-     */
-    static public String getValue(String line) throws ReadGameError
-    {
-        //System.out.println("getValue called with: "+line);
-        int from = line.indexOf("\"");
-        int to = line.lastIndexOf("\"");
-        int size = line.length() - 1;
-        String result = new String();
-        if (to < from || from > size || to > size || to < 0 || from < 0)
-        {
-            throw new ReadGameError();
-        }
-        try
-        {
-            result = line.substring(from + 1, to);
-        }
-        catch (StringIndexOutOfBoundsException exc)
-        {
-            System.out.println("error getting value: " + exc);
-            return "none";
-        }
-        return result;
-    }
-
     /** Method to Start new game
      *
      */
     public void newGame()
     {
         chessboard.setPieces("", settings.playerWhite, settings.playerBlack);
-
-        //System.out.println("new game, game type: "+settings.gameType.name());
-
         activePlayer = settings.playerWhite;
-    }
-
-    /** Method to end game
-     *  @param message what to show player(s) at end of the game (for example "draw", "black wins" etc.)
-     */
-    public void endGame(String message)
-    {
-        System.out.println(message);
-        JOptionPane.showMessageDialog(null, message);
     }
 
     /** Method to swich active players after move
@@ -158,7 +87,6 @@ public class Game
     public void nextMove()
     {
         switchActive();
-
         System.out.println("next move, active player: " + activePlayer.name + ", color: " + activePlayer.color.name());
     }
 
@@ -172,8 +100,7 @@ public class Game
     {
         try 
         {
-            chessboard.select(chessboard.squares[beginX][beginY]);
-            if (chessboard.activeSquare.piece.getAllowedMoves(this).indexOf(chessboard.squares[endX][endY]) != -1) //move
+            if (chessboard.squares[beginX][beginY].piece.getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
             {
                 chessboard.move(chessboard.squares[beginX][beginY], chessboard.squares[endX][endY]);
             }
@@ -182,7 +109,6 @@ public class Game
                 System.out.println("Bad move");
                 return false;
             }
-            chessboard.unselect();
             nextMove();
 
             return true;

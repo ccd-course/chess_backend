@@ -1,6 +1,6 @@
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.contants.PieceType;
+import com.chess.backend.gamemodel.constants.PieceType;
 
 public class Move {
 
