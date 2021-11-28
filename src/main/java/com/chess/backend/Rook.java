@@ -21,7 +21,9 @@
 
 package com.chess.backend;
 
-import java.awt.*;
+import com.chess.backend.gamemodel.Chessboard;
+import com.chess.backend.gamemodel.Player;
+
 import java.util.ArrayList;
 
 

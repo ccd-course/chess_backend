@@ -20,7 +20,10 @@
  */
 package com.chess.backend;
 
-import javax.swing.*;
+import com.chess.backend.gamemodel.Game;
+import com.chess.backend.gamemodel.Player;
+import com.chess.backend.gamemodel.Settings;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

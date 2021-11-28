@@ -9,6 +9,9 @@ import java.util.Set;
 
 public class MoveDiagonal implements AbstractMove {
     private Game game;
+    private boolean attack; // allow moves to occupied fields (pawn may not attack straight forward)
+    private boolean jump; // allow moves that pass occupied fields (knight)
+
 
     public MoveDiagonal(Game game) {
         this.game = game;

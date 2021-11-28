@@ -1,16 +1,18 @@
 package com.chess.backend.gamemodel.contants;
 
 public enum PieceType {
-    PAWN("Pawn"),
-    ROOK("Rook"),
-    KNIGHT("Knight"),
-    BISHOP("Bishop"),
-    QUEEN("Queen"),
-    KING("King");
+    PAWN("Pawn", ""),
+    ROOK("Rook", "R"),
+    KNIGHT("Knight", "N"),
+    BISHOP("Bishop", "B"),
+    QUEEN("Queen", "Q"),
+    KING("King", "K");
 
     public final String label;
+    public final String symbol;
 
-    PieceType(String label) {
+    PieceType(String label, String symbol) {
         this.label = label;
+        this.symbol = symbol;
     }
 }

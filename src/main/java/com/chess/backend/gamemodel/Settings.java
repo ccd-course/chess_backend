@@ -18,7 +18,9 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
+
+import com.chess.backend.gamemodel.contants.Color;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -57,8 +59,8 @@ public class Settings implements Serializable
     public Settings()
     {
         //temporally
-        this.playerWhite = new Player("", "white");
-        this.playerBlack = new Player("", "black");
+        this.playerWhite = new Player("", Color.WHITE);
+        this.playerBlack = new Player("", Color.BLACK);
         this.timeLimitSet = false;
 
         gameMode = gameModes.newGame;

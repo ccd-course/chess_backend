@@ -18,7 +18,9 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
+
+import com.chess.backend.gamemodel.Piece;
 
 /**
  * Class to represent a chessboard square

@@ -18,12 +18,9 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
 
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import com.chess.backend.gamemodel.contants.Color;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -32,7 +29,7 @@ import java.util.Stack;
  * All moves which was taken by current player are saving as List of Strings
  * The history of moves is printing in a table
  */
-public class Moves extends AbstractTableModel
+public class Moves
 {
 
     private ArrayList<String> move = new ArrayList<String>();
@@ -42,9 +39,6 @@ public class Moves extends AbstractTableModel
     {
         Settings.lang("white"), Settings.lang("black")
     };
-    private MyDefaultTableModel tableModel;
-    private JScrollPane scrollPane;
-    private JTable table;
     private boolean enterBlack = false;
     private Game game;
     protected Stack<Move> moveBackStack = new Stack<Move>();
@@ -58,97 +52,13 @@ public class Moves extends AbstractTableModel
     Moves(Game game)
     {
         super();
-        this.tableModel = new MyDefaultTableModel();
-        this.table = new JTable(this.tableModel);
-        this.scrollPane = new JScrollPane(this.table);
-        this.scrollPane.setMaximumSize(new Dimension(100, 100));
-        this.table.setMinimumSize(new Dimension(100, 100));
         this.game = game;
-
-        this.tableModel.addColumn(this.names[0]);
-        this.tableModel.addColumn(this.names[1]);
-        this.addTableModelListener(null);
-        this.tableModel.addTableModelListener(null);
-        this.scrollPane.setAutoscrolls(true);
-    }
-
-    public void draw()
-    {
-    }
-
-    @Override
-    public String getValueAt(int x, int y)
-    {
-        return this.move.get((y * 2) - 1 + (x - 1));
-    }
-
-    @Override
-    public int getRowCount()
-    {
-        return this.rowsNum;
-    }
-
-    @Override
-    public int getColumnCount()
-    {
-        return this.columnsNum;
-    }
-
-    protected void addRow()
-    {
-        this.tableModel.addRow(new String[2]);
     }
 
     protected void addCastling(String move)
     {
         this.move.remove(this.move.size() - 1);//remove last element (move of Rook)
-        if (!this.enterBlack)
-        {
-            this.tableModel.setValueAt(move, this.tableModel.getRowCount() - 1, 1);//replace last value
-        }
-        else
-        {
-            this.tableModel.setValueAt(move, this.tableModel.getRowCount() - 1, 0);//replace last value
-        }
         this.move.add(move);//add new move (O-O or O-O-O)
-    }
-
-    @Override
-    public boolean isCellEditable(int a, int b)
-    {
-        return false;
-    }
-
-    /** Method of adding new moves to the table
-     * @param str String which in is saved player move
-     */
-    protected void addMove2Table(String str)
-    {
-        try
-        {
-            if (!this.enterBlack)
-            {
-                this.addRow();
-                this.rowsNum = this.tableModel.getRowCount() - 1;
-                this.tableModel.setValueAt(str, rowsNum, 0);
-            }
-            else
-            {
-                this.tableModel.setValueAt(str, rowsNum, 1);
-                this.rowsNum = this.tableModel.getRowCount() - 1;
-            }
-            this.enterBlack = !this.enterBlack;
-            this.table.scrollRectToVisible(table.getCellRect(table.getRowCount() - 1, 0, true));//scroll to down
-
-        }
-        catch (ArrayIndexOutOfBoundsException exc)
-        {
-            if (this.rowsNum > 0)
-            {
-                this.rowsNum--;
-                addMove2Table(str);
-            }
-        }
     }
 
     /** Method of adding new move
@@ -159,7 +69,6 @@ public class Moves extends AbstractTableModel
         if (isMoveCorrect(move))
         {
             this.move.add(move);
-            this.addMove2Table(move);
             this.moveForwardStack.clear();
         }
 
@@ -168,7 +77,7 @@ public class Moves extends AbstractTableModel
     public void addMove(Square begin, Square end, boolean registerInHistory, castling castlingMove, boolean wasEnPassant, Piece promotedPiece)
     {
         boolean wasCastling = castlingMove != castling.none;
-        String locMove = new String(begin.piece.symbol);
+        String locMove = new String(begin.piece.getType().symbol);
         
         if( game.settings.upsideDown )
         {
@@ -201,7 +110,7 @@ public class Moves extends AbstractTableModel
             locMove += Integer.toString(8 - end.pozY);//add number of Square to which move was made
         }
         
-        if (begin.piece.symbol.equals("") && begin.pozX - end.pozX != 0 && end.piece == null)
+        if (begin.piece.getType().symbol.equals("") && begin.pozX - end.pozX != 0 && end.piece == null)
         {
             locMove += "(e.p)";//pawn take down opponent en passant
             wasEnPassant = true;
@@ -210,8 +119,8 @@ public class Moves extends AbstractTableModel
                 || (this.enterBlack && this.game.chessboard.kingWhite.isChecked()))
         {//if checked
 
-            if ((!this.enterBlack && this.game.chessboard.kingBlack.isCheckmatedOrStalemated() == 1)
-                    || (this.enterBlack && this.game.chessboard.kingWhite.isCheckmatedOrStalemated() == 1))
+            if ((!this.enterBlack && this.game.chessboard.kingBlack.isCheckmatedOrStalemated(this.game) == 1)
+                    || (this.enterBlack && this.game.chessboard.kingWhite.isCheckmatedOrStalemated(this.game) == 1))
             {//check if checkmated
                 locMove += "#";//check mate
             }
@@ -231,9 +140,7 @@ public class Moves extends AbstractTableModel
         else
         {
             this.move.add(locMove);
-            this.addMove2Table(locMove);
         }
-        this.scrollPane.scrollRectToVisible(new Rectangle(0, this.scrollPane.getHeight() - 2, 1, 1));
 
         if (registerInHistory)
         {
@@ -244,11 +151,6 @@ public class Moves extends AbstractTableModel
     public void clearMoveForwardStack()
     {
         this.moveForwardStack.clear();
-    }
-
-    public JScrollPane getScrollPane()
-    {
-        return this.scrollPane;
     }
 
     public ArrayList<String> getMoves()
@@ -296,19 +198,9 @@ public class Moves extends AbstractTableModel
                 }
                 if (this.enterBlack)
                 {
-                    this.tableModel.setValueAt("", this.tableModel.getRowCount() - 1, 0);
-                    this.tableModel.removeRow(this.tableModel.getRowCount() - 1);
-
                     if (this.rowsNum > 0)
                     {
                         this.rowsNum--;
-                    }
-                }
-                else
-                {
-                    if (this.tableModel.getRowCount() > 0)
-                    {
-                        this.tableModel.setValueAt("", this.tableModel.getRowCount() - 1, 1);
                     }
                 }
                 this.move.remove(this.move.size() - 1);
@@ -500,7 +392,7 @@ public class Moves extends AbstractTableModel
                 int[] values = new int[4];
                 if (locMove.equals("O-O-O"))
                 {
-                    if (this.game.getActivePlayer().color == Player.colors.black) //if black turn
+                    if (this.game.getActivePlayer().color == Color.BLACK) //if black turn
                     { 
                         values = new int[]
                         {
@@ -517,7 +409,7 @@ public class Moves extends AbstractTableModel
                 }
                 else if (locMove.equals("O-O")) //if short castling
                 { 
-                    if (this.game.getActivePlayer().color == Player.colors.black) //if black turn
+                    if (this.game.getActivePlayer().getColor() == Color.BLACK) //if black turn
                     {
                         values = new int[]
                         {
@@ -566,7 +458,7 @@ public class Moves extends AbstractTableModel
                         {
                             continue;
                         }
-                        ArrayList pieceMoves = squares[i][j].piece.allMoves();
+                        ArrayList pieceMoves = squares[i][j].piece.getAllowedMoves(game);
                         for(Object square : pieceMoves)
                         {
                             Square currSquare = (Square)square;
@@ -596,24 +488,5 @@ public class Moves extends AbstractTableModel
                 return;//finish reading game and show message
             }
         }
-    }
-}
-/*
- * Overriding DefaultTableModel and  isCellEditable method
- * (history cannot be edited by player)
- */
-
-class MyDefaultTableModel extends DefaultTableModel
-{
-
-    MyDefaultTableModel()
-    {
-        super();
-    }
-
-    @Override
-    public boolean isCellEditable(int a, int b)
-    {
-        return false;
     }
 }

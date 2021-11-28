@@ -20,7 +20,10 @@
  */
 package com.chess.backend;
 
-import java.awt.*;
+import com.chess.backend.gamemodel.Chessboard;
+import com.chess.backend.gamemodel.Player;
+import com.chess.backend.gamemodel.Square;
+
 import java.util.ArrayList;
 
 /**

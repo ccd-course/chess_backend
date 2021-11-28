@@ -38,7 +38,10 @@ package com.chess.backend;
         0 1 2 3 4 5 6 7
  */
 
-import java.awt.*;
+import com.chess.backend.gamemodel.Chessboard;
+import com.chess.backend.gamemodel.Player;
+import com.chess.backend.gamemodel.Square;
+
 import java.util.ArrayList;
 
 public class King extends Piece

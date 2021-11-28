@@ -1,59 +1,76 @@
 package com.chess.backend.gamemodel;
 
-import java.util.ArrayList;
+import com.chess.backend.gamemodel.contants.PieceType;
 
 public class Move {
-    private Position currentPosition;
-    private Position newPosition;
-    private Piece piece;
-    private ArrayList<Position> steps;
-    private boolean captureMove;
 
-    public Move(Position currentPosition, Position newPosition, Piece piece, ArrayList<Position> steps, boolean captureMove) {
-        this.currentPosition = currentPosition;
-        this.newPosition = newPosition;
-        this.piece = piece;
-        this.steps = steps;
-        this.captureMove = captureMove;
+    protected Square from = null;
+    protected Square to = null;
+    protected Piece movedPiece = null;
+    protected Piece takenPiece = null;
+    protected Piece promotedTo = null;
+    protected boolean wasEnPassant = false;
+    protected Moves.castling castlingMove = Moves.castling.none;
+    protected boolean wasPawnTwoFieldsMove = false;
+
+    Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece)
+    {
+        this.from = from;
+        this.to = to;
+
+        this.movedPiece = movedPiece;
+        this.takenPiece = takenPiece;
+
+        this.castlingMove = castlingMove;
+        this.wasEnPassant = wasEnPassant;
+
+        if (movedPiece.getType().equals(PieceType.PAWN) && Math.abs(to.pozY - from.pozY) == 2)
+        {
+            this.wasPawnTwoFieldsMove = true;
+        }
+        else if (movedPiece.getType().equals(PieceType.PAWN) && to.pozY == Chessboard.bottom || to.pozY == Chessboard.top && promotedPiece != null)
+        {
+            this.promotedTo = promotedPiece;
+        }
     }
 
-    public Position getCurrentPosition() {
-        return currentPosition;
+    public Square getFrom()
+    {
+        return this.from;
     }
 
-    public void setCurrentPosition(Position currentPosition) {
-        this.currentPosition = currentPosition;
+    public Square getTo()
+    {
+        return this.to;
     }
 
-    public Position getNewPosition() {
-        return newPosition;
+    public Piece getMovedPiece()
+    {
+        return this.movedPiece;
     }
 
-    public void setNewPosition(Position newPosition) {
-        this.newPosition = newPosition;
+    public Piece getTakenPiece()
+    {
+        return this.takenPiece;
     }
 
-    public Piece getPiece() {
-        return piece;
+    public boolean wasEnPassant()
+    {
+        return this.wasEnPassant;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
+    public boolean wasPawnTwoFieldsMove()
+    {
+        return this.wasPawnTwoFieldsMove;
     }
 
-    public ArrayList<Position> getSteps() {
-        return steps;
+    public Moves.castling getCastlingMove()
+    {
+        return this.castlingMove;
     }
 
-    public void setSteps(ArrayList<Position> steps) {
-        this.steps = steps;
-    }
-
-    public boolean isCaptureMove() {
-        return captureMove;
-    }
-
-    public void setCaptureMove(boolean captureMove) {
-        this.captureMove = captureMove;
+    public Piece getPromotedPiece()
+    {
+        return this.promotedTo;
     }
 }

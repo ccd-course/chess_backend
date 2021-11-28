@@ -18,16 +18,14 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
 
-import com.chess.backend.Moves.castling;
+import com.chess.backend.gamemodel.Moves.castling;
+import com.chess.backend.gamemodel.contants.Color;
+import com.chess.backend.gamemodel.contants.PieceType;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /** Class to represent chessboard. Chessboard is made from squares.
  * It is setting the squares of chessboard and sets the pieces(pawns)
@@ -49,8 +47,8 @@ public class Chessboard
     //public Graphics graph;
     private ArrayList moves;
     private Settings settings;
-    public King kingWhite;
-    public King kingBlack;
+    public Piece kingWhite;
+    public Piece kingBlack;
     //-------- for undo ----------
     private Square undo1_sq_begin = null;
     private Square undo1_sq_end = null;
@@ -62,8 +60,8 @@ public class Chessboard
     //----------------------------
     //For En passant:
     //|-> Pawn whose in last turn moved two square
-    public Pawn twoSquareMovedPawn = null;
-    public Pawn twoSquareMovedPawn2 = null;
+    public Piece twoSquareMovedPawn = null;
+    public Piece twoSquareMovedPawn2 = null;
     private Moves moves_history;
 
     /** Chessboard class constructor
@@ -154,34 +152,34 @@ public class Chessboard
             player.goDown = true;
         }
 
-        this.squares[0][i].setPiece(new Rook(this, player));
-        this.squares[7][i].setPiece(new Rook(this, player));
-        this.squares[1][i].setPiece(new Knight(this, player));
-        this.squares[6][i].setPiece(new Knight(this, player));
-        this.squares[2][i].setPiece(new Bishop(this, player));
-        this.squares[5][i].setPiece(new Bishop(this, player));
+        this.squares[0][i].setPiece(new Piece(PieceType.ROOK, player.getColor()));
+        this.squares[7][i].setPiece(new Piece(PieceType.ROOK, player.getColor()));
+        this.squares[1][i].setPiece(new Piece(PieceType.KNIGHT, player.getColor()));
+        this.squares[6][i].setPiece(new Piece(PieceType.KNIGHT, player.getColor()));
+        this.squares[2][i].setPiece(new Piece(PieceType.BISHOP, player.getColor()));
+        this.squares[5][i].setPiece(new Piece(PieceType.BISHOP, player.getColor()));
         if (upsideDown)
         {
-            this.squares[4][i].setPiece(new Queen(this, player));
-            if (player.color == Player.colors.white)
+            this.squares[4][i].setPiece(new Piece(PieceType.QUEEN, player.getColor()));
+            if (player.color == Color.WHITE)
             {
-                this.squares[3][i].setPiece(kingWhite = new King(this, player));
+                this.squares[3][i].setPiece(kingWhite = new Piece(PieceType.KING, player.getColor()));
             }
             else
             {
-                this.squares[3][i].setPiece(kingBlack = new King(this, player));
+                this.squares[3][i].setPiece(kingBlack = new Piece(PieceType.KING, player.getColor()));
             }
         }
         else
         {
-            this.squares[3][i].setPiece(new Queen(this, player));
-            if (player.color == Player.colors.white)
+            this.squares[3][i].setPiece(new Piece(PieceType.QUEEN, player.getColor()));
+            if (player.color == Color.WHITE)
             {
-                this.squares[4][i].setPiece(kingWhite = new King(this, player));
+                this.squares[4][i].setPiece(kingWhite = new Piece(PieceType.KING, player.getColor()));
             }
             else
             {
-                this.squares[4][i].setPiece(kingBlack = new King(this, player));
+                this.squares[4][i].setPiece(kingBlack = new Piece(PieceType.KING, player.getColor()));
             }
         }
     }
@@ -199,7 +197,7 @@ public class Chessboard
         }
         for (int x = 0; x < 8; x++)
         {
-            this.squares[x][i].setPiece(new Pawn(this, player));
+            this.squares[x][i].setPiece(new Piece(PieceType.PAWN, player.getColor()));
         }
     }
 
@@ -290,12 +288,12 @@ public class Chessboard
         end.piece = begin.piece;//for ending square set piece from beginin square
         begin.piece = null;//make null piece for begining square
 
-        if (end.piece.name.equals("King"))
+        if (end.piece.getType().equals(PieceType.KING))
         {
-            if (!((King) end.piece).wasMotion)
+            if (!end.piece.isMotioned())
             {
                 breakCastling = true;
-                ((King) end.piece).wasMotion = true;
+                end.piece.setMotioned(true);
             }
 
             //Castling
@@ -317,15 +315,15 @@ public class Chessboard
             }
             //endOf Castling
         }
-        else if (end.piece.name.equals("Rook"))
+        else if (end.piece.getType().equals(PieceType.ROOK))
         {
-            if (!((Rook) end.piece).wasMotion)
+            if (!end.piece.isMotioned())
             {
                 breakCastling = true;
-                ((Rook) end.piece).wasMotion = true;
+                end.piece.setMotioned(true);
             }
         }
-        else if (end.piece.name.equals("Pawn"))
+        else if (end.piece.getType().equals(PieceType.PAWN))
         {
             if (twoSquareMovedPawn != null && squares[end.pozX][begin.pozY] == twoSquareMovedPawn.square) //en passant
             {
@@ -340,7 +338,7 @@ public class Chessboard
             if (begin.pozY - end.pozY == 2 || end.pozY - begin.pozY == 2) //moved two square
             {
                 breakCastling = true;
-                twoSquareMovedPawn = (Pawn) end.piece;
+                twoSquareMovedPawn = end.piece;
             }
             else
             {
@@ -352,7 +350,7 @@ public class Chessboard
                 if (clearForwardHistory)
                 {
                     String color;
-                    if (end.piece.player.color == Player.colors.white)
+                    if (end.piece.player.color == Color.WHITE)
                     {
                         color = "W"; // promotionWindow was show with pieces in this color
                     }
@@ -366,7 +364,7 @@ public class Chessboard
 
                     if (newPiece.equals("Queen")) // transform pawn to queen
                     {
-                        Queen queen = new Queen(this, end.piece.player);
+                        Piece queen = new Piece(PieceType.QUEEN, end.piece.player.getColor());
                         queen.chessboard = end.piece.chessboard;
                         queen.player = end.piece.player;
                         queen.square = end.piece.square;
@@ -374,7 +372,7 @@ public class Chessboard
                     }
                     else if (newPiece.equals("Rook")) // transform pawn to rook
                     {
-                        Rook rook = new Rook(this, end.piece.player);
+                        Piece rook = new Piece(PieceType.ROOK, end.piece.player.getColor());
                         rook.chessboard = end.piece.chessboard;
                         rook.player = end.piece.player;
                         rook.square = end.piece.square;
@@ -382,7 +380,7 @@ public class Chessboard
                     }
                     else if (newPiece.equals("Bishop")) // transform pawn to bishop
                     {
-                        Bishop bishop = new Bishop(this, end.piece.player);
+                        Piece bishop = new Piece(PieceType.BISHOP, end.piece.player.getColor());
                         bishop.chessboard = end.piece.chessboard;
                         bishop.player = end.piece.player;
                         bishop.square = end.piece.square;
@@ -390,7 +388,7 @@ public class Chessboard
                     }
                     else // transform pawn to knight
                     {
-                        Knight knight = new Knight(this, end.piece.player);
+                        Piece knight = new Piece(PieceType.KNIGHT, end.piece.player.getColor());
                         knight.chessboard = end.piece.chessboard;
                         knight.player = end.piece.player;
                         knight.square = end.piece.square;
@@ -400,7 +398,7 @@ public class Chessboard
                 }
             }
         }
-        else if (!end.piece.name.equals("Pawn"))
+        else if (!end.piece.getType().equals(PieceType.PAWN))
         {
             twoSquareMovedPawn = null; //erase last saved move (for En passant)
         }
@@ -447,7 +445,7 @@ public class Chessboard
                 this.move(this.squares[from.pozX][from.pozY], this.squares[to.pozX][to.pozY], true, false);
                 if (first.getPromotedPiece() != null)
                 {
-                    Pawn pawn = (Pawn) this.squares[to.pozX][to.pozY].piece;
+                    Piece pawn = this.squares[to.pozX][to.pozY].piece;
                     pawn.square = null;
 
                     this.squares[to.pozX][to.pozY].piece = first.getPromotedPiece();
@@ -500,22 +498,22 @@ public class Chessboard
                         rook.square = this.squares[0][begin.pozY];
                         this.squares[end.pozX + 1][end.pozY].piece = null;
                     }
-                    ((King) moved).wasMotion = false;
-                    ((Rook) rook).wasMotion = false;
+                    moved.setMotioned(false);
+                    rook.setMotioned(false);
                     this.breakCastling = false;
                 }
-                else if (moved.name.equals("Rook"))
+                else if (moved.getType().equals(PieceType.ROOK))
                 {
-                    ((Rook) moved).wasMotion = false;
+                    moved.setMotioned(false);
                 }
-                else if (moved.name.equals("Pawn") && last.wasEnPassant())
+                else if (moved.getType().equals(PieceType.PAWN) && last.wasEnPassant())
                 {
-                    Pawn pawn = (Pawn) last.getTakenPiece();
+                    Piece pawn = last.getTakenPiece();
                     this.squares[end.pozX][begin.pozY].piece = pawn;
                     pawn.square = this.squares[end.pozX][begin.pozY];
 
                 }
-                else if (moved.name.equals("Pawn") && last.getPromotedPiece() != null)
+                else if (moved.getType().equals(PieceType.PAWN) && last.getPromotedPiece() != null)
                 {
                     Piece promoted = this.squares[end.pozX][end.pozY].piece;
                     promoted.square = null;
@@ -527,9 +525,9 @@ public class Chessboard
                 if (oneMoveEarlier != null && oneMoveEarlier.wasPawnTwoFieldsMove())
                 {
                     Piece canBeTakenEnPassant = this.squares[oneMoveEarlier.getTo().pozX][oneMoveEarlier.getTo().pozY].piece;
-                    if (canBeTakenEnPassant.name.equals("Pawn"))
+                    if (canBeTakenEnPassant.getType().equals(PieceType.PAWN))
                     {
-                        this.twoSquareMovedPawn = (Pawn) canBeTakenEnPassant;
+                        this.twoSquareMovedPawn = canBeTakenEnPassant;
                     }
                 }
 
