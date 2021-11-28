@@ -13,6 +13,7 @@ public class Piece {
     public Square square;
     public Player player;
     private boolean motioned;
+    private boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
     public Piece(PieceType type, Color color) {
         this.type = type;
@@ -44,6 +45,10 @@ public class Piece {
         }
 
         return allowedMoves;
+    }
+
+    public boolean getMainDirection(){
+        return this.clockwise;
     }
 
     /** Method to check is the king is checked
