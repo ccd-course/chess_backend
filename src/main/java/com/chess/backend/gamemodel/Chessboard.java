@@ -33,7 +33,6 @@ import java.util.ArrayList;
  */
 public class Chessboard
 {
-
     public static final int top = 0;
     public static final int bottom = 7;
     public Square[][] squares;//squares of chessboard
@@ -506,5 +505,13 @@ public class Chessboard
         {
             return false;
         }
+    }
+
+    public int getWidth() {
+        return squares[0].length;
+    }
+
+    public int getHeight() {
+        return squares.length;
     }
 }

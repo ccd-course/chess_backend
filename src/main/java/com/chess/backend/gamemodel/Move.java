@@ -13,7 +13,7 @@ public class Move {
     protected Moves.castling castlingMove = Moves.castling.none;
     protected boolean wasPawnTwoFieldsMove = false;
 
-    Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece)
+    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece)
     {
         this.from = from;
         this.to = to;

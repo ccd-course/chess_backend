@@ -1,6 +1,6 @@
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.abstractmoves.MoveDiagonal;
+import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 
