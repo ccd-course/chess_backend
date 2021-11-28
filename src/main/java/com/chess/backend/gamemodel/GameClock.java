@@ -18,11 +18,9 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.Game;
-import com.chess.backend.gamemodel.Player;
-import com.chess.backend.gamemodel.Settings;
+import com.chess.backend.gamemodel.contants.Color;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -130,7 +128,7 @@ public class GameClock implements Runnable
         /*in documentation it's called 'setPlayer' but when we've 'setTimes' better to use
          * one convention of naming methods - this've to be repaired in documentation by Wąsu:P
         dojdziemy do tego:D:D:D*/
-        if (p1.color == p1.color.white)
+        if (p1.color == Color.WHITE)
         {
             this.clock1.setPlayer(p1);
             this.clock2.setPlayer(p2);
@@ -178,11 +176,11 @@ public class GameClock implements Runnable
         String color = new String();
         if (this.clock1.get_left_time() == 0)
         {//Check which player win
-            color = this.clock2.getPlayer().color.toString();
+            color = this.clock2.getPlayer().getColor().label;
         }
         else if (this.clock2.get_left_time() == 0)
         {
-            color = this.clock1.getPlayer().color.toString();
+            color = this.clock1.getPlayer().getColor().label;
         }
         else
         {//if called in wrong moment

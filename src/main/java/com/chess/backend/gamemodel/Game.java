@@ -20,8 +20,6 @@
  */
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.GameClock;
-
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.util.logging.Level;
