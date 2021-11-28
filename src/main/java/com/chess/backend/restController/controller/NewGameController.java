@@ -1,6 +1,8 @@
 package com.chess.backend.restController.controller;
 
 import com.chess.backend.restController.objects.NewGameObject;
+import com.chess.backend.services.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/newGame")
 public class NewGameController {
-
+    @Autowired
+    private GameService service;
     /**
      * @param playerNumber the number of players.
      * @return Returns a {@link NewGameObject}.
