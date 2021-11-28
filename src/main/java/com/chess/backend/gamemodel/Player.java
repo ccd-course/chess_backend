@@ -18,7 +18,9 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
+
+import com.chess.backend.gamemodel.contants.Color;
 
 import java.io.Serializable;
 
@@ -30,30 +32,18 @@ public class Player implements Serializable
 {
 
     String name;
+    Color color;
 
-    enum colors
-    {
-
-        white, black
-    }
-    colors color;
-
-    public enum playerTypes
-    {
-
-        localUser, networkUser, computer
-    }
-    public playerTypes playerType;
     boolean goDown;
 
     public Player()
     {
     }
 
-    public Player(String name, String color)
+    public Player(String name, Color color)
     {
         this.name = name;
-        this.color = colors.valueOf(color);
+        this.color = color;
         this.goDown = false;
     }
 
@@ -73,11 +63,19 @@ public class Player implements Serializable
         return this.name;
     }
 
-    /** Method setting the players type
-     *  @param type type of player - enumerate
-     */
-    public void setType(playerTypes type)
-    {
-        this.playerType = type;
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public boolean isGoDown() {
+        return goDown;
+    }
+
+    public void setGoDown(boolean goDown) {
+        this.goDown = goDown;
     }
 }

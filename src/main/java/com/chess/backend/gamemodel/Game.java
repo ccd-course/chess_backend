@@ -18,19 +18,10 @@
  * Mateusz Sławomir Lach ( matlak, msl )
  * Damian Marciniak
  */
-package com.chess.backend;
+package com.chess.backend.gamemodel;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +34,6 @@ public class Game
 {
 
     public Settings settings;
-    public boolean blockedChessboard;
     public Chessboard chessboard;
     private Player activePlayer;
     public GameClock gameClock;
@@ -55,13 +45,8 @@ public class Game
         settings = new Settings();
         chessboard = new Chessboard(this.settings, this.moves);
         //this.chessboard.
-        gameClock = new GameClock(this);
+        // gameClock = new GameClock(this); // TODO: Implement from old jchess
 
-        JScrollPane movesHistory = this.moves.getScrollPane();
-        movesHistory.setSize(new Dimension(180, 350));
-        movesHistory.setLocation(new Point(500, 121));
-
-        this.blockedChessboard = false;
     }
 
 
@@ -133,10 +118,6 @@ public class Game
         //System.out.println("new game, game type: "+settings.gameType.name());
 
         activePlayer = settings.playerWhite;
-        if (activePlayer.playerType != Player.playerTypes.localUser)
-        {
-            this.blockedChessboard = true;
-        }
     }
 
     /** Method to end game
@@ -144,7 +125,6 @@ public class Game
      */
     public void endGame(String message)
     {
-        this.blockedChessboard = true;
         System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
     }
@@ -179,18 +159,7 @@ public class Game
     {
         switchActive();
 
-        System.out.println("next move, active player: " + activePlayer.name + ", color: " + activePlayer.color.name() + ", type: " + activePlayer.playerType.name());
-        if (activePlayer.playerType == Player.playerTypes.localUser)
-        {
-            this.blockedChessboard = false;
-        }
-        else if (activePlayer.playerType == Player.playerTypes.networkUser)
-        {
-            this.blockedChessboard = true;
-        }
-        else if (activePlayer.playerType == Player.playerTypes.computer)
-        {
-        }
+        System.out.println("next move, active player: " + activePlayer.name + ", color: " + activePlayer.color.name());
     }
 
     /** Method to simulate Move to check if it's correct etc. (usable for network game).
@@ -204,7 +173,7 @@ public class Game
         try 
         {
             chessboard.select(chessboard.squares[beginX][beginY]);
-            if (chessboard.activeSquare.piece.allMoves().indexOf(chessboard.squares[endX][endY]) != -1) //move
+            if (chessboard.activeSquare.piece.getAllowedMoves(this).indexOf(chessboard.squares[endX][endY]) != -1) //move
             {
                 chessboard.move(chessboard.squares[beginX][beginY], chessboard.squares[endX][endY]);
             }
