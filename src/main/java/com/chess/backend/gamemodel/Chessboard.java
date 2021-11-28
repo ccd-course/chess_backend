@@ -21,8 +21,8 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.Moves.castling;
-import com.chess.backend.gamemodel.contants.Color;
-import com.chess.backend.gamemodel.contants.PieceType;
+import com.chess.backend.gamemodel.constants.Color;
+import com.chess.backend.gamemodel.constants.PieceType;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -36,26 +36,11 @@ public class Chessboard
 
     public static final int top = 0;
     public static final int bottom = 7;
-    public Square squares[][];//squares of chessboard
-    public Square activeSquare;
-    private Image upDownLabel = null;
-    private Image LeftRightLabel = null;
-    private Point topLeft = new Point(0, 0);
-    private int active_x_square;
-    private int active_y_square;
-    private float square_height;//height of square
-    //public Graphics graph;
+    public Square[][] squares;//squares of chessboard
     private ArrayList moves;
     private Settings settings;
     public Piece kingWhite;
     public Piece kingBlack;
-    //-------- for undo ----------
-    private Square undo1_sq_begin = null;
-    private Square undo1_sq_end = null;
-    private Piece undo1_piece_begin = null;
-    private Piece undo1_piece_end = null;
-    private Piece ifWasEnPassant = null;
-    private Piece ifWasCastling = null;
     private boolean breakCastling = false; //if last move break castling
     //----------------------------
     //For En passant:
@@ -71,10 +56,7 @@ public class Chessboard
     public Chessboard(Settings settings, Moves moves_history)
     {
         this.settings = settings;
-        this.activeSquare = null;
         this.squares = new Square[8][8];//initalization of 8x8 chessboard
-        this.active_x_square = 0;
-        this.active_y_square = 0;
         for (int i = 0; i < 8; i++)
         {//create object for each square
             for (int y = 0; y < 8; y++)
@@ -201,26 +183,6 @@ public class Chessboard
         }
     }
 
-    /** Method selecting piece in chessboard
-     * @param  sq square to select (when clicked))
-     */
-    public void select(Square sq)
-    {
-        this.activeSquare = sq;
-        this.active_x_square = sq.pozX + 1;
-        this.active_y_square = sq.pozY + 1;
-    }
-
-    /** Method set variables active_x_square & active_y_square
-     * to 0 values.
-     */
-    public void unselect()
-    {
-        this.active_x_square = 0;
-        this.active_y_square = 0;
-        this.activeSquare = null;
-    }
-
     public void move(Square begin, Square end)
     {
         move(begin, end, true);
@@ -273,12 +235,6 @@ public class Chessboard
         Square tempBegin = new Square(begin);//4 moves history
         Square tempEnd = new Square(end);  //4 moves history
         //for undo
-        undo1_piece_begin = begin.piece;
-        undo1_sq_begin = begin;
-        undo1_piece_end = end.piece;
-        undo1_sq_end = end;
-        ifWasEnPassant = null;
-        ifWasCastling = null;
         breakCastling = false;
         // ---
 
@@ -300,7 +256,7 @@ public class Chessboard
             if (begin.pozX + 2 == end.pozX)
             {
                 move(squares[7][begin.pozY], squares[end.pozX - 1][begin.pozY], false, false);
-                ifWasCastling = end.piece;  //for undo
+                // ifWasCastling = end.piece;  //for undo
                 wasCastling = castling.shortCastling;
                 //this.moves_history.addMove(tempBegin, tempEnd, clearForwardHistory, wasCastling, wasEnPassant);
                 //return;
@@ -308,7 +264,7 @@ public class Chessboard
             else if (begin.pozX - 2 == end.pozX)
             {
                 move(squares[0][begin.pozY], squares[end.pozX + 1][begin.pozY], false, false);
-                ifWasCastling = end.piece;  // for undo
+                // ifWasCastling = end.piece;  // for undo
                 wasCastling = castling.longCastling;
                 //this.moves_history.addMove(tempBegin, tempEnd, clearForwardHistory, wasCastling, wasEnPassant);
                 //return;
@@ -327,7 +283,7 @@ public class Chessboard
         {
             if (twoSquareMovedPawn != null && squares[end.pozX][begin.pozY] == twoSquareMovedPawn.square) //en passant
             {
-                ifWasEnPassant = squares[end.pozX][begin.pozY].piece; //for undo
+                // ifWasEnPassant = squares[end.pozX][begin.pozY].piece; //for undo
 
                 tempEnd.piece = squares[end.pozX][begin.pozY].piece; //ugly hack - put taken pawn in en passant plasty do end square
 
@@ -403,13 +359,6 @@ public class Chessboard
             twoSquareMovedPawn = null; //erase last saved move (for En passant)
         }
         //}
-
-        // TODO: Controller may not trigger repaint
-        if (refresh)
-        {
-            this.unselect();//unselect square
-            // repaint();
-        }
 
         if (clearForwardHistory)
         {
@@ -539,13 +488,6 @@ public class Chessboard
                 else
                 {
                     this.squares[end.pozX][end.pozY].piece = null;
-                }
-
-                // TODO: Controller may not trigger repaint
-                if (refresh)
-                {
-                    this.unselect();//unselect square
-                    // repaint();
                 }
 
             }

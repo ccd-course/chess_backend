@@ -20,7 +20,7 @@
  */
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.contants.Color;
+import com.chess.backend.gamemodel.constants.Color;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -484,7 +484,6 @@ public class Moves
             {
                 // TODO: Send message to frontend about illegal move
                 // JOptionPane.showMessageDialog(this.game, Settings.lang("illegal_move_on") + locMove);
-                this.game.chessboard.activeSquare = null;
                 return;//finish reading game and show message
             }
         }

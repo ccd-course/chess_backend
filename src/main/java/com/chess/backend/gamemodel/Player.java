@@ -20,7 +20,7 @@
  */
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.contants.Color;
+import com.chess.backend.gamemodel.constants.Color;
 
 import java.io.Serializable;
 

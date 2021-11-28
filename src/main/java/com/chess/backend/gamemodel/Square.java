@@ -20,8 +20,6 @@
  */
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.Piece;
-
 /**
  * Class to represent a chessboard square
  */

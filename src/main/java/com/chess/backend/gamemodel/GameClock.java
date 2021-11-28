@@ -20,7 +20,7 @@
  */
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.contants.Color;
+import com.chess.backend.gamemodel.constants.Color;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -186,7 +186,8 @@ public class GameClock implements Runnable
         {//if called in wrong moment
             System.out.println("Time over called when player got time 2 play");
         }
-        this.game.endGame("Time is over! " + color + " player win the game.");
+        // TODO: End game should be implemented in frontend
+        // this.game.endGame("Time is over! " + color + " player win the game.");
         this.stop();
 
         //JOptionPane.showMessageDialog(this, "koniec czasu");
