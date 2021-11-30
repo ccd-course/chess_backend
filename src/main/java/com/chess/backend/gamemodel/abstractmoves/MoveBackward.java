@@ -10,29 +10,44 @@ import java.util.Set;
 
 public class MoveBackward {
 
-    public MoveBackward() {}
+    public MoveBackward() {
+    }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
-     * @param game Game context
+     *
+     * @param game   Game context
      * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
-     * @param jump Allow moves that pass occupied fields (knight)
+     * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump){
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
-        for (int x = fromSquare.getPozX(); x > 0; x++) {
-            Square toSquare = game.chessboard.squares[x][fromSquare.getPozY()];
+        for (int y = fromSquare.getPozY(); y < game.chessboard.getHeight(); y++) {
+            Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (attack){
-                takenPiece = toSquare.piece;
+            if (toSquare.piece != null) {
+                if (attack) {
+                    takenPiece = toSquare.piece;
+                } else if (jump) {
+                    continue;
+                } else {
+                    break;
+                }
             }
-            allowedMoves.add(new Move(fromSquare, toSquare, fromSquare.piece, takenPiece, null, false, null));
+            allowedMoves.add(
+                    new Move(
+                            fromSquare,
+                            toSquare,
+                            fromSquare.piece,
+                            takenPiece,
+                            null,
+                            false,
+                            null
+                    ));
         }
-
         return allowedMoves;
     }
-
 }

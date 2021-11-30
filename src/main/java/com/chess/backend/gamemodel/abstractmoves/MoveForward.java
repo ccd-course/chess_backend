@@ -2,6 +2,7 @@ package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Move;
+import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.gamemodel.Square;
 
 import java.util.HashSet;
@@ -18,9 +19,34 @@ public class MoveForward {
      * @param jump Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square square, boolean attack, boolean jump){
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump){
+        HashSet<Move> allowedMoves = new HashSet<Move>();
 
-        return new HashSet<>();
+        for (int y = fromSquare.getPozY(); y > 1; y--) {
+            Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
+            Piece takenPiece = null;
+            // TODO: Implement castling, enPassant and piece promotion
+            if (toSquare.piece != null) {
+                if (attack) {
+                    takenPiece = toSquare.piece;
+                } else if (jump) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            allowedMoves.add(
+                    new Move(
+                            fromSquare,
+                            toSquare,
+                            fromSquare.piece,
+                            takenPiece,
+                            null,
+                            false,
+                            null
+                    ));
+        }
+        return allowedMoves;
     }
 
 }
