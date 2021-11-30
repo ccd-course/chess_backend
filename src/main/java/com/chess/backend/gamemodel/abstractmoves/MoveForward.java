@@ -20,9 +20,15 @@ public class MoveForward {
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump){
+        return forward(game, fromSquare, attack, jump, -1);
+    }
+
+    public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
-        for (int y = fromSquare.getPozY(); y > 1; y--) {
+        for (int y = fromSquare.getPozY(); y > 0 && (limit > 0 || limit == -1); y--) {
+            if (limit != -1) limit--;
+
             Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
@@ -48,5 +54,4 @@ public class MoveForward {
         }
         return allowedMoves;
     }
-
 }

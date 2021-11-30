@@ -22,9 +22,15 @@ public class MoveBackward {
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
+        return backward(game, fromSquare, attack, jump, -1);
+    }
+
+    public static Set<Move> backward(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
-        for (int y = fromSquare.getPozY(); y < game.chessboard.getHeight(); y++) {
+        for (int y = fromSquare.getPozY(); y < game.chessboard.getHeight() && (limit > 0 || limit == -1); y++) {
+            if (limit != -1) limit--;
+
             Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
