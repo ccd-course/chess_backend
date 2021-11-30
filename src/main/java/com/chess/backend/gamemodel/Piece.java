@@ -1,6 +1,6 @@
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.abstractmoves.MoveDiagonal;
+import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 
@@ -13,6 +13,7 @@ public class Piece {
     public Square square;
     public Player player;
     private boolean motioned;
+    private boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
     public Piece(PieceType type, Color color) {
         this.type = type;
@@ -24,7 +25,45 @@ public class Piece {
 
         switch (this.type){
             case PAWN:
-                allowedMoves.addAll(MoveDiagonal.concretise(game, false, false));
+                if (clockwise){
+                    allowedMoves.addAll(MoveOneForward.concretise(game, this.square, false, false));
+                    if (square.getPozX() % 8 == 1){ // TODO: Take color into account
+                        allowedMoves.addAll(MoveTwoForward.concretise(game, this.square, false, false));
+                    }
+                    allowedMoves.addAll(MovePawnCaptureForward.concretise(game, this.square, true, false));
+                }
+                else{
+                    allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, false, false));
+                    if (square.getPozX() % 8 == 6){ // TODO: Take color into account
+                        allowedMoves.addAll(MoveTwoBackward.concretise(game, this.square, false, false));
+                    }
+                    allowedMoves.addAll(MovePawnCaptureBackward.concretise(game, this.square, true, false));
+                }
+                break;
+            case KING:
+                allowedMoves.addAll(MoveOneForward.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveOneLeft.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveOneRight.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false));
+            case QUEEN:
+                allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true));
+            case ROOK:
+                allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false));
+            case BISHOP:
+                allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false));
+            case KNIGHT:
+                allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true));
+
+
         }
 
         return allowedMoves;
@@ -44,6 +83,10 @@ public class Piece {
         }
 
         return allowedMoves;
+    }
+
+    public boolean getMainDirection(){
+        return this.clockwise;
     }
 
     /** Method to check is the king is checked
