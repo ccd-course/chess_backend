@@ -39,7 +39,7 @@ public class Game
     public GameClock gameClock;
     public Moves moves;
 
-    Game()
+    public Game()
     {
         this.moves = new Moves(this);
         settings = new Settings();
