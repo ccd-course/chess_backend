@@ -43,8 +43,7 @@ jobs:
       - uses: actions/upload-artifact@v1
         with:
           name: JavaDoc
-          path: |
-            target/site/apidocs/index.html
+          path: target/site/apidocs
 
   publish-job:
  
