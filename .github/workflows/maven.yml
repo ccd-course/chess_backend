@@ -29,9 +29,9 @@ jobs:
 
   JavaDoc:
     needs: [ build ]
-
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v1
         with:
           name: JavaDoc
           path: target/apidocs/index.html
