@@ -26,11 +26,15 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+  JavaDoc:
+    needs: [ build ]
+
     - uses: actions/upload-artifact@v1
-      with:
-        name: Docs
-        path: target/apidocs
-      
+        with:
+          name: JavaDoc
+          path: target/apidocs/index.html
+
   publish-job:
  
     runs-on: ubuntu-latest
