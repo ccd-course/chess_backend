@@ -30,6 +30,7 @@ jobs:
   JavaDoc:
     needs: [ build ]
 
+    steps:
     - uses: actions/upload-artifact@v1
         with:
           name: JavaDoc
