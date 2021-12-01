@@ -1,6 +1,6 @@
 package com.chess.backend.restController.controller;
 
-import com.chess.backend.restController.objects.GetChessboardObject;
+import com.chess.backend.restController.objects.ChessboardObject;
 import com.chess.backend.restController.service.GetChessboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class GetChessboardController {
     }
 
     @GetMapping
-    public GetChessboardObject getChessboard(@RequestParam(value = "gameID") int gameID){
+    public ChessboardObject getChessboard(@RequestParam(value = "gameID") int gameID){
         return getChessboardService.getChessboard(gameID);
     }
 }

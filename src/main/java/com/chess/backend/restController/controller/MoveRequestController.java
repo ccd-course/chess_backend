@@ -1,6 +1,8 @@
 package com.chess.backend.restController.controller;
 
 import com.chess.backend.restController.objects.MoveRequestObject;
+import com.chess.backend.restController.service.MoveRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,26 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/moveRequest")
 public class MoveRequestController {
 
+    private  final MoveRequestService moveRequestService;
+
+    @Autowired
+    public MoveRequestController(MoveRequestService moveRequestService){
+        this.moveRequestService = moveRequestService;
+    }
+
     /**
-     * @param gameID the ID of the current game.
-     * @param piecePosition the current position of the piece.
-     * @return Returns a {@link MoveRequestObject}.
+     * for testing API: http://localhost:8080/moveRequest?gameID=1234&pieceID=Pawn&piecePosition=1,2
+     *
+     * @param gameID
+     * @param pieceID
+     * @param piecePosition
+     * @return
      */
     @GetMapping
-    public MoveRequestObject sendPossibleMoves(@RequestParam(value = "gameID") int gameID,
-                                               @RequestParam(value = "piecePosition") int[] piecePosition){
+    public MoveRequestObject getPossibleMoves(@RequestParam(value = "gameID") int gameID,
+                                              @RequestParam(value = "pieceID") String pieceID,
+                                              @RequestParam(value = "piecePosition") int[] piecePosition){
 
-        //TODO: call method to get the possible moves for the piece
-
-        //just testing
-        //http://localhost:8080/moveRequest?gameID=1&piecePosition=1,2
-        int pieceID = 32;
-        int[] possibleMoves = new int[4];
-        possibleMoves[0] = 2;
-        possibleMoves[1] = 3;
-        possibleMoves[2] = 2;
-        possibleMoves[3] = 4;
-
-        return new MoveRequestObject(pieceID, piecePosition, possibleMoves);
+        return moveRequestService.getPossibleMoves(gameID, pieceID, piecePosition);
     }
 }
