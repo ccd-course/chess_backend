@@ -38,11 +38,13 @@ public class Game
     private Player activePlayer;
     public GameClock gameClock;
     public Moves moves;
+    private int id = 1234;
 
     public Game()
     {
         this.moves = new Moves(this);
         settings = new Settings();
+        //TODO: handle the settings, current situation gives an error when creating a game
         chessboard = new Chessboard(this.settings, this.moves);
         //this.chessboard.
         // gameClock = new GameClock(this); // TODO: Implement from old jchess
@@ -80,6 +82,10 @@ public class Game
     public Player getActivePlayer()
     {
         return this.activePlayer;
+    }
+
+    public int getId(){
+        return this.id;
     }
 
     /** Method to go to next move (checks if game is local/network etc.)
