@@ -5,7 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - develop
     
   pull_request:
     branches:
@@ -69,7 +71,7 @@ jobs:
     name: Build Docker image and push to repositories
     runs-on: ubuntu-latest
     needs: publish-job
-    if: ${{ github.event_name == 'push' }}
+    if: ${{ github.event_name == 'push' && github.ref_name != '' }}
 
     steps:
       - name: Checkout code
@@ -94,6 +96,19 @@ jobs:
       
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
+        if: ${{ github.ref_name != 'main' }}
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: .
+          # Note: tags has to be all lower-case
+          tags: |
+            valentinriess/chess_backend:${{ github.ref_name }} 
+          # build on feature branches, push only on develop branch
+          # push: ${{ github.ref == 'refs/heads/develop' }}
+
+      - name: Build image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        if: ${{ github.ref_name == 'main' }}
         with:
           # relative path to the place where source code with Dockerfile is located
           context: .
@@ -101,7 +116,7 @@ jobs:
           tags: |
             valentinriess/chess_backend:latest 
           # build on feature branches, push only on develop branch
-          push: ${{ github.ref == 'refs/heads/develop' }}
+          # push: ${{ github.ref == 'refs/heads/develop' }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
