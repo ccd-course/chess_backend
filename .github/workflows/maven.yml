@@ -108,7 +108,7 @@ jobs:
           tags: |
             valentinriess/chess_backend:${{ github.ref_name }} 
           # build on feature branches, push only on develop branch
-          # push: ${{ github.ref == 'refs/heads/develop' }}
+          push: true
 
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
@@ -120,7 +120,7 @@ jobs:
           tags: |
             valentinriess/chess_backend:latest 
           # build on feature branches, push only on develop branch
-          # push: ${{ github.ref == 'refs/heads/develop' }}
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
