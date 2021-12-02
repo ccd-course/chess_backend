@@ -1,6 +1,7 @@
 package com.chess.backend.restController.controller;
 
-import com.chess.backend.restController.objects.NewGameObject;
+import com.chess.backend.restController.service.NewGameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,21 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/newGame")
 public class NewGameController {
 
+    private final NewGameService newGameService;
+
+    @Autowired
+    public NewGameController(NewGameService newGameService) {
+        this.newGameService = newGameService;
+    }
+
     /**
-     * @param playerNumber the number of players.
-     * @return Returns a {@link NewGameObject}.
+     * for testing the API: http://localhost:8080/newGame?players=Hannes,Valentin,Amro
+     *
+     * @param players array of the player names
+     * @return the game ID of the new created game
      */
     @GetMapping
-    public NewGameObject newGame(@RequestParam(value = "playerNumber") int playerNumber){
-        //TODO: call of createNewGame method with parameter playerNumber
-        //returns the gameID and the chessboard
-
-        //just testing
-        //http://localhost:8080/newGame?playerNumber=3
-        Object[][] chessboard = new Object[2][3];
-        chessboard[0][0] = "Test";
-        int gameID = 1;
-
-        return new NewGameObject(gameID, chessboard);
+    public int getNewGameID(@RequestParam(value = "players") String[] players){
+       return newGameService.getNewGameID(players);
     }
 }
