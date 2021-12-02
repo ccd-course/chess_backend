@@ -1,16 +1,16 @@
-package com.chess.backend;
+package com.chess.backend.service;
 
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Square;
 
-public class GameController {
-    private static final GameController gameController = new GameController();
+public class GameService {
+    private static final GameService gameController = new GameService();
     private Game game;
 
-    private GameController() {
+    private GameService() {
     }
 
-    public static GameController getInstance() {
+    public static GameService getInstance() {
         return gameController;
     }
 

@@ -1,11 +1,11 @@
 package com.chess.backend.restController.service;
 
-import com.chess.backend.GameController;
+import com.chess.backend.service.GameService;
 import com.chess.backend.restController.objects.GetPlayerTurnObject;
 
 public class GetPlayerTurnService {
     public GetPlayerTurnObject getPlayerTurn(int gameID){
-        GameController gc = GameController.getInstance();
+        GameService gc = GameService.getInstance();
 
         return new GetPlayerTurnObject(gameID, gc.getPlayerTurn(gameID));
     }
