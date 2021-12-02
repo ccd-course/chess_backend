@@ -1,14 +1,18 @@
-package com.chess.backend.service;
+package com.chess.backend.services;
 
+import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Square;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GameService {
+    @Autowired
+    private ChessboardService chessboardService;
+
     private static final GameService gameController = new GameService();
     private Game game;
-
-    private GameService() {
-    }
 
     public static GameService getInstance() {
         return gameController;
@@ -16,8 +20,9 @@ public class GameService {
 
     public boolean createNewGame(String[] players){
         game = new Game();
+        Chessboard newGameChessboard = chessboardService.initNewGameBoard(players);
+        game.setChessboard(newGameChessboard);
         //TODO: a new game has to be initialized
-
         return true;
     }
 
@@ -31,7 +36,7 @@ public class GameService {
             //TODO: implement this call: game.getChessboard(gameID)
 
             //TODO: this is not nice, use delegation
-            return game.chessboard.squares;
+            return game.getChessboard().getSquares();
         } else {
             return null;
         }
