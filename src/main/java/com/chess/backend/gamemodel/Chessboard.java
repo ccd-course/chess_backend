@@ -19,6 +19,7 @@
  * Damian Marciniak
  */
 package com.chess.backend.gamemodel;
+import lombok.Data;
 
 import com.chess.backend.gamemodel.Moves.castling;
 import com.chess.backend.gamemodel.constants.Color;
@@ -31,67 +32,72 @@ import java.util.ArrayList;
  * It is setting the squares of chessboard and sets the pieces(pawns)
  * which the owner is current player on it.
  */
+@Data
 public class Chessboard
 {
+//    public static final int width;
+//    public static final int length;
+    public int numberOfPlayers;
     public static final int top = 0;
     public static final int bottom = 7;
     public Square[][] squares;//squares of chessboard
-    private ArrayList moves;
-    private Settings settings;
+//    private ArrayList moves;
+//    private Settings settings;
     public Piece kingWhite;
     public Piece kingBlack;
     private boolean breakCastling = false; //if last move break castling
-    //----------------------------
-    //For En passant:
-    //|-> Pawn whose in last turn moved two square
+//    ----------------------------
+//    For En passant:
+//    |-> Pawn whose in last turn moved two square
     public Piece twoSquareMovedPawn = null;
     public Piece twoSquareMovedPawn2 = null;
     private Moves moves_history;
 
-    /** Chessboard class constructor
-     * @param settings reference to Settings class object for this chessboard
-     * @param moves_history reference to Moves class object for this chessboard 
-     */
-    public Chessboard(Settings settings, Moves moves_history)
-    {
-        this.settings = settings;
-        this.squares = new Square[8][8];//initalization of 8x8 chessboard
-        for (int i = 0; i < 8; i++)
-        {//create object for each square
-            for (int y = 0; y < 8; y++)
-            {
-                this.squares[i][y] = new Square(i, y, null);
-            }
-        }//--endOf--create object for each square
-        this.moves_history = moves_history;
-    }/*--endOf-Chessboard--*/
+//    /** Chessboard class constructor
+//     * @param settings reference to Settings class object for this chessboard
+//     * @param moves_history reference to Moves class object for this chessboard
+//     */
+//    public Chessboard(int numberOfPlayers)
+//    {
+//        this.numberOfPlayers = numberOfPlayers;
+////        this.settings = settings;
+//        this.squares = new Square[8][8];//initalization of 8x8 chessboard
+//        for (int i = 0; i < 8; i++)
+//        {//create object for each square
+//            for (int y = 0; y < 8; y++)
+//            {
+//                this.squares[i][y] = new Square(i, y, null);
+//            }
+//        }//--endOf--create object for each square
+////        this.moves_history = moves_history;
+//    }/*--endOf-Chessboard--*/
+//
 
-
-    /** Method setPieces on begin of new game or loaded game
-     * @param places string with pieces to set on chessboard
-     * @param plWhite reference to white player
-     * @param plBlack reference to black player
-     */
-    public void setPieces(String places, Player plWhite, Player plBlack)
-    {
-
-        if (places.equals("")) //if newGame
-        {
-            if (this.settings.upsideDown)
-            {
-                this.setPieces4NewGame(true, plWhite, plBlack);
-            }
-            else
-            {
-                this.setPieces4NewGame(false, plWhite, plBlack);
-            }
-
-        } 
-        else //if loadedGame
-        {
-            return;
-        }
-    }/*--endOf-setPieces--*/
+//    /** Method setPieces on begin of new game or loaded game
+//     * @param places string with pieces to set on chessboard
+//     * @param plWhite reference to white player
+//     * @param plBlack reference to black player
+//     */
+//    public void setPieces(String places, Player plWhite, Player plBlack)
+//    {
+//
+//        if (places.equals("")) //if newGame
+//        {
+//            if (this.settings.upsideDown)
+//            {
+//                this.setPieces4NewGame(true, plWhite, plBlack);
+//            }
+//            else
+//            {
+//                this.setPieces4NewGame(false, plWhite, plBlack);
+//            }
+//
+//        }
+//        else //if loadedGame
+//        {
+//            return;
+//        }
+//    }/*--endOf-setPieces--*/
 
 
     /**
@@ -104,7 +110,7 @@ public class Chessboard
         Player player = plBlack;
         Player player1 = plWhite;
         if (upsideDown) //if white on Top
-        { 
+        {
             player = plWhite;
             player1 = plBlack;
         }
@@ -371,46 +377,46 @@ public class Chessboard
     }/*endOf-move()-*/
 
 
-    public boolean redo()
-    {
-        return redo(true);
-    }
+//    public boolean redo()
+//    {
+//        return redo(true);
+//    }
 
-    public boolean redo(boolean refresh)
-    {
-        if ( this.settings.gameType == Settings.gameTypes.local ) //redo only for local game
-        {
-            Move first = this.moves_history.redo();
+//    public boolean redo(boolean refresh)
+//    {
+//        if ( this.settings.gameType == Settings.gameTypes.local ) //redo only for local game
+//        {
+//            Move first = this.moves_history.redo();
+//
+//            Square from = null;
+//            Square to = null;
+//
+//            if (first != null)
+//            {
+//                from = first.getFrom();
+//                to = first.getTo();
+//
+//                this.move(this.squares[from.pozX][from.pozY], this.squares[to.pozX][to.pozY], true, false);
+//                if (first.getPromotedPiece() != null)
+//                {
+//                    Piece pawn = this.squares[to.pozX][to.pozY].piece;
+//                    pawn.square = null;
+//
+//                    this.squares[to.pozX][to.pozY].piece = first.getPromotedPiece();
+//                    Piece promoted = this.squares[to.pozX][to.pozY].piece;
+//                    promoted.square = this.squares[to.pozX][to.pozY];
+//                }
+//                return true;
+//            }
+//
+//        }
+//        return false;
+//    }
 
-            Square from = null;
-            Square to = null;
-
-            if (first != null)
-            {
-                from = first.getFrom();
-                to = first.getTo();
-
-                this.move(this.squares[from.pozX][from.pozY], this.squares[to.pozX][to.pozY], true, false);
-                if (first.getPromotedPiece() != null)
-                {
-                    Piece pawn = this.squares[to.pozX][to.pozY].piece;
-                    pawn.square = null;
-
-                    this.squares[to.pozX][to.pozY].piece = first.getPromotedPiece();
-                    Piece promoted = this.squares[to.pozX][to.pozY].piece;
-                    promoted.square = this.squares[to.pozX][to.pozY];
-                }
-                return true;
-            }
-            
-        }
-        return false;
-    }
-
-    public boolean undo()
-    {
-        return undo(true);
-    }
+//    public boolean undo()
+//    {
+//        return undo(true);
+//    }
 
     public synchronized boolean undo(boolean refresh) //undo last move
     {
@@ -507,7 +513,7 @@ public class Chessboard
         }
     }
 
-    public int getWidth() {
+    public int getWidth() { //TODO check
         return squares[0].length;
     }
 

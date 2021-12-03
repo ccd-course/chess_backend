@@ -1,6 +1,6 @@
 package com.chess.backend.restController.service;
 
-import com.chess.backend.service.GameService;
+import com.chess.backend.services.GameService;
 import com.chess.backend.restController.objects.ChessboardObject;
 import org.springframework.stereotype.Service;
 
