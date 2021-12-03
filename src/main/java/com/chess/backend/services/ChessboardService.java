@@ -23,14 +23,14 @@ public class ChessboardService {
 
     private Square[][] initPlayerPieces(Square[][] squares, Player player) {
         initPlayerPawns(squares, player);
-        initPlayerPawns(squares, player);
+        initPlayerFigures(squares, player);
         return squares;
     }
 
     private Square[][] initPlayerPawns(Square[][] squares, Player player) {
         int playerFirstColumn = player.getId() * 8;
         for(int i =0; i< squares.length;i++){
-            this.setPiece(i, playerFirstColumn, squares, new Piece(PieceType.PAWN, player, false));
+            this.setPiece(i, playerFirstColumn, squares, new Piece(PieceType.PAWN, player, true));
             this.setPiece(i, playerFirstColumn + 3, squares, new Piece(PieceType.PAWN, player, false));
         }
         return squares;
