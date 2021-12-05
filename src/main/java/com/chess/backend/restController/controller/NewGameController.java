@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hannes Stuetzer
  */
 @RestController
-@RequestMapping("/newGame")
+@RequestMapping("/createNewGame")
 public class NewGameController {
 
     private final NewGameService newGameService;
@@ -24,7 +24,7 @@ public class NewGameController {
     }
 
     /**
-     * for testing the API: http://localhost:8080/newGame?players=Hannes,Valentin,Amro
+     * for testing the API: http://localhost:8080/createNewGame?players=Hannes,Valentin,Amro
      *
      * @param players array of the player names
      * @return the game ID of the new created game

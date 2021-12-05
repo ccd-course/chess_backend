@@ -41,7 +41,8 @@ public class Game
     private Player activePlayer;
     public GameClock gameClock;
     public Moves moves;
-    private int id = 1234;
+    private int id;
+    private Player[] players;
 
 //    public Game()
 //    {
