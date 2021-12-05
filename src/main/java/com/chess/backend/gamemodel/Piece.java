@@ -8,21 +8,12 @@ import java.util.ArrayList;
 
 public class Piece {
     private PieceType type;
-    private Color color;
     Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     public Square square;
     public Player player;
     private boolean motioned;
     private boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
-    public Piece(PieceType type) {
-        this.type = type;
-    }
-
-    public Piece(PieceType type, Color color) {
-        this.type = type;
-        this.color = color;
-    }
 
     public Piece(PieceType type, Player player,boolean clockwise) {
         this.type = type;
@@ -589,11 +580,7 @@ public class Piece {
     }
 
     public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        return this.player.getColor();
     }
 
     /** Method is useful for out of bounds protection
