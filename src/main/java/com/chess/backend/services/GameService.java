@@ -35,7 +35,7 @@ public class GameService {
         game.setActivePlayer(players[0]);
 
         //initialize the chessboard
-        Chessboard newGameChessboard = ChessboardService.initNewGameBoard(playerNames);
+        Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
         game.setChessboard(newGameChessboard);
 
         return true;
