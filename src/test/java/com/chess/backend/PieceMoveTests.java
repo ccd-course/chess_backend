@@ -1,4 +1,5 @@
 package com.chess.backend;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Piece;
@@ -23,7 +24,10 @@ public class PieceMoveTests {
         int gameID = gameService.getGameID();
 
         Game game = gameService.getGame();
-        ChessboardService.searchSquaresByPiece(game.chessboard.squares, PieceType.KING, Color.WHITE, game.)
+        Piece piece = ChessboardService.searchSquaresByPiece(
+                game.chessboard.squares, PieceType.KING, Color.WHITE, game.getPlayers()[0]).get(0).piece;
+
+        assertEquals(piece.getColor(), Color.WHITE);
     }
 
 }
