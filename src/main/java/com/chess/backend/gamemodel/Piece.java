@@ -3,6 +3,7 @@ package com.chess.backend.gamemodel;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;
 
@@ -485,13 +486,15 @@ public class Piece {
 
         // King
         Piece otherKing;
-        if (this == chessboard.kingWhite)
+
+        // TODO: Extend to work with more than 2 Players. Players should not be null here.
+        if (this == ChessboardService.searchSquaresByPiece(chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece())
         {
-            otherKing = chessboard.kingBlack;
+            otherKing = ChessboardService.searchSquaresByPiece(chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece();
         }
         else
         {
-            otherKing = chessboard.kingWhite;
+            otherKing = ChessboardService.searchSquaresByPiece(chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece();
         }
 
         if (s.pozX <= otherKing.square.pozX + 1

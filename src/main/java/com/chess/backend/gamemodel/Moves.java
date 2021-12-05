@@ -21,6 +21,7 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Color;
+import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;
@@ -117,12 +118,12 @@ public class Moves
             locMove += "(e.p)";//pawn take down opponent en passant
             wasEnPassant = true;
         }
-        if ((!this.enterBlack && this.game.chessboard.kingBlack.isChecked())
-                || (this.enterBlack && this.game.chessboard.kingWhite.isChecked()))
+        if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece().isChecked())
+                || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece().isChecked()))
         {//if checked
 
-            if ((!this.enterBlack && this.game.chessboard.kingBlack.isCheckmatedOrStalemated(this.game) == 1)
-                    || (this.enterBlack && this.game.chessboard.kingWhite.isCheckmatedOrStalemated(this.game) == 1))
+            if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)
+                    || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1))
             {//check if checkmated
                 locMove += "#";//check mate
             }
