@@ -662,4 +662,12 @@ public class Piece {
     public void setMotioned(boolean motioned) {
         this.motioned = motioned;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isClockwise() {
+        return clockwise;
+    }
 }
