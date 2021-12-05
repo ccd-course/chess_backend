@@ -2,6 +2,7 @@ package com.chess.backend.services;
 
 import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Game;
+import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.Square;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,19 +11,31 @@ import org.springframework.stereotype.Component;
 public class GameService {
     @Autowired
     private ChessboardService chessboardService;
+    private PlayerService playerService = new PlayerService();
+    private GameIDService gameIDService = new GameIDService();
 
-    private static final GameService gameController = new GameService();
+    private static final GameService gameService = new GameService();
     private Game game;
 
     public static GameService getInstance() {
-        return gameController;
+        return gameService;
     }
 
-    public boolean createNewGame(String[] players){
+    public boolean createNewGame(String[] playerNames){
         game = new Game();
-        Chessboard newGameChessboard = chessboardService.initNewGameBoard(players);
+
+        //getting and setting the gameID
+        game.setId(gameIDService.getNewGameID());
+
+        //initialize the players
+        Player[] players = playerService.initPlayers(playerNames);
+        game.setPlayers(players);
+        game.setActivePlayer(players[0]);
+
+        //initialize the chessboard
+        Chessboard newGameChessboard = chessboardService.initNewGameBoard(playerNames);
         game.setChessboard(newGameChessboard);
-        //TODO: a new game has to be initialized
+
         return true;
     }
 

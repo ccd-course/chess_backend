@@ -1,8 +1,8 @@
 package com.chess.backend.gamemodel.constants;
 
 public enum Color {
-    BLACK("Black"),
     WHITE("White"),
+    BLACK("Black"),
     RED("Red"),
     BLUE("Blue");
 
