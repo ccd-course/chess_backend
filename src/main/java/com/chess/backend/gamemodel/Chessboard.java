@@ -179,28 +179,28 @@ public class Chessboard {
 
                     if (newPiece.equals("Queen")) // transform pawn to queen
                     {
-                        Piece queen = new Piece(PieceType.QUEEN, end.piece.player.getColor());
+                        Piece queen = new Piece(PieceType.QUEEN, end.piece.player, true);
                         queen.chessboard = end.piece.chessboard;
                         queen.player = end.piece.player;
                         queen.square = end.piece.square;
                         end.piece = queen;
                     } else if (newPiece.equals("Rook")) // transform pawn to rook
                     {
-                        Piece rook = new Piece(PieceType.ROOK, end.piece.player.getColor());
+                        Piece rook = new Piece(PieceType.ROOK, end.piece.player, true);
                         rook.chessboard = end.piece.chessboard;
                         rook.player = end.piece.player;
                         rook.square = end.piece.square;
                         end.piece = rook;
                     } else if (newPiece.equals("Bishop")) // transform pawn to bishop
                     {
-                        Piece bishop = new Piece(PieceType.BISHOP, end.piece.player.getColor());
+                        Piece bishop = new Piece(PieceType.BISHOP, end.piece.player, true);
                         bishop.chessboard = end.piece.chessboard;
                         bishop.player = end.piece.player;
                         bishop.square = end.piece.square;
                         end.piece = bishop;
                     } else // transform pawn to knight
                     {
-                        Piece knight = new Piece(PieceType.KNIGHT, end.piece.player.getColor());
+                        Piece knight = new Piece(PieceType.KNIGHT, end.piece.player, true);
                         knight.chessboard = end.piece.chessboard;
                         knight.player = end.piece.player;
                         knight.square = end.piece.square;
