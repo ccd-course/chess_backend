@@ -60,6 +60,10 @@ public class Square
         this.piece.square = this;
     }
 
+    public void removePiece(){
+        this.piece = null;
+    }
+
     public int getPozX() {
         return pozX;
     }
