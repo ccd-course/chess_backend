@@ -46,21 +46,25 @@ public class ChessboardService {
     }
 
     private static void initPlayerFigures(Square[][] squares, Player player) {
-        int figuresFirstColumn = player.getId() * 8 + 1;
+        int figuresFirstColumn = player.getColor().position * 8;
 
-        for (int i = 0; i < 2; i++) {
-            setPiece(2, figuresFirstColumn + i, squares, new Piece(PieceType.KNIGHT, player, true));
-            setPiece(3, figuresFirstColumn + i, squares, new Piece(PieceType.ROOK, player, true));
-//          this.setPiece(i, player.getId() + 3, squares, new Piece(PieceType.PAWN, player));
-        }
-        setPiece(3, figuresFirstColumn, squares, new Piece(PieceType.KING, player, true));
-        setPiece(3, figuresFirstColumn + 1, squares, new Piece(PieceType.QUEEN, player, true));
+        // anticlockwise
+        setPiece(0, figuresFirstColumn + 1, squares, new Piece(PieceType.QUEEN, player, false));
+        setPiece(1, figuresFirstColumn + 1, squares, new Piece(PieceType.BISHOP, player, false));
+        setPiece(2, figuresFirstColumn + 1, squares, new Piece(PieceType.KNIGHT, player, false));
+        setPiece(3, figuresFirstColumn + 1, squares, new Piece(PieceType.ROOK, player, false));
+
+        // clockwise
+        setPiece(0, figuresFirstColumn + 7, squares, new Piece(PieceType.KING, player, true));
+        setPiece(1, figuresFirstColumn + 7, squares, new Piece(PieceType.BISHOP, player, true));
+        setPiece(2, figuresFirstColumn + 7, squares, new Piece(PieceType.KNIGHT, player, true));
+        setPiece(3, figuresFirstColumn + 7, squares, new Piece(PieceType.ROOK, player, true));
     }
 
-    private static void setPiece(int pozX, int pozY, Square[][] squares, Piece piece) {
-        Square square = squares[pozX][pozY];
+    private static void setPiece(int posX, int posY, Square[][] squares, Piece piece) {
+        Square square = squares[posX][posY];
         square.setPiece(piece);
-        squares[pozX][pozY] = square;
+        squares[posX][posY] = square;
     }
 
     public static ArrayList<Square> searchSquaresByPiece(Square[][] squares, PieceType pieceType, Color color, Player player) {
@@ -74,6 +78,7 @@ public class ChessboardService {
 
         for (Square square :
                 inputSquares) {
+            if (square.getPiece() == null) continue;
             Piece piece = square.getPiece();
             if (piece.getType() == pieceType
                     && piece.getColor() == color
