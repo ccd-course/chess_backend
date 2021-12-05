@@ -9,16 +9,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GameService {
-    @Autowired
     private ChessboardService chessboardService;
     private PlayerService playerService = new PlayerService();
     private GameIDService gameIDService = new GameIDService();
 
-    private static final GameService gameService = new GameService();
+    private static final GameService gameService = new GameService(new ChessboardService());
+
     private Game game;
 
     public static GameService getInstance() {
         return gameService;
+    }
+    public GameService(ChessboardService chessboardService){
+        this.chessboardService = chessboardService;
     }
 
     public boolean createNewGame(String[] playerNames){
