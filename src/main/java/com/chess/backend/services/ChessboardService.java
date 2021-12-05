@@ -80,9 +80,9 @@ public class ChessboardService {
                 inputSquares) {
             if (square.getPiece() == null) continue;
             Piece piece = square.getPiece();
-            if (piece.getType() == pieceType
-                    && piece.getColor() == color
-                    && piece.getPlayer() == player) {
+            if ((pieceType == null || piece.getType() == pieceType)
+                    && (color == null || piece.getColor() == color)
+                    && (player == null || piece.getPlayer() == player)) {
                 result.add(square);
             }
         }

@@ -20,9 +20,10 @@ public class GameInitializationTests {
         gameService.createNewGame(players);
         Game game = gameService.getGame();
         ArrayList<Square> squares = ChessboardService.searchSquaresByPiece(
-                game.chessboard.squares, PieceType.KING, Color.WHITE, game.getPlayers()[0]);
+                game.chessboard.squares, PieceType.KING, null, null);
 
-        assertTrue(squares.size() > 0);
+        assertTrue(squares.size() == game.getChessboard().numberOfPlayers);
+        System.out.println(squares.size());
     }
 
 }
