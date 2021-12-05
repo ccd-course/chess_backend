@@ -12,18 +12,19 @@ import java.util.Arrays;
 @Component
 public class ChessboardService {
 
-    public static Chessboard initNewGameBoard(String[] players) {
+    public static Chessboard initNewGameBoard(Player[] players) {
         Chessboard chessboard = new Chessboard();
         chessboard.setNumberOfPlayers(players.length);
-        Square[][] squares = new Square[10][4];
+        Square[][] squares = new Square[4][players.length * 8];
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 4; j++) {
-                squares[i][j] = new Square(i, j, null);
+        for (int y = 0; y < squares[0].length; y++) {
+            for (int x = 0; x < squares.length; x++) {
+                squares[x][y] = new Square(x, y, null);
             }
         }
-        for (int i = 0; i < players.length; i++) {
-            Player player = new Player(players[i], i);
+
+        for (Player player :
+                players) {
             initPlayerPieces(squares, player);
         }
 
