@@ -38,10 +38,10 @@ public class ChessboardService {
     }
 
     private static void initPlayerPawns(Square[][] squares, Player player) {
-        int playerFirstColumn = player.getId() * 8;
-        for (int i = 0; i < squares.length; i++) {
-            setPiece(i, playerFirstColumn, squares, new Piece(PieceType.PAWN, player, true));
-            setPiece(i, playerFirstColumn + 3, squares, new Piece(PieceType.PAWN, player, false));
+        int playerFirstColumn = player.getColor().position * 8;
+        for (int x = 0; x < squares.length; x++) {
+            setPiece(x, playerFirstColumn, squares, new Piece(PieceType.PAWN, player, true));
+            setPiece(x, playerFirstColumn + 3, squares, new Piece(PieceType.PAWN, player, false));
         }
     }
 
