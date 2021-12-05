@@ -17,9 +17,9 @@ public class ChessboardService {
         chessboard.setNumberOfPlayers(players.length);
         Square[][] squares = new Square[10][4];
 
-        for ( int i =0; i < 10;i++){
-            for ( int j = 0 ; j <4; j++){
-                squares[i][j] = new Square(i,j, null);
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 4; j++) {
+                squares[i][j] = new Square(i, j, null);
             }
         }
         for (int i = 0; i < players.length; i++) {
@@ -62,12 +62,12 @@ public class ChessboardService {
         squares[pozX][pozY] = square;
     }
 
-    public static ArrayList<Square> searchSquaresByPiece(Square[][] squares, PieceType pieceType, Color color, Player player, boolean clockwise){
+    public static ArrayList<Square> searchSquaresByPiece(Square[][] squares, PieceType pieceType, Color color, Player player) {
         ArrayList<Square> result = new ArrayList<>();
 
         ArrayList<Square> inputSquares = new ArrayList<>();
-        for (Square[] squareArray:
-             squares) {
+        for (Square[] squareArray :
+                squares) {
             inputSquares.addAll(Arrays.asList(squareArray));
         }
 
@@ -76,8 +76,7 @@ public class ChessboardService {
             Piece piece = square.getPiece();
             if (piece.getType() == pieceType
                     && piece.getColor() == color
-                    && piece.getPlayer() == player
-                    && piece.isClockwise() ==clockwise){
+                    && piece.getPlayer() == player) {
                 result.add(square);
             }
         }
