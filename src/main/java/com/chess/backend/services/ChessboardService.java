@@ -62,4 +62,26 @@ public class ChessboardService {
         squares[pozX][pozY] = square;
     }
 
+    public static ArrayList<Square> searchSquaresByPiece(Square[][] squares, PieceType pieceType, Color color, Player player, boolean clockwise){
+        ArrayList<Square> result = new ArrayList<>();
+
+        ArrayList<Square> inputSquares = new ArrayList<>();
+        for (Square[] squareArray:
+             squares) {
+            inputSquares.addAll(Arrays.asList(squareArray));
+        }
+
+        for (Square square :
+                inputSquares) {
+            Piece piece = square.getPiece();
+            if (piece.getType() == pieceType
+                    && piece.getColor() == color
+                    && piece.getPlayer() == player
+                    && piece.isClockwise() ==clockwise){
+                result.add(square);
+            }
+        }
+        return result;
+    }
+
 }
