@@ -141,6 +141,10 @@ public class Game
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
         }
     }
+
+    public Player[] getPlayers() {
+        return players;
+    }
 }
 
 class ReadGameError extends Exception
