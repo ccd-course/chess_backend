@@ -8,14 +8,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GameService {
-    @Autowired
     private ChessboardService chessboardService;
 
-    private static final GameService gameController = new GameService();
+    private static final GameService gameController = new GameService(new ChessboardService());
     private Game game;
 
     public static GameService getInstance() {
         return gameController;
+    }
+    public GameService(ChessboardService chessboardService){
+        this.chessboardService = chessboardService;
     }
 
     public boolean createNewGame(String[] players){

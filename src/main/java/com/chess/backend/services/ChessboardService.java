@@ -12,6 +12,11 @@ public class ChessboardService {
         chessboard.setNumberOfPlayers(players.length);
         Square[][] squares = new Square[10][4];
 
+        for ( int i =0; i < 10;i++){
+            for ( int j = 0 ; j <4; j++){
+                squares[i][j] = new Square(i,j, null);
+            }
+        }
         for(int i=0;i< players.length; i++){
             Player player = new Player(players[i], i);
             this.initPlayerPieces(squares, player);
