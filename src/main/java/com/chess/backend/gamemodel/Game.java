@@ -20,6 +20,8 @@
  */
 package com.chess.backend.gamemodel;
 
+import lombok.Data;
+
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.util.logging.Level;
@@ -30,6 +32,7 @@ import java.util.logging.Logger;
  * This class is also responsible for appoing player with have
  * a move at the moment
  */
+@Data
 public class Game
 {
 
@@ -40,25 +43,25 @@ public class Game
     public Moves moves;
     private int id = 1234;
 
-    public Game()
-    {
-        this.moves = new Moves(this);
-        settings = new Settings();
-        //TODO: handle the settings, current situation gives an error when creating a game
-        chessboard = new Chessboard(this.settings, this.moves);
-        //this.chessboard.
-        // gameClock = new GameClock(this); // TODO: Implement from old jchess
+//    public Game()
+//    {
+//        this.moves = new Moves(this);
+//        settings = new Settings();
+//        //TODO: handle the settings, current situation gives an error when creating a game
+//        chessboard = new Chessboard(this.settings, this.moves);
+//        //this.chessboard.
+//        // gameClock = new GameClock(this); // TODO: Implement from old jchess
+//
+//    }
 
-    }
-
-    /** Method to Start new game
-     *
-     */
-    public void newGame()
-    {
-        chessboard.setPieces("", settings.playerWhite, settings.playerBlack);
-        activePlayer = settings.playerWhite;
-    }
+//    /** Method to Start new game
+//     *
+//     */
+//    public void newGame()
+//    {
+//        chessboard.setPieces("", settings.playerWhite, settings.playerBlack);
+//        activePlayer = settings.playerWhite;
+//    }
 
     /** Method to swich active players after move
      */

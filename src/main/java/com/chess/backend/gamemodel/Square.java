@@ -50,7 +50,7 @@ public class Square
         return new Square(square);
     }
 
-    void setPiece(Piece piece)
+    public void setPiece(Piece piece)
     {
         this.piece = piece;
         this.piece.square = this;

@@ -15,9 +15,19 @@ public class Piece {
     private boolean motioned;
     private boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
+    public Piece(PieceType type) {
+        this.type = type;
+    }
+
     public Piece(PieceType type, Color color) {
         this.type = type;
         this.color = color;
+    }
+
+    public Piece(PieceType type, Player player,boolean clockwise) {
+        this.type = type;
+        this.player = player;
+        this.clockwise = clockwise;
     }
 
     public ArrayList<Move> getAllowedFullMoves(Game game){
