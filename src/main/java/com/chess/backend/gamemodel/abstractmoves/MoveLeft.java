@@ -1,9 +1,7 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.gamemodel.Game;
-import com.chess.backend.gamemodel.Move;
-import com.chess.backend.gamemodel.Piece;
-import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.*;
+import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +26,7 @@ public class MoveLeft {
     public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
-        for (int x = fromSquare.getPozX(); x < game.chessboard.getWidth() && (limit > 0 || limit == -1); x++) {
+        for (int x = fromSquare.getPozX(); x < ChessboardService.getMaxY(game.chessboard.getSquares()) && (limit > 0 || limit == -1); x++) {
             if (limit != -1) limit--;
 
             Square toSquare = game.chessboard.squares[x][fromSquare.getPozY()];
@@ -56,5 +54,4 @@ public class MoveLeft {
         }
         return allowedMoves;
     }
-
 }

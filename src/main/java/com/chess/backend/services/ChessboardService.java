@@ -89,4 +89,42 @@ public class ChessboardService {
         return result;
     }
 
+    // Annulus perimeter
+    public static int getMaxY(Square[][] squares) { //TODO check
+        return squares[0].length;
+    }
+
+    // Annulus width
+    public static int getMaxX(Square[][] squares) {
+        return squares.length;
+    }
+
+    // Replaces Chessboard.bottom field
+    public static int getBottom(Square[][] squares) {
+        return 0;
+    }
+
+    // Replaces Chessboard.top field
+    public static int getTop(Square[][] squares) {
+        return getMaxY(squares);
+    }
+
+    public static void move(Chessboard chessboard, Move move) {
+        chessboard.getSquares()
+                [move.getTo().getPozX()][move.getTo().getPozY()]
+                .setPiece(move.getMovedPiece());
+        chessboard.getSquares()
+                [move.getFrom().getPozX()][move.getFrom().getPozY()]
+                .removePiece();
+    }
+
+    public static void move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
+        chessboard.getSquares()
+                [toX][toY]
+                .setPiece(chessboard.getSquares()[toX][toY].getPiece());
+        chessboard.getSquares()
+                [fromX][fromY]
+                .removePiece();
+    }
+
 }
