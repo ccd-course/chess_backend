@@ -71,7 +71,7 @@ public class GameService {
         }
     }
 
-    public boolean verifyExecutedMove(int gameID, String pieceID, int[] previousPiecePosition, int[] newPiecePosition){
+    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
         if(verifyGameID(gameID)){
             //TODO: implement the checking of a move that was executed in the front end
             return true;

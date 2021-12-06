@@ -1,11 +1,9 @@
 package com.chess.backend.restController.controller;
 
+import com.chess.backend.restController.objects.NewPlayersObject;
 import com.chess.backend.restController.service.NewGameService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call to create a new game.
@@ -24,13 +22,15 @@ public class NewGameController {
     }
 
     /**
-     * for testing the API: http://localhost:8080/createNewGame?players=Hannes,Valentin,Amro
+     *
      *
      * @param players array of the player names
      * @return the game ID of the new created game
      */
-    @GetMapping
-    public int getNewGameID(@RequestParam(value = "players") String[] players){
-       return newGameService.getNewGameID(players);
+
+    @PostMapping
+    public int createNewGame(@RequestBody NewPlayersObject players){
+
+        return newGameService.getNewGameID(players);
     }
 }
