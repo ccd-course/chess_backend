@@ -20,6 +20,7 @@
  */
 package com.chess.backend.gamemodel;
 
+import com.chess.backend.services.ChessboardService;
 import lombok.Data;
 
 import javax.swing.*;
@@ -112,7 +113,7 @@ public class Game
         {
             if (chessboard.squares[beginX][beginY].piece.getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
             {
-                chessboard.move(chessboard.squares[beginX][beginY], chessboard.squares[endX][endY]);
+                ChessboardService.move(chessboard, beginX, beginY, endX, endY);
             }
             else
             {
@@ -140,6 +141,10 @@ public class Game
         {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
         }
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 }
 
