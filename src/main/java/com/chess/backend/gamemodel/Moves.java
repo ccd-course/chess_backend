@@ -21,6 +21,9 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Color;
+import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.services.ChessboardService;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -81,7 +84,7 @@ public class Moves
         
         if( game.settings.upsideDown )
         {
-            locMove += Character.toString((char) ( ( Chessboard.bottom - begin.pozX) + 97));//add letter of Square from which move was made
+            locMove += Character.toString((char) ( (ChessboardService.getBottom(game.chessboard.getSquares()) - begin.pozX) + 97));//add letter of Square from which move was made
             locMove += Integer.toString( begin.pozY + 1 );//add number of Square from which move was made
         }
         else
@@ -101,7 +104,7 @@ public class Moves
         
         if ( game.settings.upsideDown )
         {
-            locMove += Character.toString((char) (( Chessboard.bottom - end.pozX) +  97));//add letter of Square to which move was made
+            locMove += Character.toString((char) (( ChessboardService.getBottom(game.chessboard.getSquares()) - end.pozX) +  97));//add letter of Square to which move was made
             locMove += Integer.toString( end.pozY + 1 );//add number of Square to which move was made
         }
         else
@@ -115,12 +118,12 @@ public class Moves
             locMove += "(e.p)";//pawn take down opponent en passant
             wasEnPassant = true;
         }
-        if ((!this.enterBlack && this.game.chessboard.kingBlack.isChecked())
-                || (this.enterBlack && this.game.chessboard.kingWhite.isChecked()))
+        if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece().isChecked())
+                || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece().isChecked()))
         {//if checked
 
-            if ((!this.enterBlack && this.game.chessboard.kingBlack.isCheckmatedOrStalemated(this.game) == 1)
-                    || (this.enterBlack && this.game.chessboard.kingWhite.isCheckmatedOrStalemated(this.game) == 1))
+            if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)
+                    || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1))
             {//check if checkmated
                 locMove += "#";//check mate
             }
@@ -449,7 +452,7 @@ public class Moves
             {
                 Square[][] squares = this.game.chessboard.squares;
                 xTo = locMove.charAt(from) - 97;//from ASCII
-                yTo = Chessboard.bottom - (locMove.charAt(from + 1) - 49);//from ASCII    
+                yTo = ChessboardService.getBottom(game.chessboard.getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
                 for(int i=0; i<squares.length && !pieceFound; i++)
                 {
                     for(int j=0; j<squares[i].length && !pieceFound; j++)
@@ -475,9 +478,9 @@ public class Moves
             else
             {
                 xFrom = locMove.charAt(from) - 97;//from ASCII
-                yFrom = Chessboard.bottom - (locMove.charAt(from + 1) - 49);//from ASCII
+                yFrom = ChessboardService.getBottom(game.chessboard.getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
                 xTo = locMove.charAt(from + 3) - 97;//from ASCII
-                yTo = Chessboard.bottom - (locMove.charAt(from + 4) - 49);//from ASCII
+                yTo = ChessboardService.getBottom(game.chessboard.getSquares()) - (locMove.charAt(from + 4) - 49);//from ASCII
             }
             canMove = this.game.simulateMove(xFrom, yFrom, xTo, yTo);
             if (!canMove) //if move is illegal

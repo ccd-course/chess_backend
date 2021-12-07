@@ -9,19 +9,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GameService {
-    private ChessboardService chessboardService;
     private PlayerService playerService = new PlayerService();
     private GameIDService gameIDService = new GameIDService();
 
-    private static final GameService gameService = new GameService(new ChessboardService());
+    private static final GameService gameService = new GameService();
 
     private Game game;
 
     public static GameService getInstance() {
         return gameService;
     }
-    public GameService(ChessboardService chessboardService){
-        this.chessboardService = chessboardService;
+
+    public GameService() {
     }
 
     public boolean createNewGame(String[] playerNames){
@@ -36,17 +35,21 @@ public class GameService {
         game.setActivePlayer(players[0]);
 
         //initialize the chessboard
-        Chessboard newGameChessboard = chessboardService.initNewGameBoard(playerNames);
+        Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
         game.setChessboard(newGameChessboard);
 
         return true;
     }
 
-    public int getGameID(){
+    public Game getGame() {
+        return game;
+    }
+
+    public int getGameID() {
         return game.getId();
     }
 
-    public Square[][] getChessboard(int gameID){
+    public Square[][] getChessboard(int gameID) {
         if (verifyGameID(gameID)) {
             //TODO: handle the getting of the chessboard with the gameID
             //TODO: implement this call: game.getChessboard(gameID)
@@ -62,8 +65,8 @@ public class GameService {
         return value looks like that
         [[x,y], [2,2], [2,3], [3,3]]
      */
-    public int[][] getPossibleMoves(int gameID, String pieceID, int[] piecePosition){
-        if(verifyGameID(gameID)){
+    public int[][] getPossibleMoves(int gameID, String pieceID, int[] piecePosition) {
+        if (verifyGameID(gameID)) {
             //TODO: get the possible moves
             return new int[][]{};
         } else {
@@ -71,8 +74,8 @@ public class GameService {
         }
     }
 
-    public boolean verifyExecutedMove(int gameID, String pieceID, int[] previousPiecePosition, int[] newPiecePosition){
-        if(verifyGameID(gameID)){
+    public boolean verifyExecutedMove(int gameID, String pieceID, int[] previousPiecePosition, int[] newPiecePosition) {
+        if (verifyGameID(gameID)) {
             //TODO: implement the checking of a move that was executed in the front end
             return true;
         } else {
@@ -80,8 +83,8 @@ public class GameService {
         }
     }
 
-    public String getPlayerTurn(int gameID){
-        if(verifyGameID(gameID)){
+    public String getPlayerTurn(int gameID) {
+        if (verifyGameID(gameID)) {
             //TODO: get the player who has his turn right now
 
             return "Hannes";
@@ -90,8 +93,8 @@ public class GameService {
         }
     }
 
-    private boolean verifyGameID(int gameID){
-        if(gameID == getGameID()){
+    private boolean verifyGameID(int gameID) {
+        if (gameID == getGameID()) {
             return true;
         } else {
             return false;
