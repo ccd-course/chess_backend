@@ -19,28 +19,28 @@ public class MoveDiagonal {
      * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return diagonal(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return diagonal(game, fromSquare, attack, jump, peaceful, -1);
     }
 
-    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        allowedMoves.addAll(diagonalBL(game, fromSquare, attack, jump, limit));
-        allowedMoves.addAll(diagonalBR(game, fromSquare, attack, jump, limit));
-        allowedMoves.addAll(diagonalFL(game, fromSquare, attack, jump, limit));
-        allowedMoves.addAll(diagonalFR(game, fromSquare, attack, jump, limit));
+        allowedMoves.addAll(diagonalBL(game, fromSquare, attack, jump, peaceful, limit));
+        allowedMoves.addAll(diagonalBR(game, fromSquare, attack, jump, peaceful, limit));
+        allowedMoves.addAll(diagonalFL(game, fromSquare, attack, jump, peaceful, limit));
+        allowedMoves.addAll(diagonalFR(game, fromSquare, attack, jump, peaceful, limit));
         return allowedMoves;
     }
 
     // Diagonal backward left
-    public static Set<Move> diagonalBL(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalBL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0;
              toPosition.diagBL(chessboard) != null
-                     && (limit == -1 || steps < limit ); steps++) {
+                     && (limit == -1 || steps < limit); steps++) {
 
             toPosition = toPosition.diagBL(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
@@ -56,29 +56,31 @@ public class MoveDiagonal {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.getPiece(),
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
 
     // Diagonal backward right
-    public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0;
              toPosition.diagBR(chessboard) != null
-                     && (limit == -1 || steps < limit ); steps++) {
+                     && (limit == -1 || steps < limit); steps++) {
 
             toPosition = toPosition.diagBR(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
@@ -94,29 +96,31 @@ public class MoveDiagonal {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.getPiece(),
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
 
     // Diagonal forward right
-    public static Set<Move> diagonalFR(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalFR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0;
              toPosition.diagFR(chessboard) != null
-                     && (limit == -1 || steps < limit ); steps++) {
+                     && (limit == -1 || steps < limit); steps++) {
 
             toPosition = toPosition.diagFR(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
@@ -132,29 +136,31 @@ public class MoveDiagonal {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.getPiece(),
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
 
     // Diagonal forward left
-    public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0;
              toPosition.diagFL(chessboard) != null
-                     && (limit == -1 || steps < limit ); steps++) {
+                     && (limit == -1 || steps < limit); steps++) {
 
             toPosition = toPosition.diagFL(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
@@ -170,16 +176,18 @@ public class MoveDiagonal {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.getPiece(),
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
