@@ -1,11 +1,11 @@
 package com.chess.backend.restController.controller;
 
 import com.chess.backend.restController.objects.ExecutedMoveObject;
-import com.chess.backend.restController.objects.ValidationResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.chess.backend.restController.service.ExecutedMoveService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call regarding the executed move for a piece.
@@ -15,26 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/executedMove")
 public class ExecutedMoveController {
+    private final ExecutedMoveService executedMoveService;
+
+    @Autowired
+    public ExecutedMoveController(ExecutedMoveService executedMoveService){
+        this.executedMoveService = executedMoveService;
+    }
+
     /**
-     * @param gameID the ID of the current game.
-     * @param previousPiecePosition the previous position of the piece (before the move).
-     * @param newPiecePosition the new position of the piece after the move.
-     * @return Returns an {@link ExecutedMoveObject}.
+     * Method that is called on a post request.
+     *
+     * @param executedMoveObject in the request body (json object).
+     * @return true (and HttpStatus.OK (200)) if move was successful and false (and HttpStatus.BAD_REQUEST (400)) if the move was not successful.
      */
-    @GetMapping
-    public ExecutedMoveObject executedMove(@RequestParam(value = "gameID") int gameID,
-                                           @RequestParam(value = "previousPiecePosition") int[] previousPiecePosition,
-                                           @RequestParam(value = "newPiecePosition") int[] newPiecePosition){
-
-        //TODO: make call to update the chessboard and validate the move
-
-        //just testing
-        //http://localhost:8080/executedMove?gameID=1&previousPiecePosition=1,2&newPiecePosition=2,2
-
-        ValidationResponse validation = ValidationResponse.VALID_MOVE;
-        Object[][] chessboard = new Object[3][2];
-        chessboard[0][0] = "Pawn";
-
-        return new ExecutedMoveObject(validation, chessboard);
+    @PostMapping
+    public ResponseEntity<Boolean> executedMove(@RequestBody ExecutedMoveObject executedMoveObject){
+        if(executedMoveService.executedMove(executedMoveObject)){
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+        }
     }
 }

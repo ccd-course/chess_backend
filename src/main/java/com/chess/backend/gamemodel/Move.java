@@ -28,10 +28,11 @@ public class Move {
         {
             this.wasPawnTwoFieldsMove = true;
         }
-        else if (movedPiece.getType().equals(PieceType.PAWN) && to.pozY == Chessboard.bottom || to.pozY == Chessboard.top && promotedPiece != null)
-        {
-            this.promotedTo = promotedPiece;
-        }
+        // TODO: Implement promotion
+//        else if (movedPiece.getType().equals(PieceType.PAWN) && to.pozY == Chessboard.bottom || to.pozY == Chessboard.top && promotedPiece != null)
+//        {
+//            this.promotedTo = promotedPiece;
+//        }
     }
 
     public Square getFrom()

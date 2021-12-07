@@ -1,36 +1,53 @@
 package com.chess.backend.restController.objects;
 
+import com.chess.backend.restController.controller.ExecutedMoveController;
+
 /**
- * This class is send as a response from the {@link com.chess.backend.restController.controller.ExecutedMoveController}.
- *
- * It contains the following fields: <br>
- * {@link validation} - the validation state of the move ({@link ValidationResponse}) <br>
- * {@link chessboard} - the chessboard
+ * This class is received from the API-Call of the {@link ExecutedMoveController}.
  *
  * @author Hannes Stuetzer
  */
 public class ExecutedMoveObject {
-    private ValidationResponse validation;
-    private Object[][] chessboard;
+    /**
+     * the id of the current game.
+     */
+    private int gameID;
+    /**
+     * the old position of the chess piece.
+     */
+    private int[] previousPiecePosition;
+    /**
+     * the new position of the chess piece.
+     */
+    private int[] newPiecePosition;
 
-    public ExecutedMoveObject(ValidationResponse validation, Object[][] chessboard){
-        this.validation = validation;
-        this.chessboard = chessboard;
+    public ExecutedMoveObject(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
+        this.gameID = gameID;
+        this.previousPiecePosition = previousPiecePosition;
+        this.newPiecePosition = newPiecePosition;
     }
 
-    public ValidationResponse getValidation() {
-        return validation;
+    public int getGameID() {
+        return gameID;
     }
 
-    public void setValidation(ValidationResponse validation) {
-        this.validation = validation;
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 
-    public Object[][] getChessboard() {
-        return chessboard;
+    public int[] getPreviousPiecePosition() {
+        return previousPiecePosition;
     }
 
-    public void setChessboard(Object[][] chessboard) {
-        this.chessboard = chessboard;
+    public void setPreviousPiecePosition(int[] previousPiecePosition) {
+        this.previousPiecePosition = previousPiecePosition;
+    }
+
+    public int[] getNewPiecePosition() {
+        return newPiecePosition;
+    }
+
+    public void setNewPiecePosition(int[] newPiecePosition) {
+        this.newPiecePosition = newPiecePosition;
     }
 }

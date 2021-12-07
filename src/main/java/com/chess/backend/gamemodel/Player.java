@@ -21,6 +21,7 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Color;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -28,25 +29,38 @@ import java.io.Serializable;
 /**
  * Class representing the player in the game
  */
+@Data
 public class Player implements Serializable
 {
 
     String name;
     Color color;
-
+    int id;
     boolean goDown;
 
     public Player()
     {
     }
 
+    public Player(String name, int id)
+    {
+        this.name = name;
+        this.id  = id;
+    }
     public Player(String name, Color color)
     {
         this.name = name;
-        this.color = color;
-        this.goDown = false;
+//        this.color = color;
+//        this.goDown = false;
     }
 
+    public Player(String name, Color color, Integer id)
+    {
+        this.name = name;
+        this.color = color;
+        this.id = id;
+//        this.goDown = false;
+    }
     /** Method setting the players name
      *  @param name name of player
      */
@@ -63,19 +77,19 @@ public class Player implements Serializable
         return this.name;
     }
 
-    public Color getColor() {
-        return color;
-    }
+//    public Color getColor() {
+//        return color;
+//    }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
+//    public void setColor(Color color) {
+//        this.color = color;
+//    }
 
-    public boolean isGoDown() {
-        return goDown;
-    }
-
-    public void setGoDown(boolean goDown) {
-        this.goDown = goDown;
-    }
+//    public boolean isGoDown() {
+//        return goDown;
+//    }
+//
+//    public void setGoDown(boolean goDown) {
+//        this.goDown = goDown;
+//    }
 }

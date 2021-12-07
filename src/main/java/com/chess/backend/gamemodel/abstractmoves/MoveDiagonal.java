@@ -4,6 +4,7 @@ import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Move;
 import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.gamemodel.Square;
+import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,8 +42,8 @@ public class MoveDiagonal {
         int x = fromSquare.getPozX();
         int y = fromSquare.getPozY();
 
-        for (int n = 0; (x + n) < game.chessboard.getWidth() &&
-                (y + n) < game.chessboard.getHeight() &&
+        for (int n = 0; (x + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
+                (y + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
                 (limit > 0 || limit == -1); n++) {
             if (limit != -1) limit--;
 
@@ -80,7 +81,7 @@ public class MoveDiagonal {
         int y = fromSquare.getPozY();
 
         for (int n = 0; (x - n) > 0 &&
-                (y + n) < game.chessboard.getHeight() &&
+                (y + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
                 (limit > 0 || limit == -1); n++) {
             if (limit != -1) limit--;
 
@@ -155,7 +156,7 @@ public class MoveDiagonal {
         int x = fromSquare.getPozX();
         int y = fromSquare.getPozY();
 
-        for (int n = 0; (x + n) < game.chessboard.getWidth() &&
+        for (int n = 0; (x + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
                 (y - n) > 0 &&
                 (limit > 0 || limit == -1); n++) {
             if (limit != -1) limit--;

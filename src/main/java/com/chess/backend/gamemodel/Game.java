@@ -20,6 +20,9 @@
  */
 package com.chess.backend.gamemodel;
 
+import com.chess.backend.services.ChessboardService;
+import lombok.Data;
+
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.util.logging.Level;
@@ -30,6 +33,7 @@ import java.util.logging.Logger;
  * This class is also responsible for appoing player with have
  * a move at the moment
  */
+@Data
 public class Game
 {
 
@@ -38,25 +42,28 @@ public class Game
     private Player activePlayer;
     public GameClock gameClock;
     public Moves moves;
+    private int id;
+    private Player[] players;
 
-    Game()
-    {
-        this.moves = new Moves(this);
-        settings = new Settings();
-        chessboard = new Chessboard(this.settings, this.moves);
-        //this.chessboard.
-        // gameClock = new GameClock(this); // TODO: Implement from old jchess
+//    public Game()
+//    {
+//        this.moves = new Moves(this);
+//        settings = new Settings();
+//        //TODO: handle the settings, current situation gives an error when creating a game
+//        chessboard = new Chessboard(this.settings, this.moves);
+//        //this.chessboard.
+//        // gameClock = new GameClock(this); // TODO: Implement from old jchess
+//
+//    }
 
-    }
-
-    /** Method to Start new game
-     *
-     */
-    public void newGame()
-    {
-        chessboard.setPieces("", settings.playerWhite, settings.playerBlack);
-        activePlayer = settings.playerWhite;
-    }
+//    /** Method to Start new game
+//     *
+//     */
+//    public void newGame()
+//    {
+//        chessboard.setPieces("", settings.playerWhite, settings.playerBlack);
+//        activePlayer = settings.playerWhite;
+//    }
 
     /** Method to swich active players after move
      */
@@ -82,6 +89,10 @@ public class Game
         return this.activePlayer;
     }
 
+    public int getId(){
+        return this.id;
+    }
+
     /** Method to go to next move (checks if game is local/network etc.)
      */
     public void nextMove()
@@ -102,7 +113,7 @@ public class Game
         {
             if (chessboard.squares[beginX][beginY].piece.getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
             {
-                chessboard.move(chessboard.squares[beginX][beginY], chessboard.squares[endX][endY]);
+                ChessboardService.move(chessboard, beginX, beginY, endX, endY);
             }
             else
             {
@@ -130,6 +141,10 @@ public class Game
         {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
         }
+    }
+
+    public Player[] getPlayers() {
+        return players;
     }
 }
 

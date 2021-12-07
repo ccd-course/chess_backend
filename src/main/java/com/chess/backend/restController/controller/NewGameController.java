@@ -1,10 +1,9 @@
 package com.chess.backend.restController.controller;
 
-import com.chess.backend.restController.objects.NewGameObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.chess.backend.restController.objects.NewPlayersObject;
+import com.chess.backend.restController.service.NewGameService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call to create a new game.
@@ -12,24 +11,25 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hannes Stuetzer
  */
 @RestController
-@RequestMapping("/newGame")
+@RequestMapping("/createNewGame")
 public class NewGameController {
 
+    private final NewGameService newGameService;
+
+    @Autowired
+    public NewGameController(NewGameService newGameService) {
+        this.newGameService = newGameService;
+    }
+
     /**
-     * @param playerNumber the number of players.
-     * @return Returns a {@link NewGameObject}.
+     * Method that is called on a post request.
+     *
+     * @param players in the request body containing the playerNames.
+     * @return the id of the new created game.
      */
-    @GetMapping
-    public NewGameObject newGame(@RequestParam(value = "playerNumber") int playerNumber){
-        //TODO: call of createNewGame method with parameter playerNumber
-        //returns the gameID and the chessboard
+    @PostMapping
+    public int createNewGame(@RequestBody NewPlayersObject players){
 
-        //just testing
-        //http://localhost:8080/newGame?playerNumber=3
-        Object[][] chessboard = new Object[2][3];
-        chessboard[0][0] = "Test";
-        int gameID = 1;
-
-        return new NewGameObject(gameID, chessboard);
+        return newGameService.getNewGameID(players);
     }
 }

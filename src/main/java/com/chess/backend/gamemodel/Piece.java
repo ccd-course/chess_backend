@@ -3,21 +3,23 @@ package com.chess.backend.gamemodel;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;
 
 public class Piece {
     private PieceType type;
-    private Color color;
     Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     public Square square;
     public Player player;
     private boolean motioned;
     private boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
-    public Piece(PieceType type, Color color) {
+
+    public Piece(PieceType type, Player player,boolean clockwise) {
         this.type = type;
-        this.color = color;
+        this.player = player;
+        this.clockwise = clockwise;
     }
 
     public ArrayList<Move> getAllowedFullMoves(Game game){
@@ -484,13 +486,15 @@ public class Piece {
 
         // King
         Piece otherKing;
-        if (this == chessboard.kingWhite)
+
+        // TODO: Extend to work with more than 2 Players. Players should not be null here.
+        if (this == ChessboardService.searchSquaresByPiece(chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece())
         {
-            otherKing = chessboard.kingBlack;
+            otherKing = ChessboardService.searchSquaresByPiece(chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece();
         }
         else
         {
-            otherKing = chessboard.kingWhite;
+            otherKing = ChessboardService.searchSquaresByPiece(chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece();
         }
 
         if (s.pozX <= otherKing.square.pozX + 1
@@ -579,11 +583,7 @@ public class Piece {
     }
 
     public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+        return this.player.getColor();
     }
 
     /** Method is useful for out of bounds protection
@@ -651,5 +651,13 @@ public class Piece {
 
     public void setMotioned(boolean motioned) {
         this.motioned = motioned;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isClockwise() {
+        return clockwise;
     }
 }

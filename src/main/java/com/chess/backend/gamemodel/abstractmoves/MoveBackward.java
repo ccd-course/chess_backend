@@ -4,6 +4,7 @@ import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Move;
 import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.gamemodel.Square;
+import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +29,7 @@ public class MoveBackward {
     public static Set<Move> backward(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
-        for (int y = fromSquare.getPozY(); y < game.chessboard.getHeight() && (limit > 0 || limit == -1); y++) {
+        for (int y = fromSquare.getPozY(); y < ChessboardService.getMaxX(game.chessboard.getSquares()) && (limit > 0 || limit == -1); y++) {
             if (limit != -1) limit--;
 
             Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
