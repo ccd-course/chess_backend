@@ -80,20 +80,20 @@ public class Moves
     public void addMove(Square begin, Square end, boolean registerInHistory, castling castlingMove, boolean wasEnPassant, Piece promotedPiece)
     {
         boolean wasCastling = castlingMove != castling.none;
-        String locMove = new String(begin.piece.getType().symbol);
+        String locMove = new String(begin.getPiece().getType().symbol);
         
         if( game.settings.upsideDown )
         {
-            locMove += Character.toString((char) ( (ChessboardService.getBottom(game.chessboard.getSquares()) - begin.pozX) + 97));//add letter of Square from which move was made
-            locMove += Integer.toString( begin.pozY + 1 );//add number of Square from which move was made
+            locMove += Character.toString((char) ( (ChessboardService.getBottom(game.chessboard.getSquares()) - begin.getPosX()) + 97));//add letter of Square from which move was made
+            locMove += Integer.toString( begin.getPosY() + 1 );//add number of Square from which move was made
         }
         else
         {
-            locMove += Character.toString((char) (begin.pozX + 97));//add letter of Square from which move was made
-            locMove += Integer.toString(8 - begin.pozY);//add number of Square from which move was made
+            locMove += Character.toString((char) (begin.getPosX() + 97));//add letter of Square from which move was made
+            locMove += Integer.toString(8 - begin.getPosY());//add number of Square from which move was made
         }
         
-        if (end.piece != null)
+        if (end.getPiece() != null)
         {
             locMove += "x";//take down opponent piece
         }
@@ -104,16 +104,16 @@ public class Moves
         
         if ( game.settings.upsideDown )
         {
-            locMove += Character.toString((char) (( ChessboardService.getBottom(game.chessboard.getSquares()) - end.pozX) +  97));//add letter of Square to which move was made
-            locMove += Integer.toString( end.pozY + 1 );//add number of Square to which move was made
+            locMove += Character.toString((char) (( ChessboardService.getBottom(game.chessboard.getSquares()) - end.getPosX()) +  97));//add letter of Square to which move was made
+            locMove += Integer.toString( end.getPosY() + 1 );//add number of Square to which move was made
         }
         else
         {
-            locMove += Character.toString((char) (end.pozX + 97));//add letter of Square to which move was made
-            locMove += Integer.toString(8 - end.pozY);//add number of Square to which move was made
+            locMove += Character.toString((char) (end.getPosX() + 97));//add letter of Square to which move was made
+            locMove += Integer.toString(8 - end.getPosY());//add number of Square to which move was made
         }
         
-        if (begin.piece.getType().symbol.equals("") && begin.pozX - end.pozX != 0 && end.piece == null)
+        if (begin.getPiece().getType().symbol.equals("") && begin.getPosX() - end.getPosX() != 0 && end.getPiece() == null)
         {
             locMove += "(e.p)";//pawn take down opponent en passant
             wasEnPassant = true;
@@ -147,7 +147,7 @@ public class Moves
 
         if (registerInHistory)
         {
-            this.moveBackStack.add(new Move(new Square(begin), new Square(end), begin.piece, end.piece, castlingMove, wasEnPassant, promotedPiece));
+            this.moveBackStack.add(new Move(new Square(begin), new Square(end), begin.getPiece(), end.getPiece(), castlingMove, wasEnPassant, promotedPiece));
         }
     }
 
@@ -457,18 +457,18 @@ public class Moves
                 {
                     for(int j=0; j<squares[i].length && !pieceFound; j++)
                     {
-                        if(squares[i][j].piece == null || this.game.getActivePlayer().color != squares[i][j].piece.player.color)
+                        if(squares[i][j].getPiece() == null || this.game.getActivePlayer().color != squares[i][j].getPiece().player.color)
                         {
                             continue;
                         }
-                        ArrayList pieceMoves = squares[i][j].piece.getAllowedMoves(game);
+                        ArrayList pieceMoves = squares[i][j].getPiece().getAllowedMoves(game);
                         for(Object square : pieceMoves)
                         {
                             Square currSquare = (Square)square;
-                            if(currSquare.pozX == xTo && currSquare.pozY == yTo)
+                            if(currSquare.getPosX() == xTo && currSquare.getPosY() == yTo)
                             {
-                                xFrom = squares[i][j].piece.square.pozX;
-                                yFrom = squares[i][j].piece.square.pozY;
+                                xFrom = squares[i][j].getPiece().square.getPosX();
+                                yFrom = squares[i][j].getPiece().square.getPosY();
                                 pieceFound = true;
                             }
                         }
