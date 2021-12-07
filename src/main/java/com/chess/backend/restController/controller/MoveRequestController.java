@@ -1,12 +1,10 @@
 package com.chess.backend.restController.controller;
 
-import com.chess.backend.restController.objects.MoveRequestObject;
+import com.chess.backend.restController.objects.MoveRequestInputObject;
+import com.chess.backend.restController.objects.MoveRequestOutputObject;
 import com.chess.backend.restController.service.MoveRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call to get all possible moves for a piece.
@@ -25,18 +23,14 @@ public class MoveRequestController {
     }
 
     /**
-     * for testing API: http://localhost:8080/moveRequest?gameID=1234&pieceID=Pawn&piecePosition=1,2
+     * Method that is called on a post request.
      *
-     * @param gameID
-     * @param pieceID
-     * @param piecePosition
-     * @return
+     * @param moveRequestInputObject in the request body (json object).
+     * @return a {@link MoveRequestOutputObject} containing the possible moves.
      */
-    @GetMapping
-    public MoveRequestObject getPossibleMoves(@RequestParam(value = "gameID") int gameID,
-                                              @RequestParam(value = "pieceID") String pieceID,
-                                              @RequestParam(value = "piecePosition") int[] piecePosition){
+    @PostMapping
+    public MoveRequestOutputObject getPossibleMoves(@RequestBody MoveRequestInputObject moveRequestInputObject){
 
-        return moveRequestService.getPossibleMoves(gameID, pieceID, piecePosition);
+        return moveRequestService.getPossibleMoves(moveRequestInputObject);
     }
 }

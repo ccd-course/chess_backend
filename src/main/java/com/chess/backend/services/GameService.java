@@ -65,8 +65,8 @@ public class GameService {
         return value looks like that
         [[x,y], [2,2], [2,3], [3,3]]
      */
-    public int[][] getPossibleMoves(int gameID, String pieceID, int[] piecePosition) {
-        if (verifyGameID(gameID)) {
+    public int[][] getPossibleMoves(int gameID, int[] piecePosition){
+        if(verifyGameID(gameID)){
             //TODO: get the possible moves
             return new int[][]{};
         } else {
@@ -74,8 +74,8 @@ public class GameService {
         }
     }
 
-    public boolean verifyExecutedMove(int gameID, String pieceID, int[] previousPiecePosition, int[] newPiecePosition) {
-        if (verifyGameID(gameID)) {
+    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
+        if(verifyGameID(gameID)){
             //TODO: implement the checking of a move that was executed in the front end
             return true;
         } else {
