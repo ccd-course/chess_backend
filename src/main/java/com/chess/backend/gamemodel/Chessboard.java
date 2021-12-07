@@ -22,10 +22,6 @@ package com.chess.backend.gamemodel;
 
 import lombok.Data;
 
-import com.chess.backend.gamemodel.Moves.castling;
-import com.chess.backend.gamemodel.constants.Color;
-import com.chess.backend.gamemodel.constants.PieceType;
-
 /**
  * Class to represent chessboard. Chessboard is made from squares.
  * It is setting the squares of chessboard and sets the pieces(pawns)

@@ -4,7 +4,6 @@ import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Move;
 import com.chess.backend.gamemodel.Square;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class MoveTwoBackward {

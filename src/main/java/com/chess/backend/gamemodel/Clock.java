@@ -20,99 +20,93 @@
  */
 package com.chess.backend.gamemodel;
 
-import com.chess.backend.gamemodel.Player;
-
-/** Class to represent seperate wall-clock for one player.
- *  Full ChessClock is represented by GameClock object (two clock - one for each player)
+/**
+ * Class to represent seperate wall-clock for one player.
+ * Full ChessClock is represented by GameClock object (two clock - one for each player)
  */
-public class Clock
-{
+public class Clock {
 
     private int time_left;
     private Player player;
 
-    Clock()
-    {
+    Clock() {
         this.init(time_left);
     }
 
-    Clock(int time)
-    {
+    Clock(int time) {
         this.init(time);
     }
 
-    /** Method to init clock with given value
-     *  @param time tell method with how much time init clock
+    /**
+     * Method to init clock with given value
+     *
+     * @param time tell method with how much time init clock
      */
-    public void init(int time)
-    {
+    public void init(int time) {
         this.time_left = time;
     }
 
-    /** Method to decrement value of left time
-     *  @return bool true if time_left > 0, else returns false
+    /**
+     * Method to decrement value of left time
+     *
+     * @return bool true if time_left > 0, else returns false
      */
-    public boolean decrement()
-    {
-        if (this.time_left > 0)
-        {
+    public boolean decrement() {
+        if (this.time_left > 0) {
             this.time_left = this.time_left - 1;
             return true;
         }
         return false;
     }
 
-    public void pause()
-    {
+    public void pause() {
     }
 
-    /** Method to get left time in seconds
-     *  @return Player int integer of seconds
+    /**
+     * Method to get left time in seconds
+     *
+     * @return Player int integer of seconds
      */
-    public int get_left_time()
-    {
+    public int get_left_time() {
         return this.time_left;
     }
 
-    /** Method to get player (owner of this clock)
-     *  @param player  player to set as owner of clock
+    /**
+     * Method to get player (owner of this clock)
+     *
+     * @param player player to set as owner of clock
      */
-    public void setPlayer(Player player)
-    {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
-    /** Method to get player (owner of this clock)
-     *  @return  Reference to player class object
+    /**
+     * Method to get player (owner of this clock)
+     *
+     * @return Reference to player class object
      */
-    public Player getPlayer()
-    {
+    public Player getPlayer() {
         return this.player;
     }
 
-    /** Method to prepare time in nice looking String
-     *  @return  String of actual left game time with ':' digits in mm:ss format
+    /**
+     * Method to prepare time in nice looking String
+     *
+     * @return String of actual left game time with ':' digits in mm:ss format
      */
-    public String prepareString()
-    {
+    public String prepareString() {
         String strMin = "";
         int time_min = this.get_left_time() / 60;
         int time_sec = this.get_left_time() % 60;
-        if (time_min < 10)
-        {//prepare MINUTES
+        if (time_min < 10) {//prepare MINUTES
             strMin = "0" + time_min;
-        }
-        else
-        {
+        } else {
             strMin = String.valueOf(time_min);
         }
         String result = new String(strMin + ":");
-        if (time_sec < 10)
-        {//prepare SECONDS
+        if (time_sec < 10) {//prepare SECONDS
             result = result + "0" + time_sec;
-        }
-        else
-        {
+        } else {
             result = result + time_sec;
         }
 

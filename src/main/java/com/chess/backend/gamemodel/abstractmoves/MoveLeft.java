@@ -30,7 +30,7 @@ public class MoveLeft {
 
         for (int steps = 0;
              toPosition.left(chessboard) != null
-                     && (limit == -1 || steps < limit ); steps++) {
+                     && (limit == -1 || steps < limit); steps++) {
 
             toPosition = toPosition.left(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
