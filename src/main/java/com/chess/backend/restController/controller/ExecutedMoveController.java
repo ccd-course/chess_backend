@@ -22,6 +22,12 @@ public class ExecutedMoveController {
         this.executedMoveService = executedMoveService;
     }
 
+    /**
+     * Method that is called on a post request.
+     *
+     * @param executedMoveObject in the request body (json object).
+     * @return true (and HttpStatus.OK (200)) if move was successful and false (and HttpStatus.BAD_REQUEST (400)) if the move was not successful.
+     */
     @PostMapping
     public ResponseEntity<Boolean> executedMove(@RequestBody ExecutedMoveObject executedMoveObject){
         if(executedMoveService.executedMove(executedMoveObject)){

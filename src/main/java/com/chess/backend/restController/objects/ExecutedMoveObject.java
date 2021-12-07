@@ -3,16 +3,22 @@ package com.chess.backend.restController.objects;
 import com.chess.backend.restController.controller.ExecutedMoveController;
 
 /**
- * This class is send as a response from the {@link ExecutedMoveController}.
- *
- * It contains the following fields: <br>
- *
+ * This class is received from the API-Call of the {@link ExecutedMoveController}.
  *
  * @author Hannes Stuetzer
  */
 public class ExecutedMoveObject {
+    /**
+     * the id of the current game.
+     */
     private int gameID;
+    /**
+     * the old position of the chess piece.
+     */
     private int[] previousPiecePosition;
+    /**
+     * the new position of the chess piece.
+     */
     private int[] newPiecePosition;
 
     public ExecutedMoveObject(int gameID, int[] previousPiecePosition, int[] newPiecePosition){

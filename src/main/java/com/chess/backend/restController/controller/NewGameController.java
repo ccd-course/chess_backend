@@ -22,12 +22,11 @@ public class NewGameController {
     }
 
     /**
+     * Method that is called on a post request.
      *
-     *
-     * @param players array of the player names
-     * @return the game ID of the new created game
+     * @param players in the request body containing the playerNames.
+     * @return the id of the new created game.
      */
-
     @PostMapping
     public int createNewGame(@RequestBody NewPlayersObject players){
 

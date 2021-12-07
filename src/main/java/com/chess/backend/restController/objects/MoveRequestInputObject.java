@@ -1,18 +1,20 @@
 package com.chess.backend.restController.objects;
 
+import com.chess.backend.restController.controller.MoveRequestController;
+
 /**
- * This class is send as a response from the {@link com.chess.backend.restController.controller.MoveRequestController}.
- *
- * It contains the following fields: <br>
- * {@link pieceID} - the ID of the piece <br>
- * {@link initialPlace} - the square where the piece is standing as int[] with [x, y] <br>
- * {@link possibleMoves} - an array of all possible moves of the piece
+ * This class is created via API-Call of the {@link MoveRequestController}.
  *
  * @author Hannes Stuetzer
  */
 public class MoveRequestInputObject {
+    /**
+     * the id of the current game.
+     */
     private int gameID;
-    //[x,y]
+    /**
+     * the position of the chess piece from which the moves should be calculated (format: [x,y]).
+     */
     private int[] piecePosition;
 
     public MoveRequestInputObject(int gameID, int[] piecePosition){

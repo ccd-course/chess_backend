@@ -1,8 +1,16 @@
 package com.chess.backend.restController.objects;
 
-import java.util.List;
+import com.chess.backend.restController.controller.NewGameController;
 
+/**
+ * This class is created via the API-Call of {@link NewGameController}.
+ *
+ * @author Hannes Stuetzer
+ */
 public class NewPlayersObject {
+    /**
+     * holds some simple player objects only containing the name of the players.
+     */
     private NewPlayerObject[] players;
 
     public NewPlayersObject(){}
@@ -15,6 +23,11 @@ public class NewPlayersObject {
         this.players = players;
     }
 
+    /**
+     * Iterates through all the players and gets the name of them.
+     *
+     * @return an array of all the player names.
+     */
     public String[] getAllPlayerNames(){
         String[] allPlayerNames = new String[players.length];
 

@@ -23,12 +23,10 @@ public class MoveRequestController {
     }
 
     /**
-     * for testing API: http://localhost:8080/moveRequest?gameID=1234&pieceID=Pawn&piecePosition=1,2
+     * Method that is called on a post request.
      *
-     * @param gameID
-     * @param pieceID
-     * @param piecePosition
-     * @return
+     * @param moveRequestInputObject in the request body (json object).
+     * @return a {@link MoveRequestOutputObject} containing the possible moves.
      */
     @PostMapping
     public MoveRequestOutputObject getPossibleMoves(@RequestBody MoveRequestInputObject moveRequestInputObject){
