@@ -10,32 +10,27 @@ package com.chess.backend.restController.objects;
  *
  * @author Hannes Stuetzer
  */
-public class MoveRequestObject {
+public class MoveRequestInputObject {
     private int gameID;
-    private String pieceID;
     //[x,y]
-    private int[] initialPlace;
-    //[[x,y], [x,y], [x,y]]
-    private int[][] possibleMoves;
+    private int[] piecePosition;
 
-    public MoveRequestObject(int gameID, String pieceID, int[] initialPlace, int[][] possibleMoves){
+    public MoveRequestInputObject(int gameID, int[] piecePosition){
         this.gameID = gameID;
-        this.pieceID = pieceID;
-        this.initialPlace = initialPlace;
-        this.possibleMoves = possibleMoves;
+        this.piecePosition = piecePosition;
     }
 
     public int getGameID() { return gameID; }
 
-    public String getPieceID() {
-        return pieceID;
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 
     public int[] getInitialPlace() {
-        return initialPlace;
+        return piecePosition;
     }
 
-    public int[][] getPossibleMoves() {
-        return possibleMoves;
+    public int[] getPiecePosition() {
+        return piecePosition;
     }
 }

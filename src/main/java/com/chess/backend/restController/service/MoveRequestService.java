@@ -1,16 +1,17 @@
 package com.chess.backend.restController.service;
 
+import com.chess.backend.restController.objects.MoveRequestInputObject;
+import com.chess.backend.restController.objects.MoveRequestOutputObject;
 import com.chess.backend.services.GameService;
-import com.chess.backend.restController.objects.MoveRequestObject;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MoveRequestService {
 
-    public MoveRequestObject getPossibleMoves(int gameID, String pieceID, int[] piecePosition){
+    public MoveRequestOutputObject getPossibleMoves(MoveRequestInputObject moveRequestInputObject){
 
         GameService gc = GameService.getInstance();
 
-        return new MoveRequestObject(gameID, pieceID, piecePosition, gc.getPossibleMoves(gameID, pieceID, piecePosition));
+        return new MoveRequestOutputObject(gc.getPossibleMoves(moveRequestInputObject.getGameID(), moveRequestInputObject.getPiecePosition()));
     }
 }

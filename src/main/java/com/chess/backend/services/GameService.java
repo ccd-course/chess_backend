@@ -62,7 +62,7 @@ public class GameService {
         return value looks like that
         [[x,y], [2,2], [2,3], [3,3]]
      */
-    public int[][] getPossibleMoves(int gameID, String pieceID, int[] piecePosition){
+    public int[][] getPossibleMoves(int gameID, int[] piecePosition){
         if(verifyGameID(gameID)){
             //TODO: get the possible moves
             return new int[][]{};

@@ -12,6 +12,6 @@ public class GetChessboardService {
 
         gc.getChessboard(gameID);
 
-        return new ChessboardObject(gameID, new SquareObject[][]{});
+        return new ChessboardObject(new SquareObject[][]{});
     }
 }
