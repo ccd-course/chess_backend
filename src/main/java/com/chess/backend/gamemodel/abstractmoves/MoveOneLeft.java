@@ -19,8 +19,8 @@ public class MoveOneLeft {
      * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return MoveLeft.left(game, fromSquare, attack, jump, 1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return MoveLeft.left(game, fromSquare, attack, jump, peaceful, 1);
     }
 
 }

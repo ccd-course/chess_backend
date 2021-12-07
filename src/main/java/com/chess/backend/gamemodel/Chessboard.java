@@ -22,10 +22,6 @@ package com.chess.backend.gamemodel;
 
 import lombok.Data;
 
-import com.chess.backend.gamemodel.Moves.castling;
-import com.chess.backend.gamemodel.constants.Color;
-import com.chess.backend.gamemodel.constants.PieceType;
-
 /**
  * Class to represent chessboard. Chessboard is made from squares.
  * It is setting the squares of chessboard and sets the pieces(pawns)
@@ -35,12 +31,12 @@ import com.chess.backend.gamemodel.constants.PieceType;
 public class Chessboard {
     public int numberOfPlayers;
     public Square[][] squares;//squares of chessboard
-    private boolean breakCastling = false; //if last move break castling
     //    ----------------------------
     //    For En passant:
     //    |-> Pawn whose in last turn moved two square
     public Piece twoSquareMovedPawn = null;
     public Piece twoSquareMovedPawn2 = null;
+    private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
 
 //    public void move(Square begin, Square end) {

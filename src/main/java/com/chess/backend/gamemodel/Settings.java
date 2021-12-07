@@ -27,10 +27,10 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-/** Class representings game settings available for the current player
+/**
+ * Class representings game settings available for the current player
  */
-public class Settings implements Serializable
-{
+public class Settings implements Serializable {
 
     private static ResourceBundle loc = null;
     public int timeForGame;
@@ -38,26 +38,13 @@ public class Settings implements Serializable
     public boolean runningGameClock;
     public boolean timeLimitSet;//tel us if player choose time 4 game or it's infinity
     public boolean upsideDown;
-
-    public enum gameModes
-    {
-
-        newGame, loadGame
-    }
     public gameModes gameMode;
     public Player playerWhite;
     public Player playerBlack;
-
-    public enum gameTypes
-    {
-
-        local, network
-    }
     public gameTypes gameType;
     public boolean renderLabels = true;
 
-    public Settings()
-    {
+    public Settings() {
         //temporally
         this.playerWhite = new Player("", Color.WHITE);
         this.playerBlack = new Player("", Color.BLACK);
@@ -66,31 +53,37 @@ public class Settings implements Serializable
         gameMode = gameModes.newGame;
     }
 
-    /** Method to get game time set by player
-     *  @return timeFofGame int with how long the game will leasts
-     */
-    public int getTimeForGame()
-    {
-        return this.timeForGame;
-    }
-
-    public static String lang(String key)
-    {
-        if (Settings.loc == null)
-        {
+    public static String lang(String key) {
+        if (Settings.loc == null) {
             Settings.loc = PropertyResourceBundle.getBundle("resources/i18n/main", Locale.ENGLISH);
             Locale.setDefault(Locale.ENGLISH);
         }
         String result = "";
-        try
-        {
+        try {
             result = Settings.loc.getString(key);
-        }
-        catch (java.util.MissingResourceException exc)
-        {
+        } catch (java.util.MissingResourceException exc) {
             result = key;
         }
         System.out.println(Settings.loc.getLocale().toString());
         return result;
+    }
+
+    /**
+     * Method to get game time set by player
+     *
+     * @return timeFofGame int with how long the game will leasts
+     */
+    public int getTimeForGame() {
+        return this.timeForGame;
+    }
+
+    public enum gameModes {
+
+        newGame, loadGame
+    }
+
+    public enum gameTypes {
+
+        local, network
     }
 }

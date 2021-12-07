@@ -23,25 +23,23 @@ package com.chess.backend.gamemodel;
 import com.chess.backend.services.ChessboardService;
 import lombok.Data;
 
-import javax.swing.*;
-import java.io.BufferedReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** Class responsible for the starts of new games, loading games,
+/**
+ * Class responsible for the starts of new games, loading games,
  * saving it, and for ending it.
  * This class is also responsible for appoing player with have
  * a move at the moment
  */
 @Data
-public class Game
-{
+public class Game {
 
     public Settings settings;
     public Chessboard chessboard;
-    private Player activePlayer;
     public GameClock gameClock;
     public Moves moves;
+    private Player activePlayer;
     private int id;
     private Player[] players;
 
@@ -65,80 +63,68 @@ public class Game
 //        activePlayer = settings.playerWhite;
 //    }
 
-    /** Method to swich active players after move
+    /**
+     * Method to swich active players after move
      */
-    public void switchActive()
-    {
-        if (activePlayer == settings.playerWhite)
-        {
+    public void switchActive() {
+        if (activePlayer == settings.playerWhite) {
             activePlayer = settings.playerBlack;
-        }
-        else
-        {
+        } else {
             activePlayer = settings.playerWhite;
         }
 
         this.gameClock.switch_clocks();
     }
 
-    /** Method of getting accualy active player
-     *  @return  player The player which have a move
+    /**
+     * Method of getting accualy active player
+     *
+     * @return player The player which have a move
      */
-    public Player getActivePlayer()
-    {
+    public Player getActivePlayer() {
         return this.activePlayer;
     }
 
-    public int getId(){
+    public int getId() {
         return this.id;
     }
 
-    /** Method to go to next move (checks if game is local/network etc.)
+    /**
+     * Method to go to next move (checks if game is local/network etc.)
      */
-    public void nextMove()
-    {
+    public void nextMove() {
         switchActive();
         System.out.println("next move, active player: " + activePlayer.name + ", color: " + activePlayer.color.name());
     }
 
-    /** Method to simulate Move to check if it's correct etc. (usable for network game).
+    /**
+     * Method to simulate Move to check if it's correct etc. (usable for network game).
+     *
      * @param beginX from which X (on chessboard) move starts
      * @param beginY from which Y (on chessboard) move starts
      * @param endX   to   which X (on chessboard) move go
      * @param endY   to   which Y (on chessboard) move go
-     * */
-    public boolean simulateMove(int beginX, int beginY, int endX, int endY)
-    {
-        try 
-        {
-            if (chessboard.squares[beginX][beginY].piece.getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
+     */
+    public boolean simulateMove(int beginX, int beginY, int endX, int endY) {
+        try {
+            if (chessboard.squares[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
             {
                 ChessboardService.move(chessboard, beginX, beginY, endX, endY);
-            }
-            else
-            {
+            } else {
                 System.out.println("Bad move");
                 return false;
             }
             nextMove();
 
             return true;
-            
-        } 
-        catch(StringIndexOutOfBoundsException exc) 
-        {
+
+        } catch (StringIndexOutOfBoundsException exc) {
             return false;
-        }    
-        catch(ArrayIndexOutOfBoundsException exc) 
-        {
+        } catch (ArrayIndexOutOfBoundsException exc) {
             return false;
-        }
-        catch(NullPointerException exc)
-        {
+        } catch (NullPointerException exc) {
             return false;
-        }
-        finally
-        {
+        } finally {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
         }
     }
@@ -148,6 +134,5 @@ public class Game
     }
 }
 
-class ReadGameError extends Exception
-{
+class ReadGameError extends Exception {
 }

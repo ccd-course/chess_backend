@@ -23,52 +23,49 @@ package com.chess.backend.gamemodel;
 /**
  * Class to represent a chessboard square
  */
-public class Square
-{
+public class Square {
+    private final Position position;
+    private Piece piece = null;//object Piece on square (and extending Piecie)
 
-    int pozX; // 0-7, becouse 8 squares for row/column
-    int pozY; // 0-7, becouse 8 squares for row/column
-    public Piece piece = null;//object Piece on square (and extending Piecie)
-
-    public Square(int pozX, int pozY, Piece piece)
-    {
-        this.pozX = pozX;
-        this.pozY = pozY;
+    public Square(int posX, int posY, Piece piece) {
+        this.position = new Position(posX, posY);
         this.piece = piece;
-    }/*--endOf-Square--*/
-
-
-    Square(Square square)
-    {
-        this.pozX = square.pozX;
-        this.pozY = square.pozY;
-        this.piece = square.piece;
     }
 
-    public Square clone(Square square)
-    {
-        return new Square(square);
+    Square(Square square) {
+        this.position = square.getPos();
+        this.piece = square.getPiece();
     }
 
     public Piece getPiece() {
         return piece;
     }
 
-    public void setPiece(Piece piece)
-    {
+    public void setPiece(Piece piece) {
         this.piece = piece;
         this.piece.square = this;
     }
 
-    public void removePiece(){
+    public void removePiece() {
         this.piece = null;
     }
 
-    public int getPozX() {
-        return pozX;
+    public int getPosX() {
+        return position.getX();
     }
 
-    public int getPozY() {
-        return pozY;
+    public int getPosY() {
+        return position.getY();
+    }
+
+    public Position getPos() {
+        return position;
+    }
+
+    @Override
+    public String toString() {
+        return "Square{" +
+                "position=" + position +
+                '}';
     }
 }

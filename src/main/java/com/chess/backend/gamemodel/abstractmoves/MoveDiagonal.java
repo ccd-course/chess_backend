@@ -1,9 +1,6 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.gamemodel.Game;
-import com.chess.backend.gamemodel.Move;
-import com.chess.backend.gamemodel.Piece;
-import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.*;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
@@ -22,167 +19,175 @@ public class MoveDiagonal {
      * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return diagonal(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return diagonal(game, fromSquare, attack, jump, peaceful, -1);
     }
 
-    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        allowedMoves.addAll(diagonalBL(game, fromSquare, attack, jump, limit));
-        allowedMoves.addAll(diagonalBR(game, fromSquare, attack, jump, limit));
-        allowedMoves.addAll(diagonalFL(game, fromSquare, attack, jump, limit));
-        allowedMoves.addAll(diagonalFR(game, fromSquare, attack, jump, limit));
+        allowedMoves.addAll(diagonalBL(game, fromSquare, attack, jump, peaceful, limit));
+        allowedMoves.addAll(diagonalBR(game, fromSquare, attack, jump, peaceful, limit));
+        allowedMoves.addAll(diagonalFL(game, fromSquare, attack, jump, peaceful, limit));
+        allowedMoves.addAll(diagonalFR(game, fromSquare, attack, jump, peaceful, limit));
         return allowedMoves;
     }
 
     // Diagonal backward left
-    public static Set<Move> diagonalBL(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalBL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        int x = fromSquare.getPozX();
-        int y = fromSquare.getPozY();
+        for (int steps = 0;
+             toPosition.diagBL(chessboard) != null
+                     && (limit == -1 || steps < limit); steps++) {
 
-        for (int n = 0; (x + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
-                (y + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
-                (limit > 0 || limit == -1); n++) {
-            if (limit != -1) limit--;
-
-            Square toSquare = game.chessboard.squares[x + n][y + n];
+            toPosition = toPosition.diagBL(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
 
     // Diagonal backward right
-    public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        int x = fromSquare.getPozX();
-        int y = fromSquare.getPozY();
+        for (int steps = 0;
+             toPosition.diagBR(chessboard) != null
+                     && (limit == -1 || steps < limit); steps++) {
 
-        for (int n = 0; (x - n) > 0 &&
-                (y + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
-                (limit > 0 || limit == -1); n++) {
-            if (limit != -1) limit--;
-
-            Square toSquare = game.chessboard.squares[x - n][y + n];
+            toPosition = toPosition.diagBR(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
 
     // Diagonal forward right
-    public static Set<Move> diagonalFR(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalFR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        int x = fromSquare.getPozX();
-        int y = fromSquare.getPozY();
+        for (int steps = 0;
+             toPosition.diagFR(chessboard) != null
+                     && (limit == -1 || steps < limit); steps++) {
 
-        for (int n = 0; (x - n) > 0 &&
-                (y - n) > 0 &&
-                (limit > 0 || limit == -1); n++) {
-            if (limit != -1) limit--;
-
-            Square toSquare = game.chessboard.squares[x - n][y - n];
+            toPosition = toPosition.diagFR(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
 
     // Diagonal forward left
-    public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        int x = fromSquare.getPozX();
-        int y = fromSquare.getPozY();
+        for (int steps = 0;
+             toPosition.diagFL(chessboard) != null
+                     && (limit == -1 || steps < limit); steps++) {
 
-        for (int n = 0; (x + n) < ChessboardService.getMaxX(game.chessboard.getSquares()) &&
-                (y - n) > 0 &&
-                (limit > 0 || limit == -1); n++) {
-            if (limit != -1) limit--;
-
-            Square toSquare = game.chessboard.squares[x + n][y - n];
+            toPosition = toPosition.diagFL(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }

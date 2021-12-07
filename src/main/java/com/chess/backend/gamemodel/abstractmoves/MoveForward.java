@@ -1,56 +1,63 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.gamemodel.Game;
-import com.chess.backend.gamemodel.Move;
-import com.chess.backend.gamemodel.Piece;
-import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.*;
+import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class MoveForward {
 
-    public MoveForward() {}
+    public MoveForward() {
+    }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
-     * @param game Game context
+     *
+     * @param game   Game context
      * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
-     * @param jump Allow moves that pass occupied fields (knight)
+     * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump){
-        return forward(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return forward(game, fromSquare, attack, jump, peaceful, -1);
     }
 
-    public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        for (int y = fromSquare.getPozY(); y > 0 && (limit > 0 || limit == -1); y--) {
-            if (limit != -1) limit--;
+        for (int steps = 0;
+             (limit == -1 && steps < ChessboardService.getMaxY(chessboard.getSquares()))
+                     || (steps < limit); steps++) {
 
-            Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
+            toPosition = toPosition.forward(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
+
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }
