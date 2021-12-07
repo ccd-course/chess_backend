@@ -31,42 +31,42 @@ public class Piece {
         switch (this.type) {
             case PAWN:
                 if (clockwise) {
-                    allowedMoves.addAll(MoveOneForward.concretise(game, this.square, false, false));
+                    allowedMoves.addAll(MoveOneForward.concretise(game, this.square, false, false, true));
                     if (square.getPosY() == PlayerService.getBaseY(player)) {
-                        allowedMoves.addAll(MoveTwoForward.concretise(game, this.square, false, false));
+                        allowedMoves.addAll(MoveTwoForward.concretise(game, this.square, false, false, true));
                     }
-                    allowedMoves.addAll(MovePawnCaptureForward.concretise(game, this.square, true, false));
+                    allowedMoves.addAll(MovePawnCaptureForward.concretise(game, this.square, true, false, false));
                 } else {
-                    allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, false, false));
+                    allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, false, false, true));
                     if (square.getPosY() == PlayerService.getBaseY(player) + 3) {
-                        allowedMoves.addAll(MoveTwoBackward.concretise(game, this.square, false, false));
+                        allowedMoves.addAll(MoveTwoBackward.concretise(game, this.square, false, false, true));
                     }
-                    allowedMoves.addAll(MovePawnCaptureBackward.concretise(game, this.square, true, false));
+                    allowedMoves.addAll(MovePawnCaptureBackward.concretise(game, this.square, true, false, false));
                 }
                 break;
             case KING:
-                allowedMoves.addAll(MoveOneForward.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveOneLeft.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveOneRight.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveOneForward.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveOneLeft.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveOneRight.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false, true));
                 break;
             case QUEEN:
-                allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false, true));
                 allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true));
                 break;
             case ROOK:
-                allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false));
-                allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false, true));
+                allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false, true));
                 break;
             case BISHOP:
-                allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false));
+                allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false, true));
                 break;
             case KNIGHT:
                 allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true));

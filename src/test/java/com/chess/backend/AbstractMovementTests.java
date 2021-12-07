@@ -13,7 +13,7 @@ import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AbstractMovementTestsFirstRow {
+public class AbstractMovementTests {
 
     Game game;
 
@@ -50,6 +50,46 @@ public class AbstractMovementTestsFirstRow {
             positions.add(move.getToPos());
         }
         return positions;
+    }
+
+    @Test
+    void testPawn() {
+
+        HashSet<Position> possibleMovePositions = getPossibleMovePositions(PieceType.PAWN);
+
+        // One Left
+        assertFalse(possibleMovePositions.contains(new Position(3, 0)));
+        // One Right
+        assertFalse(possibleMovePositions.contains(new Position(1, 0)));
+        // Multiple Right
+        assertFalse(possibleMovePositions.contains(new Position(0, 0)));
+        // One Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 1)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 2)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One Forward
+        assertTrue(possibleMovePositions.contains(new Position(2, 23)));
+        // Two Forward
+        assertTrue(possibleMovePositions.contains(new Position(2, 22)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 12)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One diagonal forward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 23)));
+        // One diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 23)));
+        // One diagonal backward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 1)));
+        // One diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 1)));
+        // Multiple diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 22)));
+        // Multiple diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 2)));
+
     }
 
     @Test

@@ -8,27 +8,29 @@ import java.util.Set;
 
 public class MoveForward {
 
-    public MoveForward() {}
+    public MoveForward() {
+    }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
-     * @param game Game context
+     *
+     * @param game   Game context
      * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
-     * @param jump Allow moves that pass occupied fields (knight)
+     * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump){
-        return forward(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return forward(game, fromSquare, attack, jump, peaceful, -1);
     }
 
-    public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0;
-                (limit == -1 && steps < ChessboardService.getMaxY(chessboard.getSquares()))
-                    || (steps < limit); steps++) {
+             (limit == -1 && steps < ChessboardService.getMaxY(chessboard.getSquares()))
+                     || (steps < limit); steps++) {
 
             toPosition = toPosition.forward(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
@@ -44,16 +46,18 @@ public class MoveForward {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.getPiece(),
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }

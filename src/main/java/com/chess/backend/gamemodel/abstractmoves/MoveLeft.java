@@ -19,11 +19,11 @@ public class MoveLeft {
      * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return left(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return left(game, fromSquare, attack, jump, peaceful, -1);
     }
 
-    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
@@ -46,16 +46,18 @@ public class MoveLeft {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.getPiece(),
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }

@@ -21,7 +21,7 @@ public class MoveOneForward {
      * @param jump   Allow moves that pass occupied fields (knight)
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return MoveForward.forward(game, fromSquare, attack, jump, 1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return MoveForward.forward(game, fromSquare, attack, jump, peaceful, 1);
     }
 }
