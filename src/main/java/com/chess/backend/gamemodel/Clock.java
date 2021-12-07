@@ -74,19 +74,19 @@ public class Clock {
     /**
      * Method to get player (owner of this clock)
      *
-     * @param player player to set as owner of clock
+     * @return Reference to player class object
      */
-    public void setPlayer(Player player) {
-        this.player = player;
+    public Player getPlayer() {
+        return this.player;
     }
 
     /**
      * Method to get player (owner of this clock)
      *
-     * @return Reference to player class object
+     * @param player player to set as owner of clock
      */
-    public Player getPlayer() {
-        return this.player;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     /**
@@ -103,7 +103,7 @@ public class Clock {
         } else {
             strMin = String.valueOf(time_min);
         }
-        String result = new String(strMin + ":");
+        String result = strMin + ":";
         if (time_sec < 10) {//prepare SECONDS
             result = result + "0" + time_sec;
         } else {

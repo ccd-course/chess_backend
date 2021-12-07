@@ -11,12 +11,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Piece {
-    private PieceType type;
-    Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     public Square square;
     public Player player;
+    Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
+    private PieceType type;
     private boolean motioned;
-    private boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
     public Piece(PieceType type, Player player, boolean clockwise) {
@@ -445,9 +445,7 @@ public class Piece {
                 {
                 } else if (this.chessboard.squares[newX][newY].getPiece().player == this.player) //if is our piece
                 {
-                } else if (this.chessboard.squares[newX][newY].getPiece().getType().equals(PieceType.PAWN)) {
-                    return false;
-                }
+                } else return !this.chessboard.squares[newX][newY].getPiece().getType().equals(PieceType.PAWN);
             }
         } else {//System.out.println("go up");
             newX = s.getPosX() - 1;
@@ -467,9 +465,7 @@ public class Piece {
                 {
                 } else if (this.chessboard.squares[newX][newY].getPiece().player == this.player) //if is our piece
                 {
-                } else if (this.chessboard.squares[newX][newY].getPiece().getType().equals(PieceType.PAWN)) {
-                    return false;
-                }
+                } else return !this.chessboard.squares[newX][newY].getPiece().getType().equals(PieceType.PAWN);
             }
         }
 
@@ -496,10 +492,7 @@ public class Piece {
      * @return true if parameters are out of bounds (array)
      */
     protected boolean isout(int x, int y) {
-        if (x < 0 || x > 7 || y < 0 || y > 7) {
-            return true;
-        }
-        return false;
+        return x < 0 || x > 7 || y < 0 || y > 7;
     }
 
     /**
@@ -513,12 +506,9 @@ public class Piece {
             return false;
         }
         Piece piece = chessboard.squares[x][y].getPiece();
-        if (piece == null || //if this sqhuare is empty
-                piece.player != this.player) //or piece is another player
-        {
-            return true;
-        }
-        return false;
+        //or piece is another player
+        return piece == null || //if this sqhuare is empty
+                piece.player != this.player;
     }
 
     /**
@@ -533,10 +523,7 @@ public class Piece {
         if (sq.getPiece() == null) {
             return false;
         }
-        if (this.player != sq.getPiece().player) {
-            return true;
-        }
-        return false;
+        return this.player != sq.getPiece().player;
     }
 
     public String getSymbol() {

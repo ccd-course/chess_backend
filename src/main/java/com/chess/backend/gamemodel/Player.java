@@ -59,21 +59,21 @@ public class Player implements Serializable {
     }
 
     /**
-     * Method setting the players name
-     *
-     * @param name name of player
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Method getting the players name
      *
      * @return name of player
      */
     String getName() {
         return this.name;
+    }
+
+    /**
+     * Method setting the players name
+     *
+     * @param name name of player
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 //    public Color getColor() {

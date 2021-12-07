@@ -31,12 +31,12 @@ import lombok.Data;
 public class Chessboard {
     public int numberOfPlayers;
     public Square[][] squares;//squares of chessboard
-    private boolean breakCastling = false; //if last move break castling
     //    ----------------------------
     //    For En passant:
     //    |-> Pawn whose in last turn moved two square
     public Piece twoSquareMovedPawn = null;
     public Piece twoSquareMovedPawn2 = null;
+    private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
 
 //    public void move(Square begin, Square end) {

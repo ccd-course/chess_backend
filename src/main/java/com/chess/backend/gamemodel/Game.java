@@ -37,9 +37,9 @@ public class Game {
 
     public Settings settings;
     public Chessboard chessboard;
-    private Player activePlayer;
     public GameClock gameClock;
     public Moves moves;
+    private Player activePlayer;
     private int id;
     private Player[] players;
 
