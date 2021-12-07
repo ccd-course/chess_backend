@@ -15,7 +15,7 @@ on:
       - develop
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -31,17 +31,41 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: Docs
-        path: target/apidocs
+  Tests:
+    needs: [ Build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: maven
+      - name: Build with Maven
+        run: mvn test
 
+  JavaDoc:
+    needs: [ Build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: maven
+      - name: Build with Maven
+        run: mvn javadoc:javadoc
+      - uses: actions/upload-artifact@v1
+        with:
+          name: JavaDoc
+          path: target/site/apidocs
 
   publish-job:
     runs-on: ubuntu-latest
-    needs: [ build ]
-
+    needs: [ Tests ]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
