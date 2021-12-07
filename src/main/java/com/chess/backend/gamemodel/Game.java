@@ -111,7 +111,7 @@ public class Game
     {
         try 
         {
-            if (chessboard.squares[beginX][beginY].piece.getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
+            if (chessboard.squares[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
             {
                 ChessboardService.move(chessboard, beginX, beginY, endX, endY);
             }
