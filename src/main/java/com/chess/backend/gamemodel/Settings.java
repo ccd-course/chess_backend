@@ -38,21 +38,9 @@ public class Settings implements Serializable {
     public boolean runningGameClock;
     public boolean timeLimitSet;//tel us if player choose time 4 game or it's infinity
     public boolean upsideDown;
-
-    public enum gameModes {
-
-        newGame, loadGame
-    }
-
     public gameModes gameMode;
     public Player playerWhite;
     public Player playerBlack;
-
-    public enum gameTypes {
-
-        local, network
-    }
-
     public gameTypes gameType;
     public boolean renderLabels = true;
 
@@ -63,15 +51,6 @@ public class Settings implements Serializable {
         this.timeLimitSet = false;
 
         gameMode = gameModes.newGame;
-    }
-
-    /**
-     * Method to get game time set by player
-     *
-     * @return timeFofGame int with how long the game will leasts
-     */
-    public int getTimeForGame() {
-        return this.timeForGame;
     }
 
     public static String lang(String key) {
@@ -87,5 +66,24 @@ public class Settings implements Serializable {
         }
         System.out.println(Settings.loc.getLocale().toString());
         return result;
+    }
+
+    /**
+     * Method to get game time set by player
+     *
+     * @return timeFofGame int with how long the game will leasts
+     */
+    public int getTimeForGame() {
+        return this.timeForGame;
+    }
+
+    public enum gameModes {
+
+        newGame, loadGame
+    }
+
+    public enum gameTypes {
+
+        local, network
     }
 }
