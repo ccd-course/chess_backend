@@ -23,6 +23,8 @@ public class GetChessboardService {
         GameService gc = GameService.getInstance();
         Square[][] chessboard = gc.getChessboard(gameID);
 
+        //[4][24]
+        /*
         SquareObject[][] board = new SquareObject[chessboard.length][chessboard[0].length];
 
         for(int i = 0; i < chessboard.length; i++){
@@ -31,6 +33,20 @@ public class GetChessboardService {
                     board[i][j] = new SquareObject(chessboard[i][j].getPiece().getType().getLabel(), chessboard[i][j].getPiece().getPlayer().getName());
                 } else {
                     board[i][j] = null;
+                }
+            }
+        }
+         */
+
+        //[24][4]
+        SquareObject[][] board = new SquareObject[chessboard[0].length][chessboard.length];
+
+        for(int i = 0; i < chessboard.length; i++){
+            for(int j = 0; j < chessboard[i].length; j++){
+                if(chessboard[i][j].hasPiece()){
+                    board[j][i] = new SquareObject(chessboard[i][j].getPiece().getType().getLabel(), chessboard[i][j].getPiece().getPlayer().getName());
+                } else {
+                    board[j][i] = null;
                 }
             }
         }
