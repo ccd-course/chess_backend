@@ -27,9 +27,10 @@ import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 
 /**
- * Class to represent chessboard. Chessboard is made from squares.
- * It is setting the squares of chessboard and sets the pieces(pawns)
- * which the owner is current player on it.
+ * Class to represent chessboard.
+ * <p>
+ * Chessboard is made from squares. It also contains a move history as well as the number of players.
+ *
  */
 @Data
 public class Chessboard {

@@ -7,6 +7,11 @@ import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a piece.
+ * <p>
+ * The class holds related objects as the player it belongs to or whether it is moving clockwise.
+ */
 public class Piece {
     private PieceType type;
     Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
@@ -22,6 +27,11 @@ public class Piece {
         this.clockwise = clockwise;
     }
 
+    /**
+     * Returns a list of moves that are allowed in the given game context.
+     * @param game Game context
+     * @return ArrayList of all allowed moves
+     */
     public ArrayList<Move> getAllowedFullMoves(Game game){
         ArrayList<Move> allowedMoves = new ArrayList<>();
 

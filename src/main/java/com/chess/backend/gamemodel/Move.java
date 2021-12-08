@@ -2,6 +2,10 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.PieceType;
 
+/**
+ * Represents a concrete move of a piece with getters and setters for its fields.
+ *
+ */
 public class Move {
 
     protected Square from = null;
@@ -13,8 +17,7 @@ public class Move {
     protected Moves.castling castlingMove = Moves.castling.none;
     protected boolean wasPawnTwoFieldsMove = false;
 
-    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece)
-    {
+    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
         this.from = from;
         this.to = to;
 
@@ -24,8 +27,7 @@ public class Move {
         this.castlingMove = castlingMove;
         this.wasEnPassant = wasEnPassant;
 
-        if (movedPiece.getType().equals(PieceType.PAWN) && Math.abs(to.pozY - from.pozY) == 2)
-        {
+        if (movedPiece.getType().equals(PieceType.PAWN) && Math.abs(to.pozY - from.pozY) == 2) {
             this.wasPawnTwoFieldsMove = true;
         }
         // TODO: Implement promotion
@@ -35,43 +37,35 @@ public class Move {
 //        }
     }
 
-    public Square getFrom()
-    {
+    public Square getFrom() {
         return this.from;
     }
 
-    public Square getTo()
-    {
+    public Square getTo() {
         return this.to;
     }
 
-    public Piece getMovedPiece()
-    {
+    public Piece getMovedPiece() {
         return this.movedPiece;
     }
 
-    public Piece getTakenPiece()
-    {
+    public Piece getTakenPiece() {
         return this.takenPiece;
     }
 
-    public boolean wasEnPassant()
-    {
+    public boolean wasEnPassant() {
         return this.wasEnPassant;
     }
 
-    public boolean wasPawnTwoFieldsMove()
-    {
+    public boolean wasPawnTwoFieldsMove() {
         return this.wasPawnTwoFieldsMove;
     }
 
-    public Moves.castling getCastlingMove()
-    {
+    public Moves.castling getCastlingMove() {
         return this.castlingMove;
     }
 
-    public Piece getPromotedPiece()
-    {
+    public Piece getPromotedPiece() {
         return this.promotedTo;
     }
 }

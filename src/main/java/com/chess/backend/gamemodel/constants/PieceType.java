@@ -1,5 +1,9 @@
 package com.chess.backend.gamemodel.constants;
 
+/**
+ * Represents all possible piece types and their respective symbols.
+ *
+ */
 public enum PieceType {
     PAWN("Pawn", ""),
     ROOK("Rook", "R"),
