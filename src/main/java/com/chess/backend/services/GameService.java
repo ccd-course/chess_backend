@@ -6,6 +6,8 @@ import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.Square;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class GameService {
     private PlayerService playerService = new PlayerService();
@@ -53,7 +55,6 @@ public class GameService {
             //TODO: handle the getting of the chessboard with the gameID
             //TODO: implement this call: game.getChessboard(gameID)
 
-            //TODO: this is not nice, use delegation
             return game.getChessboard().getSquares();
         } else {
             return null;
@@ -64,29 +65,52 @@ public class GameService {
         return value looks like that
         [[x,y], [2,2], [2,3], [3,3]]
      */
-    public int[][] getPossibleMoves(int gameID, int[] piecePosition) {
-        if (verifyGameID(gameID)) {
-            //TODO: get the possible moves
-            return new int[][]{};
+    public int[][] getPossibleMoves(int gameID, int[] piecePosition){
+        if(verifyGameID(gameID)){
+            //TODO: resolve this, use delegation
+            //we need a method getPieceByPosition(int x, int y) in game or in the chessboardService
+            ArrayList<Square> moveList = game.getChessboard().getSquares()[piecePosition[0]][piecePosition[1]].getPiece().getAllowedMoves(game);
+            int[][] moves = new int[moveList.size()][2];
+
+            for(int i = 0; i < moveList.size(); i++){
+                moves[i][0] = moveList.get(i).getPosX();
+                moves[i][1] = moveList.get(i).getPosY();
+            }
+
+            return moves;
         } else {
             return new int[][]{};
         }
     }
 
-    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
-        if (verifyGameID(gameID)) {
-            //TODO: implement the checking of a move that was executed in the front end
-            return true;
+    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
+        if(verifyGameID(gameID)){
+            if(validateMove(gameID, previousPiecePosition, newPiecePosition)){
+                ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
     }
 
+    private boolean validateMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
+        int[][] possibleMoves = getPossibleMoves(gameID, previousPiecePosition);
+
+        for(int i = 0; i < possibleMoves.length; i++){
+            if((possibleMoves[i][0] == newPiecePosition[0]) && (possibleMoves[i][1] == newPiecePosition[1])){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
-            //TODO: get the player who has his turn right now
-
-            return "Hannes";
+            return game.getActivePlayer().getName();
         } else {
             return "";
         }

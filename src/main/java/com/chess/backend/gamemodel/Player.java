@@ -58,7 +58,12 @@ public class Player implements Serializable {
 //        this.goDown = false;
     }
 
-    String getName() {
+    /**
+     * Method getting the players name
+     *
+     * @return name of player
+     */
+    public String getName() {
         return this.name;
     }
 
