@@ -68,4 +68,12 @@ public class Square {
                 "position=" + position +
                 '}';
     }
+
+    public boolean hasPiece(){
+        if(getPiece() == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

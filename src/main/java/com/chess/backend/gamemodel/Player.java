@@ -63,7 +63,7 @@ public class Player implements Serializable {
      *
      * @return name of player
      */
-    String getName() {
+    public String getName() {
         return this.name;
     }
 

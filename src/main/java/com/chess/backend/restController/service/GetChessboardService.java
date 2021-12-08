@@ -1,5 +1,6 @@
 package com.chess.backend.restController.service;
 
+import com.chess.backend.gamemodel.Square;
 import com.chess.backend.restController.objects.SquareObject;
 import com.chess.backend.services.GameService;
 import com.chess.backend.restController.objects.ChessboardObject;
@@ -20,9 +21,20 @@ public class GetChessboardService {
      */
     public ChessboardObject getChessboard(int gameID){
         GameService gc = GameService.getInstance();
+        Square[][] chessboard = gc.getChessboard(gameID);
 
-        gc.getChessboard(gameID);
+        SquareObject[][] board = new SquareObject[chessboard.length][chessboard[0].length];
 
-        return new ChessboardObject(new SquareObject[][]{});
+        for(int i = 0; i < chessboard.length; i++){
+            for(int j = 0; j < chessboard[i].length; j++){
+                if(chessboard[i][j].hasPiece()){
+                    board[i][j] = new SquareObject(chessboard[i][j].getPiece().getType().getLabel(), chessboard[i][j].getPiece().getPlayer().getName());
+                } else {
+                    board[i][j] = null;
+                }
+            }
+        }
+
+        return new ChessboardObject(board);
     }
 }
