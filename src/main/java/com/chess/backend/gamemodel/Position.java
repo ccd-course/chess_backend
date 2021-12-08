@@ -4,6 +4,9 @@ import com.chess.backend.services.ChessboardService;
 
 import java.util.Objects;
 
+/**
+ * Represents a position (x and y coordinates).
+ */
 public class Position {
     private int x;
     private int y;
@@ -29,7 +32,13 @@ public class Position {
         this.y = y;
     }
 
-    // Left border can not be crossed
+    /**
+     * Returns the position left to the current position.
+     * <p>
+     * Left border can not be crossed.
+     * @param chessboard Chessboard context
+     * @return Position left to the current position
+     */
     public Position left(Chessboard chessboard) {
         if (this.getX() + 1 > ChessboardService.getMaxX(chessboard.getSquares())) {
             return null;
@@ -38,7 +47,13 @@ public class Position {
         }
     }
 
-    // Right border can not be crossed
+    /**
+     * Returns the position right to the current position.
+     * <p>
+     * Right border can not be crossed.
+     * @param chessboard Chessboard context
+     * @return Position right to the current position
+     */
     public Position right(Chessboard chessboard) {
         if (this.getX() - 1 < 0) {
             return null;
@@ -47,7 +62,14 @@ public class Position {
         }
     }
 
-    // In reality there is no top and bottom, because squares[][] represents a circle. Therefore these must be linked.
+    /**
+     * Returns the position at the top of the current position.
+     * <p>
+     * In reality there is no top and bottom, because squares[][] represents a circle.
+     * Therefore these must be linked.
+     * @param chessboard Chessboard context
+     * @return Position at the top of the current position
+     */
     public Position forward(Chessboard chessboard) {
         if (this.getY() - 1 < 0) {
             return new Position(this.getX(), ChessboardService.getMaxY(chessboard.getSquares()));
@@ -56,8 +78,14 @@ public class Position {
         }
     }
 
-    // In reality there is no top and bottom, because squares[][] represents a circle. Therefore these must be linked.
-    public Position backward(Chessboard chessboard) {
+    /**
+     * Returns the position at the bottom of the current position.
+     * <p>
+     * In reality there is no top and bottom, because squares[][] represents a circle.
+     * Therefore these must be linked.
+     * @param chessboard Chessboard context
+     * @return Position at the bottom of the current position
+     */    public Position backward(Chessboard chessboard) {
         if (this.getY() + 1 > ChessboardService.getMaxY(chessboard.getSquares())) {
             return new Position(this.getX(), 0);
         } else {
@@ -65,18 +93,46 @@ public class Position {
         }
     }
 
+    /**
+     * Returns the position diagonally at the bottom left of the current position.
+     * <p>
+     * Composition of backwards/bottom and left.
+     * @param chessboard Chessboard context
+     * @return Position diagonally at the bottom left of the current position
+     */
     public Position diagBL(Chessboard chessboard) {
         return this.backward(chessboard).left(chessboard);
     }
 
+    /**
+     * Returns the position diagonally at the bottom right of the current position.
+     * <p>
+     * Composition of backwards/bottom and right.
+     * @param chessboard Chessboard context
+     * @return Position diagonally at the bottom right of the current position
+     */
     public Position diagBR(Chessboard chessboard) {
         return this.backward(chessboard).right(chessboard);
     }
 
+    /**
+     * Returns the position diagonally at the front left of the current position.
+     * <p>
+     * Composition of forward/top and left.
+     * @param chessboard Chessboard context
+     * @return Position diagonally at the front left of the current position
+     */
     public Position diagFL(Chessboard chessboard) {
         return this.forward(chessboard).left(chessboard);
     }
 
+    /**
+     * Returns the position diagonally at the front right of the current position.
+     * <p>
+     * Composition of forward/top and right.
+     * @param chessboard Chessboard context
+     * @return Position diagonally at the front right of the current position
+     */
     public Position diagFR(Chessboard chessboard) {
         return this.forward(chessboard).right(chessboard);
     }
