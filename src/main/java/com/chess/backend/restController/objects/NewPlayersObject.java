@@ -1,6 +1,7 @@
 package com.chess.backend.restController.objects;
 
 import com.chess.backend.restController.controller.NewGameController;
+import io.swagger.v3.oas.annotations.Hidden;
 
 /**
  * This class is created via the API-Call of {@link NewGameController}.
@@ -15,6 +16,7 @@ public class NewPlayersObject {
 
     public NewPlayersObject(){}
 
+    @Hidden
     public NewPlayerObject[] getPlayers() {
         return players;
     }

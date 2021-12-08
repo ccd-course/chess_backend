@@ -2,6 +2,10 @@ package com.chess.backend.restController.controller;
 
 import com.chess.backend.restController.objects.NewPlayersObject;
 import com.chess.backend.restController.service.NewGameService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +31,10 @@ public class NewGameController {
      * @param players in the request body containing the playerNames.
      * @return the id of the new created game.
      */
+    @Operation(
+            summary = "Start a new game",
+            description = "Returns the Game ID of a newly created game."
+    )
     @PostMapping
     public int createNewGame(@RequestBody NewPlayersObject players){
 
