@@ -129,6 +129,7 @@ jobs:
       
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
+        id: docker_build
         if: ${{ github.ref_name != 'main' }}
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -139,8 +140,13 @@ jobs:
           # build on feature branches, push only on develop branch
           push: true
 
+      - name: Image digest
+        if: ${{ steps.docker_build.outcome == 'success' }}
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
+        id: docker_build_main
         if: ${{ github.ref_name == 'main' }}
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -152,7 +158,8 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        if: ${{ steps.docker_build_main.outcome == 'success' }}
+        run: echo ${{ steps.docker_build_main.outputs.digest }}
 
 
   build-and-push-docker-image-docs:
@@ -186,6 +193,7 @@ jobs:
       
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
+        id: docker_build
         if: ${{ github.ref_name != 'main' }}
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -196,8 +204,13 @@ jobs:
           # build on feature branches, push only on develop branch
           push: true
 
+      - name: Image digest
+        if: ${{ steps.docker_build.outcome == 'success' }}
+        run: echo ${{ steps.docker_build.outputs.digest }}
+
       - name: Build image and push to Docker Hub and GitHub Container Registry
         uses: docker/build-push-action@v2
+        id: docker_build_main
         if: ${{ github.ref_name == 'main' }}
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -209,7 +222,8 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        if: ${{ steps.docker_build_main.outcome == 'success' }}
+        run: echo ${{ steps.docker_build_main.outputs.digest }}
   
 
   deploy:
