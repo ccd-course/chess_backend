@@ -6,6 +6,10 @@ import com.chess.backend.services.ChessboardService;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * Represents the implementation of a diagonal move.
+ */
 public class MoveDiagonal {
 
     public MoveDiagonal() {
@@ -13,16 +17,29 @@ public class MoveDiagonal {
 
     /**
      * Generate concrete possible moves from a given piece and game context.
+     * Direction: Diagonal, no limit
      *
-     * @param game   Game context
-     * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
-     * @param jump   Allow moves that pass occupied fields (knight)
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         return diagonal(game, fromSquare, attack, jump, peaceful, -1);
     }
 
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Diagonal (every direction), limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         allowedMoves.addAll(diagonalBL(game, fromSquare, attack, jump, peaceful, limit));
@@ -32,7 +49,17 @@ public class MoveDiagonal {
         return allowedMoves;
     }
 
-    // Diagonal backward left
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Diagonal backward left, limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> diagonalBL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
@@ -72,7 +99,17 @@ public class MoveDiagonal {
         return allowedMoves;
     }
 
-    // Diagonal backward right
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Diagonal backward right, limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
@@ -112,7 +149,17 @@ public class MoveDiagonal {
         return allowedMoves;
     }
 
-    // Diagonal forward right
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Diagonal forward right, limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> diagonalFR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
@@ -152,7 +199,17 @@ public class MoveDiagonal {
         return allowedMoves;
     }
 
-    // Diagonal forward left
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Diagonal forward left, limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();

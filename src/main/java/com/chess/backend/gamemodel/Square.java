@@ -21,11 +21,14 @@
 package com.chess.backend.gamemodel;
 
 /**
- * Class to represent a chessboard square
+ * Represents a chessboard square.
  */
 public class Square {
     private final Position position;
-    private Piece piece = null;//object Piece on square (and extending Piecie)
+    /**
+     * Piece on a square
+     */
+    private Piece piece = null;
 
     public Square(int posX, int posY, Piece piece) {
         this.position = new Position(posX, posY);
@@ -46,6 +49,9 @@ public class Square {
         this.piece.square = this;
     }
 
+    /**
+     * Removes the piece from tha square.
+     */
     public void removePiece() {
         this.piece = null;
     }

@@ -6,6 +6,9 @@ import com.chess.backend.services.ChessboardService;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents the implementation of a move forward.
+ */
 public class MoveForward {
 
     public MoveForward() {
@@ -14,15 +17,31 @@ public class MoveForward {
     /**
      * Generate concrete possible moves from a given piece and game context.
      *
-     * @param game   Game context
-     * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
-     * @param jump   Allow moves that pass occupied fields (knight)
+     * @param game       Game context
+     * @param attack     Allow moves to occupied fields (pawn may not attack straight forward)
+     * @param jump       Allow moves that pass occupied fields (knight)
+     *                   Direction: Forward, no limit
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         return forward(game, fromSquare, attack, jump, peaceful, -1);
     }
 
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Forward, limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();

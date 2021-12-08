@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 /**
- * Class representing the players moves, it's also checking
- * that the moves taken by player are correct.
- * All moves which was taken by current player are saving as List of Strings
- * The history of moves is printing in a table
+ * Class representing the players moves history.
+ * <p>
+ * It also checks that the moves taken by the player are correct.
+ * All moves which were made by the current player saved as a list of strings.
  */
 public class Moves {
 

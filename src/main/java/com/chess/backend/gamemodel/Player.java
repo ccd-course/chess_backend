@@ -27,7 +27,7 @@ import java.io.Serializable;
 
 
 /**
- * Class representing the player in the game
+ * Class representing a player with name, color and id.
  */
 @Data
 public class Player implements Serializable {
@@ -58,20 +58,10 @@ public class Player implements Serializable {
 //        this.goDown = false;
     }
 
-    /**
-     * Method getting the players name
-     *
-     * @return name of player
-     */
     String getName() {
         return this.name;
     }
 
-    /**
-     * Method setting the players name
-     *
-     * @param name name of player
-     */
     public void setName(String name) {
         this.name = name;
     }
