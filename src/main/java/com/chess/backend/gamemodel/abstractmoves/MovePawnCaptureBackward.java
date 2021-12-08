@@ -9,7 +9,6 @@ import java.util.Set;
 
 /**
  * Represents the implementation of a pawn capture move backward. (→ anti-clockwise pawn attack)
- *
  */
 public class MovePawnCaptureBackward {
 

@@ -6,7 +6,6 @@ import java.util.Objects;
 
 /**
  * Represents a concrete move of a piece with getters and setters for its fields.
- *
  */
 public class Move {
 

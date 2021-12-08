@@ -32,7 +32,6 @@ import java.util.Stack;
  * <p>
  * It also checks that the moves taken by the player are correct.
  * All moves which were made by the current player saved as a list of strings.
- *
  */
 public class Moves {
 
@@ -41,7 +40,7 @@ public class Moves {
     private final ArrayList<String> move = new ArrayList<String>();
     private final int columnsNum = 3;
     private int rowsNum = 0;
-    private String[] names = new String[]
+    private final String[] names = new String[]
             {
                     Settings.lang("white"), Settings.lang("black")
             };

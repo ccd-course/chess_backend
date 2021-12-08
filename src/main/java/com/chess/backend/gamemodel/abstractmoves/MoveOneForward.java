@@ -10,7 +10,6 @@ public class MoveOneForward {
 
     /**
      * Represents the implementation of a one-step move forward.
-     *
      */
     public MoveOneForward() {
     }

@@ -8,7 +8,6 @@ import java.util.Set;
 
 /**
  * Represents the implementation of a move backward.
- *
  */
 public class MoveBackward {
 

@@ -8,7 +8,6 @@ import java.util.Set;
 
 /**
  * Represents the implementation of a one-step move to the left.
- *
  */
 public class MoveOneLeft {
 

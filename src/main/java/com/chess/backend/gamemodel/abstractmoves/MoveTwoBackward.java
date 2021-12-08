@@ -8,7 +8,6 @@ import java.util.Set;
 
 /**
  * Represents the implementation of a initial pawn two-step move backwards. (→ anti-clockwise pawn)
- *
  */
 public class MoveTwoBackward {
 

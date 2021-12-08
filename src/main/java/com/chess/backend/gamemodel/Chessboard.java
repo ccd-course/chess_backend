@@ -26,7 +26,6 @@ import lombok.Data;
  * Class to represent chessboard.
  * <p>
  * Chessboard is made from squares. It also contains a move history as well as the number of players.
- *
  */
 @Data
 public class Chessboard {

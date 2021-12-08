@@ -9,7 +9,6 @@ import java.util.Set;
 
 /**
  * Represents the implementation of a diagonal move.
- *
  */
 public class MoveDiagonal {
 
@@ -41,7 +40,8 @@ public class MoveDiagonal {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {        HashSet<Move> allowedMoves = new HashSet<Move>();
+    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+        HashSet<Move> allowedMoves = new HashSet<Move>();
         allowedMoves.addAll(diagonalBL(game, fromSquare, attack, jump, peaceful, limit));
         allowedMoves.addAll(diagonalBR(game, fromSquare, attack, jump, peaceful, limit));
         allowedMoves.addAll(diagonalFL(game, fromSquare, attack, jump, peaceful, limit));
@@ -110,7 +110,8 @@ public class MoveDiagonal {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {        HashSet<Move> allowedMoves = new HashSet<Move>();
+    public static Set<Move> diagonalBR(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+        HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
@@ -209,7 +210,8 @@ public class MoveDiagonal {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {        HashSet<Move> allowedMoves = new HashSet<Move>();
+    public static Set<Move> diagonalFL(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+        HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 

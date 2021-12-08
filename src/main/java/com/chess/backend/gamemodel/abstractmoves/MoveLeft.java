@@ -10,7 +10,6 @@ public class MoveLeft {
 
     /**
      * Represents the implementation of a move to the left.
-     *
      */
     public MoveLeft() {
     }
@@ -40,7 +39,8 @@ public class MoveLeft {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {        HashSet<Move> allowedMoves = new HashSet<Move>();
+    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+        HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
