@@ -26,10 +26,10 @@ public class MovePawnCaptureBackward {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean pieceful) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        allowedMoves.addAll(MoveDiagonal.diagonalBL(game, fromSquare, attack, jump, 1));
-        allowedMoves.addAll(MoveDiagonal.diagonalBR(game, fromSquare, attack, jump, 1));
+        allowedMoves.addAll(MoveDiagonal.diagonalBL(game, fromSquare, attack, jump, pieceful, 1));
+        allowedMoves.addAll(MoveDiagonal.diagonalBR(game, fromSquare, attack, jump, pieceful, 1));
         return allowedMoves;
     }
 

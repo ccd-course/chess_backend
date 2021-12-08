@@ -4,7 +4,6 @@ import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Move;
 import com.chess.backend.gamemodel.Square;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -26,8 +25,8 @@ public class MoveOneDiagonal {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return MoveDiagonal.diagonal(game, fromSquare, attack, jump, 1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean pieceful) {
+        return MoveDiagonal.diagonal(game, fromSquare, attack, jump, pieceful, 1);
     }
 
 }

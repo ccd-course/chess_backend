@@ -27,17 +27,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Dataclass that represents a game and contains objects related to a game like chessboard, players, etc.
- *
+ * Class responsible for the starts of new games, loading games,
+ * saving it, and for ending it.
+ * This class is also responsible for appoing player with have
+ * a move at the moment
  */
 @Data
 public class Game {
 
     public Settings settings;
     public Chessboard chessboard;
-    private Player activePlayer;
     public GameClock gameClock;
     public Moves moves;
+    private Player activePlayer;
     private int id;
     private Player[] players;
 
@@ -62,7 +64,7 @@ public class Game {
 //    }
 
     /**
-     * Method to switch active players after move
+     * Method to swich active players after move
      */
     public void switchActive() {
         if (activePlayer == settings.playerWhite) {
@@ -105,7 +107,7 @@ public class Game {
      */
     public boolean simulateMove(int beginX, int beginY, int endX, int endY) {
         try {
-            if (chessboard.squares[beginX][beginY].piece.getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
+            if (chessboard.squares[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
             {
                 ChessboardService.move(chessboard, beginX, beginY, endX, endY);
             } else {
@@ -130,4 +132,7 @@ public class Game {
     public Player[] getPlayers() {
         return players;
     }
+}
+
+class ReadGameError extends Exception {
 }

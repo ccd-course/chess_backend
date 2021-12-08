@@ -1,9 +1,6 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.gamemodel.Game;
-import com.chess.backend.gamemodel.Move;
-import com.chess.backend.gamemodel.Piece;
-import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.*;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
@@ -28,8 +25,8 @@ public class MoveBackward {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return backward(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return backward(game, fromSquare, attack, jump, peaceful, -1);
     }
 
     /**
@@ -43,34 +40,41 @@ public class MoveBackward {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> backward(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
+    public static Set<Move> backward(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        for (int y = fromSquare.getPozY(); y < ChessboardService.getMaxX(game.chessboard.getSquares()) && (limit > 0 || limit == -1); y++) {
-            if (limit != -1) limit--;
+        for (int steps = 0;
+             (limit == -1 && steps < ChessboardService.getMaxY(chessboard.getSquares()))
+                     || (steps < limit); steps++) {
 
-            Square toSquare = game.chessboard.squares[fromSquare.getPozX()][y];
+            toPosition = toPosition.backward(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
+
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }

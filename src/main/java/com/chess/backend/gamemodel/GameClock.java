@@ -33,12 +33,12 @@ public class GameClock implements Runnable {
     public Clock clock1;
     public Clock clock2;
     private Clock runningClock;
-    private Settings settings;
-    private Thread thread;
-    private Game game;
+    private final Settings settings;
+    private final Thread thread;
+    private final Game game;
     private Graphics g;
     private String white_clock, black_clock;
-    private BufferedImage background;
+    private final BufferedImage background;
     private Graphics bufferedGraphics;
 
     GameClock(Game game) {
@@ -137,7 +137,7 @@ public class GameClock implements Runnable {
             if (this.runningClock != null) {
                 if (this.runningClock.decrement()) {
                     try {
-                        thread.sleep(1000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         System.out.println("Some error in gameClock thread: " + e);
                     }
@@ -155,7 +155,7 @@ public class GameClock implements Runnable {
      * Method of checking is the time of the game is not over
      */
     private void timeOver() {
-        String color = new String();
+        String color = "";
         if (this.clock1.get_left_time() == 0) {//Check which player win
             color = this.clock2.getPlayer().getColor().label;
         } else if (this.clock2.get_left_time() == 0) {

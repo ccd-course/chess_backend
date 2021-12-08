@@ -25,8 +25,8 @@ public class MoveLeft {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump) {
-        return left(game, fromSquare, attack, jump, -1);
+    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return left(game, fromSquare, attack, jump, peaceful, -1);
     }
 
     /**
@@ -40,34 +40,40 @@ public class MoveLeft {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, int limit) {
-        HashSet<Move> allowedMoves = new HashSet<Move>();
+    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {        HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
-        for (int x = fromSquare.getPozX(); x < ChessboardService.getMaxY(game.chessboard.getSquares()) && (limit > 0 || limit == -1); x++) {
-            if (limit != -1) limit--;
+        for (int steps = 0;
+             toPosition.left(chessboard) != null
+                     && (limit == -1 || steps < limit); steps++) {
 
-            Square toSquare = game.chessboard.squares[x][fromSquare.getPozY()];
+            toPosition = toPosition.left(chessboard);
+            Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
+
             Piece takenPiece = null;
             // TODO: Implement castling, enPassant and piece promotion
-            if (toSquare.piece != null) {
-                if (attack) {
-                    takenPiece = toSquare.piece;
+            if (toSquare.getPiece() != null) {
+                if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
+                    takenPiece = toSquare.getPiece();
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
             }
-            allowedMoves.add(
-                    new Move(
-                            fromSquare,
-                            toSquare,
-                            fromSquare.piece,
-                            takenPiece,
-                            null,
-                            false,
-                            null
-                    ));
+            if (peaceful) {
+                allowedMoves.add(
+                        new Move(
+                                fromSquare,
+                                toSquare,
+                                fromSquare.getPiece(),
+                                takenPiece,
+                                null,
+                                false,
+                                null
+                        ));
+            }
         }
         return allowedMoves;
     }

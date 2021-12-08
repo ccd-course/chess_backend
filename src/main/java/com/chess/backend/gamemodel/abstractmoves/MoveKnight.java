@@ -13,10 +13,15 @@ import java.util.Set;
  */
 public class MoveKnight {
 
-    public MoveKnight() {}
+    public MoveKnight() {
+    }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
+     *
+     * @param game   Game context
+     * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
+     * @param jump   Allow moves that pass occupied fields (knight)
      * Direction: Knight-like, one step
      *
      * @param game       The game context.
