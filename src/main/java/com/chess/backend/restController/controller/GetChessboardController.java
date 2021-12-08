@@ -35,7 +35,7 @@ public class GetChessboardController {
             description = "Returns the current chessboard with all piece positions."
     )
     @GetMapping
-    public ChessboardObject getChessboard(@RequestParam(value = "gameID") int gameID){
+    public ChessboardObject getChessboard(@RequestParam(value = "gameID") int gameID) {
         return getChessboardService.getChessboard(gameID);
     }
 }

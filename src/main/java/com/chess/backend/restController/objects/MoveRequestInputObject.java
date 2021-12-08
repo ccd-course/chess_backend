@@ -19,13 +19,15 @@ public class MoveRequestInputObject {
      */
     private int[] piecePosition;
 
-    public MoveRequestInputObject(int gameID, int[] piecePosition){
+    public MoveRequestInputObject(int gameID, int[] piecePosition) {
         this.gameID = gameID;
         this.piecePosition = piecePosition;
     }
 
     @Schema(description = "Game ID", example = "2")
-    public int getGameID() { return gameID; }
+    public int getGameID() {
+        return gameID;
+    }
 
     public void setGameID(int gameID) {
         this.gameID = gameID;

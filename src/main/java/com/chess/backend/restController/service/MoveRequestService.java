@@ -19,7 +19,7 @@ public class MoveRequestService {
      * @param moveRequestInputObject the object that is generated via the API-Call of the {@link MoveRequestController}.
      * @return containing all possible moves.
      */
-    public MoveRequestOutputObject getPossibleMoves(MoveRequestInputObject moveRequestInputObject){
+    public MoveRequestOutputObject getPossibleMoves(MoveRequestInputObject moveRequestInputObject) {
 
         GameService gc = GameService.getInstance();
 

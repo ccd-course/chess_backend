@@ -4,7 +4,6 @@ import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.Square;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +22,7 @@ public class GameService {
     public GameService() {
     }
 
-    public boolean createNewGame(String[] playerNames){
+    public boolean createNewGame(String[] playerNames) {
         game = new Game();
 
         //getting and setting the gameID
@@ -65,8 +64,8 @@ public class GameService {
         return value looks like that
         [[x,y], [2,2], [2,3], [3,3]]
      */
-    public int[][] getPossibleMoves(int gameID, int[] piecePosition){
-        if(verifyGameID(gameID)){
+    public int[][] getPossibleMoves(int gameID, int[] piecePosition) {
+        if (verifyGameID(gameID)) {
             //TODO: get the possible moves
             return new int[][]{};
         } else {
@@ -74,8 +73,8 @@ public class GameService {
         }
     }
 
-    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
-        if(verifyGameID(gameID)){
+    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
+        if (verifyGameID(gameID)) {
             //TODO: implement the checking of a move that was executed in the front end
             return true;
         } else {

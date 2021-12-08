@@ -13,7 +13,7 @@ public class ChessboardObject {
      */
     private SquareObject[][] chessboard;
 
-    public ChessboardObject(SquareObject[][] chessboard){
+    public ChessboardObject(SquareObject[][] chessboard) {
         this.chessboard = chessboard;
     }
 

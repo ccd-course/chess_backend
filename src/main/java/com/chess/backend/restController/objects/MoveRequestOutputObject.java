@@ -15,7 +15,7 @@ public class MoveRequestOutputObject {
      */
     private int[][] possibleMoves;
 
-    public MoveRequestOutputObject(int[][] possibleMoves){
+    public MoveRequestOutputObject(int[][] possibleMoves) {
         this.possibleMoves = possibleMoves;
     }
 

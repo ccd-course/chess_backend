@@ -20,7 +20,7 @@ public class GetPlayerTurnController {
     private final GetPlayerTurnService playerTurnService;
 
     @Autowired
-    public GetPlayerTurnController(GetPlayerTurnService playerTurnService){
+    public GetPlayerTurnController(GetPlayerTurnService playerTurnService) {
         this.playerTurnService = playerTurnService;
     }
 
@@ -35,7 +35,7 @@ public class GetPlayerTurnController {
             description = "Returns the current player turn."
     )
     @GetMapping
-    public GetPlayerTurnObject getPlayerTurn(@RequestParam(value = "gameID") int gameID){
+    public GetPlayerTurnObject getPlayerTurn(@RequestParam(value = "gameID") int gameID) {
         return playerTurnService.getPlayerTurn(gameID);
     }
 }

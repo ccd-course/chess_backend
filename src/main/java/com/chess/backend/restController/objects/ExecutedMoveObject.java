@@ -23,7 +23,7 @@ public class ExecutedMoveObject {
      */
     private int[] newPiecePosition;
 
-    public ExecutedMoveObject(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
+    public ExecutedMoveObject(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
         this.gameID = gameID;
         this.previousPiecePosition = previousPiecePosition;
         this.newPiecePosition = newPiecePosition;

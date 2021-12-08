@@ -14,7 +14,8 @@ public class NewPlayersObject {
      */
     private NewPlayerObject[] players;
 
-    public NewPlayersObject(){}
+    public NewPlayersObject() {
+    }
 
     @Hidden
     public NewPlayerObject[] getPlayers() {
@@ -30,10 +31,10 @@ public class NewPlayersObject {
      *
      * @return an array of all the player names.
      */
-    public String[] getAllPlayerNames(){
+    public String[] getAllPlayerNames() {
         String[] allPlayerNames = new String[players.length];
 
-        for(int i = 0; i<players.length; i++){
+        for (int i = 0; i < players.length; i++) {
             allPlayerNames[i] = players[i].getPlayerName();
         }
 
