@@ -18,4 +18,8 @@ public enum PieceType {
         this.label = label;
         this.symbol = symbol;
     }
+
+    public String getLabel() {
+        return label;
+    }
 }
