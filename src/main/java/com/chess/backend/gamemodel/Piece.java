@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents a piece.
+ */
 public class Piece {
     public Square square;
     public Player player;
@@ -25,6 +28,11 @@ public class Piece {
         this.clockwise = clockwise;
     }
 
+    /**
+     * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
+     * @param game Game context
+     * @return A HashSet of all allowed moves of the piece in this individual game context.
+     */
     public HashSet<Move> getAllowedFullMoves(Game game) {
         HashSet<Move> allowedMoves = new HashSet<>();
 
@@ -79,9 +87,9 @@ public class Piece {
     }
 
     /**
-     * The old jchess components expect an ArrayList of Squares instead of Moves. Therefore we need to convert our
-     * AllowedFullMoves.
+     * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
      *
+     * @param game Game context
      * @return ArrayList of possible Squares to move to.
      */
     public ArrayList<Square> getAllowedMoves(Game game) {
@@ -101,7 +109,7 @@ public class Piece {
     }
 
     /**
-     * Method to check is the king is checked
+     * Method to check whether the king is checked
      *
      * @return bool true if king is not save, else returns false
      */

@@ -8,21 +8,37 @@ import java.util.Set;
 
 public class MoveLeft {
 
+    /**
+     * Represents the implementation of a move to the left.
+     */
     public MoveLeft() {
     }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
+     * Direction: Left, no limit
      *
-     * @param game   Game context
-     * @param attack Allow moves to occupied fields (pawn may not attack straight forward)
-     * @param jump   Allow moves that pass occupied fields (knight)
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         return left(game, fromSquare, attack, jump, peaceful, -1);
     }
 
+    /**
+     * Generate concrete possible moves from a given piece and game context.
+     * Direction: Left, limit can be set
+     *
+     * @param game       The game context.
+     * @param fromSquare The originating square.
+     * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
+     * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param limit      The maximum of steps.
+     * @return HashSet of concrete moves
+     */
     public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();

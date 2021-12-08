@@ -23,9 +23,9 @@ package com.chess.backend.gamemodel;
 import lombok.Data;
 
 /**
- * Class to represent chessboard. Chessboard is made from squares.
- * It is setting the squares of chessboard and sets the pieces(pawns)
- * which the owner is current player on it.
+ * Class to represent chessboard.
+ * <p>
+ * Chessboard is made from squares. It also contains a move history as well as the number of players.
  */
 @Data
 public class Chessboard {
