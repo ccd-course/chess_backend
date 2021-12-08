@@ -6,11 +6,11 @@ import com.chess.backend.gamemodel.Square;
 
 import java.util.Set;
 
+/**
+ * Represents the implementation of a one-step move forward.
+ */
 public class MoveOneForward {
 
-    /**
-     * Represents the implementation of a one-step move forward.
-     */
     public MoveOneForward() {
     }
 

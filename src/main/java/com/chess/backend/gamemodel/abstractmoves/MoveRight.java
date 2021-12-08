@@ -6,11 +6,11 @@ import com.chess.backend.services.ChessboardService;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Represents the implementation of a move to the right.
+ */
 public class MoveRight {
 
-    /**
-     * Represents the implementation of a move to the right.
-     */
     public MoveRight() {
     }
 
