@@ -36,6 +36,7 @@ public class Position {
      * Returns the position left to the current position.
      * <p>
      * Left border can not be crossed.
+     *
      * @param chessboard Chessboard context
      * @return Position left to the current position
      */
@@ -51,6 +52,7 @@ public class Position {
      * Returns the position right to the current position.
      * <p>
      * Right border can not be crossed.
+     *
      * @param chessboard Chessboard context
      * @return Position right to the current position
      */
@@ -67,6 +69,7 @@ public class Position {
      * <p>
      * In reality there is no top and bottom, because squares[][] represents a circle.
      * Therefore these must be linked.
+     *
      * @param chessboard Chessboard context
      * @return Position at the top of the current position
      */
@@ -83,9 +86,11 @@ public class Position {
      * <p>
      * In reality there is no top and bottom, because squares[][] represents a circle.
      * Therefore these must be linked.
+     *
      * @param chessboard Chessboard context
      * @return Position at the bottom of the current position
-     */    public Position backward(Chessboard chessboard) {
+     */
+    public Position backward(Chessboard chessboard) {
         if (this.getY() + 1 > ChessboardService.getMaxY(chessboard.getSquares())) {
             return new Position(this.getX(), 0);
         } else {
@@ -97,6 +102,7 @@ public class Position {
      * Returns the position diagonally at the bottom left of the current position.
      * <p>
      * Composition of backwards/bottom and left.
+     *
      * @param chessboard Chessboard context
      * @return Position diagonally at the bottom left of the current position
      */
@@ -108,6 +114,7 @@ public class Position {
      * Returns the position diagonally at the bottom right of the current position.
      * <p>
      * Composition of backwards/bottom and right.
+     *
      * @param chessboard Chessboard context
      * @return Position diagonally at the bottom right of the current position
      */
@@ -119,6 +126,7 @@ public class Position {
      * Returns the position diagonally at the front left of the current position.
      * <p>
      * Composition of forward/top and left.
+     *
      * @param chessboard Chessboard context
      * @return Position diagonally at the front left of the current position
      */
@@ -130,6 +138,7 @@ public class Position {
      * Returns the position diagonally at the front right of the current position.
      * <p>
      * Composition of forward/top and right.
+     *
      * @param chessboard Chessboard context
      * @return Position diagonally at the front right of the current position
      */

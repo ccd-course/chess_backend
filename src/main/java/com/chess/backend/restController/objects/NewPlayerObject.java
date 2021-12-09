@@ -11,7 +11,8 @@ public class NewPlayerObject {
      */
     private String playerName;
 
-    public NewPlayerObject(){}
+    public NewPlayerObject() {
+    }
 
     public String getPlayerName() {
         return playerName;

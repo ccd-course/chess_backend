@@ -4,7 +4,6 @@ import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.Square;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class GameService {
     public GameService() {
     }
 
-    public boolean createNewGame(String[] playerNames){
+    public boolean createNewGame(String[] playerNames) {
         game = new Game();
 
         //getting and setting the gameID

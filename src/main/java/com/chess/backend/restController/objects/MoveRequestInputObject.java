@@ -1,6 +1,8 @@
 package com.chess.backend.restController.objects;
 
 import com.chess.backend.restController.controller.MoveRequestController;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This class is created via API-Call of the {@link MoveRequestController}.
@@ -17,21 +19,21 @@ public class MoveRequestInputObject {
      */
     private int[] piecePosition;
 
-    public MoveRequestInputObject(int gameID, int[] piecePosition){
+    public MoveRequestInputObject(int gameID, int[] piecePosition) {
         this.gameID = gameID;
         this.piecePosition = piecePosition;
     }
 
-    public int getGameID() { return gameID; }
+    @Schema(description = "Game ID", example = "2")
+    public int getGameID() {
+        return gameID;
+    }
 
     public void setGameID(int gameID) {
         this.gameID = gameID;
     }
 
-    public int[] getInitialPlace() {
-        return piecePosition;
-    }
-
+    @ArraySchema(schema = @Schema(description = "Piece position [x, y]", example = "0"), minItems = 2, maxItems = 2)
     public int[] getPiecePosition() {
         return piecePosition;
     }

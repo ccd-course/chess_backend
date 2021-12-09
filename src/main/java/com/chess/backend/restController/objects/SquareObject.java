@@ -15,7 +15,7 @@ public class SquareObject {
      */
     private String playerName;
 
-    public SquareObject(String pieceID, String playerName){
+    public SquareObject(String pieceID, String playerName) {
         this.pieceID = pieceID;
         this.playerName = playerName;
     }

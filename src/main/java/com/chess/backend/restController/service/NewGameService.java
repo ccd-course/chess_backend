@@ -16,10 +16,10 @@ public class NewGameService {
      * @param players the object that is generated via the API-Call of the {@link NewGameController}.
      * @return the id of the new created game.
      */
-    public int getNewGameID(NewPlayersObject players){
+    public int getNewGameID(NewPlayersObject players) {
         GameService gc = GameService.getInstance();
 
-        if(gc.createNewGame(players.getAllPlayerNames())){
+        if (gc.createNewGame(players.getAllPlayerNames())) {
             return gc.getGameID();
         } else {
             return -1;

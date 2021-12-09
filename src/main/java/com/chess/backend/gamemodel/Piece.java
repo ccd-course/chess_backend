@@ -30,6 +30,7 @@ public class Piece {
 
     /**
      * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
+     *
      * @param game Game context
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */

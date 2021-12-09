@@ -1,9 +1,9 @@
 package com.chess.backend.restController.service;
 
 import com.chess.backend.gamemodel.Square;
+import com.chess.backend.restController.objects.ChessboardObject;
 import com.chess.backend.restController.objects.SquareObject;
 import com.chess.backend.services.GameService;
-import com.chess.backend.restController.objects.ChessboardObject;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,7 +19,7 @@ public class GetChessboardService {
      * @param gameID the id of the current game.
      * @return containing the chessboard.
      */
-    public ChessboardObject getChessboard(int gameID){
+    public ChessboardObject getChessboard(int gameID) {
         GameService gc = GameService.getInstance();
         Square[][] chessboard = gc.getChessboard(gameID);
 

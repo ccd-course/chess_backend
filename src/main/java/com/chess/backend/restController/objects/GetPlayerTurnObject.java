@@ -17,7 +17,7 @@ public class GetPlayerTurnObject {
      */
     private String player;
 
-    public GetPlayerTurnObject(int gameID, String player){
+    public GetPlayerTurnObject(int gameID, String player) {
         this.gameID = gameID;
         this.player = player;
     }
