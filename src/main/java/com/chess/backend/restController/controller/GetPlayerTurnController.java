@@ -4,10 +4,7 @@ import com.chess.backend.restController.objects.GetPlayerTurnObject;
 import com.chess.backend.restController.service.GetPlayerTurnService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call to get the player who is currently on the turn.
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hannes Stuetzer
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/getPlayerTurn")
 public class GetPlayerTurnController {
     private final GetPlayerTurnService playerTurnService;
