@@ -15,6 +15,8 @@ import java.util.Arrays;
 @Component
 public class ChessboardService {
 
+    public ChessboardService(){
+    }
     /**
      * create new Chessboard from Players object
      * @param players Array of Player object
