@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-this is the backend part of the Chess project consist mainly of:
+This is the backend part of the Chess project consist mainly of:
 - Controllers
 - Models
 - Services
@@ -15,11 +15,17 @@ For building and running the application you need:
 - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Maven 4](https://maven.apache.org)
 
-## run locally
+## Run locally
 
 ```
 mvn spring-boot:run
 ```
 
-## documentation
-- Generated JavaDocs html docs via [link](docs.backend.chess.valentinriess.com)
+## Auto deployment
+The develop branches of [frontend](https://github.com/ccd-course/frontend_app) and [backend](https://github.com/ccd-course/chess_backend) are auto deployed on every commit:
+- [chess.valentinriess.com](https://chess.valentinriess.com)
+- [backend.chess.valentinriess.com](https://backend.chess.valentinriess.com)
+
+## Documentation
+- [Generated JavaDocs](https://docs.backend.chess.valentinriess.com)
+- [API Documentation](https://backend.chess.valentinriess.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
