@@ -5,10 +5,7 @@ import com.chess.backend.restController.objects.MoveRequestOutputObject;
 import com.chess.backend.restController.service.MoveRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call to get all possible moves for a piece.
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hannes Stuetzer
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/moveRequest")
 public class MoveRequestController {
 

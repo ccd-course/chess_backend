@@ -4,10 +4,7 @@ import com.chess.backend.restController.objects.NewPlayersObject;
 import com.chess.backend.restController.service.NewGameService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call to create a new game.
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hannes Stuetzer
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/createNewGame")
 public class NewGameController {
 

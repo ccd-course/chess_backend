@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This class handles the API-call regarding the executed move for a piece.
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Hannes Stuetzer
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/executedMove")
 public class ExecutedMoveController {
     private final ExecutedMoveService executedMoveService;
