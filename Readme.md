@@ -21,6 +21,11 @@ For building and running the application you need:
 mvn spring-boot:run
 ```
 
+## Auto deployment
+The develop branches of [frontend](https://github.com/ccd-course/frontend_app) and [backend](https://github.com/ccd-course/chess_backend) are auto deployed on every commit:
+- [chess.valentinriess.com](https://chess.valentinriess.com)
+- [backend.chess.valentinriess.com](https://backend.chess.valentinriess.com)
+
 ## Documentation
 - [Generated JavaDocs](https://docs.backend.chess.valentinriess.com)
 - [API Documentation](https://backend.chess.valentinriess.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
