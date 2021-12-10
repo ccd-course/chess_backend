@@ -66,7 +66,7 @@ public class Piece {
                 allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false, true));
                 allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false, true));
                 allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false, true));
-                allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true));
+                allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true, true));
                 break;
             case ROOK:
                 allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false, true));
@@ -78,7 +78,7 @@ public class Piece {
                 allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false, true));
                 break;
             case KNIGHT:
-                allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true));
+                allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true, true));
                 break;
 
 

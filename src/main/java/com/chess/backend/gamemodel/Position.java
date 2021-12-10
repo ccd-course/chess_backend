@@ -11,6 +11,17 @@ public class Position {
     private int x;
     private int y;
 
+    public enum Direction {
+        LEFT,
+        RIGHT,
+        FORWARD,
+        BACKWARD,
+        DIAGONAL_FL,
+        DIAGONAL_FR,
+        DIAGONAL_BL,
+        DIAGONAL_BR
+    }
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
@@ -144,6 +155,19 @@ public class Position {
      */
     public Position diagFR(Chessboard chessboard) {
         return this.forward(chessboard).right(chessboard);
+    }
+
+    public Position getPosFromDir(Chessboard chessboard, Position.Direction direction){
+        return switch (direction) {
+            case LEFT -> this.left(chessboard);
+            case RIGHT -> this.right(chessboard);
+            case FORWARD -> this.forward(chessboard);
+            case BACKWARD -> this.backward(chessboard);
+            case DIAGONAL_BL -> this.diagBL(chessboard);
+            case DIAGONAL_BR -> this.diagBR(chessboard);
+            case DIAGONAL_FL -> this.diagFL(chessboard);
+            case DIAGONAL_FR -> this.diagFR(chessboard);
+        };
     }
 
     @Override

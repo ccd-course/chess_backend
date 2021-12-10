@@ -42,6 +42,7 @@ public class MoveForward {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
+    // TODO: Implement castling, enPassant and piece promotion
     public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
@@ -53,28 +54,26 @@ public class MoveForward {
 
             toPosition = toPosition.forward(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
-
             Piece takenPiece = null;
-            // TODO: Implement castling, enPassant and piece promotion
+
             if (toSquare.getPiece() != null) {
                 if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
                     takenPiece = toSquare.getPiece();
+                    allowedMoves.add(
+                            new Move(fromSquare, toSquare,
+                                    fromSquare.getPiece(), takenPiece,
+                                    null, false, null
+                            ));
                 } else if (jump) {
                     continue;
                 } else {
                     break;
                 }
-            }
-            if (peaceful) {
+            } else if (peaceful) {
                 allowedMoves.add(
-                        new Move(
-                                fromSquare,
-                                toSquare,
-                                fromSquare.getPiece(),
-                                takenPiece,
-                                null,
-                                false,
-                                null
+                        new Move(fromSquare, toSquare,
+                                fromSquare.getPiece(), takenPiece,
+                                null, false, null
                         ));
             }
         }
