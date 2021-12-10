@@ -36,11 +36,8 @@ public class ExecutedMoveController {
                     "The move consists of the previous position and a the new piece position."
     )
     @PostMapping
-    public ResponseEntity<Boolean> executedMove(@RequestBody ExecutedMoveObject executedMoveObject) {
-        if (executedMoveService.executedMove(executedMoveObject)) {
-            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
-        }
+    public String executedMove(@RequestBody ExecutedMoveObject executedMoveObject) {
+
+        return executedMoveService.executedMove(executedMoveObject);
     }
 }

@@ -83,16 +83,18 @@ public class GameService {
         }
     }
 
-    public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
+    public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
         if(verifyGameID(gameID)){
             if(validateMove(gameID, previousPiecePosition, newPiecePosition)){
                 ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
-                return true;
+                game.switchActive();
+
+                return game.getActivePlayerName();
             } else {
-                return false;
+                return "";
             }
         } else {
-            return false;
+            return "";
         }
     }
 
@@ -110,7 +112,7 @@ public class GameService {
 
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
-            return game.getActivePlayer().getName();
+            return game.getActivePlayerName();
         } else {
             return "";
         }

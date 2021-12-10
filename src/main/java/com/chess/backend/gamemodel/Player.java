@@ -32,7 +32,7 @@ import java.io.Serializable;
 @Data
 public class Player implements Serializable {
 
-    String name;
+    private String name;
     Color color;
     int id;
     boolean goDown;
