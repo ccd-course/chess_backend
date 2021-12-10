@@ -116,6 +116,16 @@ public class GameService {
         }
     }
 
+    public boolean endGame(int gameID){
+        if(verifyGameID(gameID)){
+            game = null;
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean verifyGameID(int gameID) {
         if (gameID == getGameID()) {
             return true;
