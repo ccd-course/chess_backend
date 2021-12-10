@@ -18,7 +18,7 @@ public class ExecutedMoveService {
      * @param executedMoveObject the object that is generated via the API-Call of the {@link ExecutedMoveController}.
      * @return containing value if the move is valid.
      */
-    public boolean executedMove(ExecutedMoveObject executedMoveObject) {
+    public String executedMove(ExecutedMoveObject executedMoveObject) {
         GameService gc = GameService.getInstance();
 
         return gc.executedMove(executedMoveObject.getGameID(), executedMoveObject.getPreviousPiecePosition(), executedMoveObject.getNewPiecePosition());

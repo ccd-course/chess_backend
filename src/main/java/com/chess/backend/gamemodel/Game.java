@@ -64,16 +64,20 @@ public class Game {
 //    }
 
     /**
-     * Method to swich active players after move
+     * Method to switch active players after move
      */
     public void switchActive() {
-        if (activePlayer == settings.playerWhite) {
-            activePlayer = settings.playerBlack;
-        } else {
-            activePlayer = settings.playerWhite;
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].equals(activePlayer)) {
+                if (i == (players.length - 1)) {
+                    activePlayer = players[0];
+                    break;
+                } else {
+                    activePlayer = players[i+1];
+                    break;
+                }
+            }
         }
-
-        this.gameClock.switch_clocks();
     }
 
     /**
@@ -85,6 +89,10 @@ public class Game {
         return this.activePlayer;
     }
 
+    public String getActivePlayerName(){
+        return this.activePlayer.getName();
+    }
+
     public int getId() {
         return this.id;
     }
@@ -94,7 +102,7 @@ public class Game {
      */
     public void nextMove() {
         switchActive();
-        System.out.println("next move, active player: " + activePlayer.name + ", color: " + activePlayer.color.name());
+        System.out.println("next move, active player: " + activePlayer.getName() + ", color: " + activePlayer.color.name());
     }
 
     /**
