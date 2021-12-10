@@ -27,14 +27,14 @@ public class MoveKnight {
      */
     public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.FORWARD, Position.Direction.LEFT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.FORWARD, Position.Direction.RIGHT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.BACKWARD, Position.Direction.LEFT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.BACKWARD, Position.Direction.RIGHT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.LEFT, Position.Direction.FORWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.LEFT, Position.Direction.BACKWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.RIGHT, Position.Direction.FORWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 4, Position.Direction.RIGHT, Position.Direction.BACKWARD));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.LEFT));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.RIGHT));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.FORWARD));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.BACKWARD));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.FORWARD));
+        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.BACKWARD));
 
         return allowedMoves;
     }
@@ -77,6 +77,7 @@ public class MoveKnight {
                                     fromSquare.getPiece(), takenPiece,
                                     null, false, null
                             ));
+                    break;
                 } else if (jump) {
                     continue;
                 } else {
