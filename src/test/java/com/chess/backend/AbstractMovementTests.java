@@ -179,6 +179,14 @@ public class AbstractMovementTests {
         assertTrue(possibleMovePositions.contains(new Position(0, 22)));
         // Multiple diagonal backward right
         assertTrue(possibleMovePositions.contains(new Position(0, 2)));
+        // Knight move FL
+        assertTrue(possibleMovePositions.contains(new Position(3, 22)));
+        // Knight move FR
+        assertTrue(possibleMovePositions.contains(new Position(1, 22)));
+        // Knight move BL
+        assertTrue(possibleMovePositions.contains(new Position(3, 2)));
+        // Knight move BR
+        assertTrue(possibleMovePositions.contains(new Position(1, 2)));
 
     }
 
@@ -306,13 +314,13 @@ public class AbstractMovementTests {
         // Multiple diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(0, 2)));
         // Knight move FL
-        assertTrue(possibleMovePositions.contains(new Position(3, 21)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 22)));
         // Knight move FR
-        assertTrue(possibleMovePositions.contains(new Position(1, 21)));
+        assertTrue(possibleMovePositions.contains(new Position(1, 22)));
         // Knight move BL
-        assertTrue(possibleMovePositions.contains(new Position(3, 3)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 2)));
         // Knight move BR
-        assertTrue(possibleMovePositions.contains(new Position(1, 3)));
+        assertTrue(possibleMovePositions.contains(new Position(1, 2)));
 
     }
 
