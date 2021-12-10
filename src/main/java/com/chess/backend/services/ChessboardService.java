@@ -15,23 +15,20 @@ import java.util.Arrays;
 @Component
 public class ChessboardService {
 
-    public ChessboardService(){
+    public ChessboardService() {
     }
+
     /**
      * create new Chessboard from Players object
+     *
      * @param players Array of Player object
      * @return Chessboard object
      */
     public static Chessboard initNewGameBoard(Player[] players) {
         Chessboard chessboard = new Chessboard();
         chessboard.setNumberOfPlayers(players.length);
-        Square[][] squares = new Square[4][players.length * 8];
-
-        for (int y = 0; y < squares[0].length; y++) {
-            for (int x = 0; x < squares.length; x++) {
-                squares[x][y] = new Square(x, y, null);
-            }
-        }
+        Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
+        initClean(squares);
 
         for (Player player :
                 players) {
@@ -44,8 +41,9 @@ public class ChessboardService {
 
     /**
      * private function to set pieces for one player
+     *
      * @param squares 2D Array  of Square object
-     * @param player Player object
+     * @param player  Player object
      */
     private static void initPlayerPieces(Square[][] squares, Player player) {
         initPlayerPawns(squares, player);
@@ -54,8 +52,9 @@ public class ChessboardService {
 
     /**
      * init Pawns pieces for one player
+     *
      * @param squares 2D Array  of Square object
-     * @param player Player object
+     * @param player  Player object
      */
     private static void initPlayerPawns(Square[][] squares, Player player) {
         int figuresFirstColumn = PlayerService.getBaseY(player);
@@ -67,8 +66,9 @@ public class ChessboardService {
 
     /**
      * init figures pieces for one player
+     *
      * @param squares 2D Array  of Square object
-     * @param player Player object
+     * @param player  Player object
      */
     private static void initPlayerFigures(Square[][] squares, Player player) {
         int figuresFirstColumn = PlayerService.getBaseY(player);
@@ -88,12 +88,13 @@ public class ChessboardService {
 
     /**
      * private function that takes two positions, ie x,y and set piexe in Square[x][y]
-     * @param posX position x
-     * @param posY position y
+     *
+     * @param posX    position x
+     * @param posY    position y
      * @param squares 2D array of Square object
-     * @param piece Piece object
+     * @param piece   Piece object
      */
-    private static void setPiece(int posX, int posY, Square[][] squares, Piece piece) {
+    public static void setPiece(int posX, int posY, Square[][] squares, Piece piece) {
         Square square = squares[posX][posY];
         square.setPiece(piece);
         squares[posX][posY] = square;
@@ -101,10 +102,11 @@ public class ChessboardService {
 
     /**
      * filter squares according to piece type, color or player
-     * @param squares 2D Square Array
+     *
+     * @param squares   2D Square Array
      * @param pieceType PieceType object
-     * @param color Color object
-     * @param player Player object
+     * @param color     Color object
+     * @param player    Player object
      * @return ArrayList of Square object
      */
     public static ArrayList<Square> searchSquaresByPiece(Square[][] squares, PieceType pieceType, Color color, Player player) {
@@ -131,6 +133,7 @@ public class ChessboardService {
 
     /**
      * return list of Squares with pieces on it
+     *
      * @param squares 2D Array of Square object
      * @return ArrayList of Square object
      */
@@ -155,6 +158,7 @@ public class ChessboardService {
 
     /**
      * Replaces Chessboard.top field
+     *
      * @param squares
      * @return get
      */
@@ -164,8 +168,9 @@ public class ChessboardService {
 
     /**
      * Apply move to chessboard
+     *
      * @param chessboard Chessboard object
-     * @param move Move object
+     * @param move       Move object
      */
     public static void move(Chessboard chessboard, Move move) {
         chessboard.getSquares()
@@ -188,12 +193,37 @@ public class ChessboardService {
     /**
      * gets Position object and Chessboard and returns the matched Square object
      * to this position.
+     *
      * @param chessboard Chessboard object
-     * @param position Position object
+     * @param position   Position object
      * @return matched Square object
      */
     public static Square getSquare(Chessboard chessboard, Position position) {
         return chessboard.getSquares()[position.getX()][position.getY()];
+    }
+
+    public static void initClean(Chessboard chessboard) {
+        Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
+        initClean(squares);
+        chessboard.setSquares(squares);
+    }
+
+    public static void initClean(Square[][] squares){
+        for (int y = 0; y < squares[0].length; y++) {
+            for (int x = 0; x < squares.length; x++) {
+                squares[x][y] = new Square(x, y, null);
+            }
+        }
+    }
+
+    public static void removeOtherPieceTypes(Chessboard chessboard, PieceType pieceType) {
+        ArrayList<Square> squares = ChessboardService.getOccupiedSquares(chessboard.getSquares());
+        for (Square square :
+                squares) {
+            if (square.getPiece().getType() != pieceType) {
+                square.removePiece();
+            }
+        }
     }
 
 }
