@@ -119,6 +119,7 @@ public class GameService {
     public boolean endGame(int gameID){
         if(verifyGameID(gameID)){
             game = null;
+            System.gc();
 
             return true;
         } else {
