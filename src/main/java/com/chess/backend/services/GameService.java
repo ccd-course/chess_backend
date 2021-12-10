@@ -69,12 +69,12 @@ public class GameService {
         if(verifyGameID(gameID)){
             //TODO: resolve this, use delegation
             //we need a method getPieceByPosition(int x, int y) in game or in the chessboardService
-            ArrayList<Square> moveList = game.getChessboard().getSquares()[piecePosition[0]][piecePosition[1]].getPiece().getAllowedMoves(game);
+            ArrayList<Square> moveList = game.getChessboard().getSquares()[piecePosition[1]][piecePosition[0]].getPiece().getAllowedMoves(game);
             int[][] moves = new int[moveList.size()][2];
 
             for(int i = 0; i < moveList.size(); i++){
-                moves[i][0] = moveList.get(i).getPosX();
-                moves[i][1] = moveList.get(i).getPosY();
+                moves[i][1] = moveList.get(i).getPosX();
+                moves[i][0] = moveList.get(i).getPosY();
             }
 
             return moves;
@@ -86,7 +86,7 @@ public class GameService {
     public boolean executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
         if(verifyGameID(gameID)){
             if(validateMove(gameID, previousPiecePosition, newPiecePosition)){
-                ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
+                ChessboardService.move(game.getChessboard(), previousPiecePosition[1], previousPiecePosition[0], newPiecePosition[1], newPiecePosition[0]);
                 return true;
             } else {
                 return false;
