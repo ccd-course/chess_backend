@@ -77,6 +77,7 @@ public class MoveKnight {
                                     fromSquare.getPiece(), takenPiece,
                                     null, false, null
                             ));
+                    break;
                 } else if (jump) {
                     continue;
                 } else {

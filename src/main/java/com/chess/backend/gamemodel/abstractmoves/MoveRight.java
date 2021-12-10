@@ -61,6 +61,7 @@ public class MoveRight {
                                     fromSquare.getPiece(), takenPiece,
                                     null, false, null
                             ));
+                    break;
                 } else if (jump) {
                     continue;
                 } else {
