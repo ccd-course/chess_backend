@@ -1,10 +1,11 @@
 package com.chess.backend.domain.models;
 
+import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Moves;
 import com.chess.backend.gamemodel.Player;
 
 public interface IGame {
-    IBoard getChessboard();
+    Chessboard getChessboard();
 
     Moves getMoves();
 
@@ -14,7 +15,7 @@ public interface IGame {
 
     Player[] getPlayers();
 
-    void setChessboard(com.chess.backend.domain.models.IBoard chessboard);
+    void setChessboard(Chessboard chessboard);
 
     void setMoves(Moves moves);
 
@@ -23,10 +24,4 @@ public interface IGame {
     void setId(int id);
 
     void setPlayers(Player[] players);
-
-    boolean equals(Object o);
-
-    int hashCode();
-
-    String toString();
 }

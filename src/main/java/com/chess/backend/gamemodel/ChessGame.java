@@ -11,16 +11,12 @@ import lombok.Data;
  */
 @Data
 public class ChessGame implements IGame {
-    public Chessboard chessboard;
-    public Moves moves;
+    private Chessboard chessboard;
+    private Moves moves;
     private Player activePlayer;
     private int id;
     private Player[] players;
 
-    @Override
-    public void setChessboard(IBoard chessboard) {
-
-    }
 
 
 //    /**
