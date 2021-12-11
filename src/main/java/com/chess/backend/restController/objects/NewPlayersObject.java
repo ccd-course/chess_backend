@@ -16,7 +16,7 @@ public class NewPlayersObject implements INewPlayersObject {
     /**
      * holds some simple player objects only containing the name of the players.
      */
-    private INewPlayerObject[] players;
+    private NewPlayerObject[] players;
 
     public NewPlayersObject() {
     }
