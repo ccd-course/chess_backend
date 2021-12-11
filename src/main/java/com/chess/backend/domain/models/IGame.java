@@ -26,8 +26,6 @@ public interface IGame {
 
     boolean equals(Object o);
 
-    boolean canEqual(Object other);
-
     int hashCode();
 
     String toString();
