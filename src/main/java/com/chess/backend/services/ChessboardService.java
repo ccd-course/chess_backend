@@ -220,10 +220,13 @@ public class ChessboardService {
         ArrayList<Square> squares = ChessboardService.getOccupiedSquares(chessboard.getSquares());
         for (Square square :
                 squares) {
-            if (square.getPiece().getType() != pieceType) {
+            if (square.getPieceTypeOfPiece() != pieceType) {
                 square.removePiece();
             }
         }
     }
 
+    public static Piece getPieceByPosition(Chessboard chessboard, int x, int y){
+        return chessboard.getSquares()[x][y].getPiece();
+    }
 }
