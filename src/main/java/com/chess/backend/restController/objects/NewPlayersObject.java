@@ -17,7 +17,6 @@ public class NewPlayersObject {
     public NewPlayersObject() {
     }
 
-    @Hidden
     public NewPlayerObject[] getPlayers() {
         return players;
     }
@@ -31,6 +30,7 @@ public class NewPlayersObject {
      *
      * @return an array of all the player names.
      */
+    @Hidden
     public String[] getAllPlayerNames() {
         String[] allPlayerNames = new String[players.length];
 
