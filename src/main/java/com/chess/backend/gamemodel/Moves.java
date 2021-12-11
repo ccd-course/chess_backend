@@ -20,6 +20,7 @@
  */
 package com.chess.backend.gamemodel;
 
+import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.services.ChessboardService;
@@ -42,15 +43,10 @@ public class Moves {
     private final ArrayList<String> move = new ArrayList<String>();
     private final int columnsNum = 3;
     private int rowsNum = 0;
-    private final String[] names = new String[]
-            {
-                    Settings.lang("white"), Settings.lang("black")
-            };
     private boolean enterBlack = false;
     private final Game game;
 
     Moves(Game game) {
-        super();
         this.game = game;
     }
 
@@ -113,80 +109,7 @@ public class Moves {
         return true;
     }
 
-    protected void addCastling(String move) {
-        this.move.remove(this.move.size() - 1);//remove last element (move of Rook)
-        this.move.add(move);//add new move (O-O or O-O-O)
-    }
 
-    /**
-     * Method of adding new move
-     *
-     * @param move String which in is capt player move
-     */
-    public void addMove(String move) {
-        if (isMoveCorrect(move)) {
-            this.move.add(move);
-            this.moveForwardStack.clear();
-        }
-
-    }
-
-    public void addMove(Square begin, Square end, boolean registerInHistory, castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
-        boolean wasCastling = castlingMove != castling.none;
-        String locMove = begin.getPiece().getType().getSymbol();
-
-        if (game.getSettings().upsideDown) {
-            locMove += Character.toString((char) ((ChessboardService.getBottom(game.getChessboard().getSquares()) - begin.getPosX()) + 97));//add letter of Square from which move was made
-            locMove += Integer.toString(begin.getPosY() + 1);//add number of Square from which move was made
-        } else {
-            locMove += Character.toString((char) (begin.getPosX() + 97));//add letter of Square from which move was made
-            locMove += Integer.toString(8 - begin.getPosY());//add number of Square from which move was made
-        }
-
-        if (end.getPiece() != null) {
-            locMove += "x";//take down opponent piece
-        } else {
-            locMove += "-";//normal move
-        }
-
-        if (game.getSettings().upsideDown) {
-            locMove += Character.toString((char) ((ChessboardService.getBottom(game.getChessboard().getSquares()) - end.getPosX()) + 97));//add letter of Square to which move was made
-            locMove += Integer.toString(end.getPosY() + 1);//add number of Square to which move was made
-        } else {
-            locMove += Character.toString((char) (end.getPosX() + 97));//add letter of Square to which move was made
-            locMove += Integer.toString(8 - end.getPosY());//add number of Square to which move was made
-        }
-
-        if (begin.getPiece().getType().getSymbol().equals("") && begin.getPosX() - end.getPosX() != 0 && end.getPiece() == null) {
-            locMove += "(e.p)";//pawn take down opponent en passant
-            wasEnPassant = true;
-        }
-        if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.BLACK, null).get(0).getPiece().isChecked())
-                || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.WHITE, null).get(0).getPiece().isChecked())) {//if checked
-
-            if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.BLACK, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)
-                    || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.WHITE, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)) {//check if checkmated
-                locMove += "#";//check mate
-            } else {
-                locMove += "+";//check
-            }
-        }
-        if (castlingMove == castling.shortCastling) {
-            this.addCastling("0-0");
-        } else if (castlingMove == castling.longCastling) {
-            this.addCastling("0-0-0");
-        } else {
-            this.move.add(locMove);
-        }
-
-        if (registerInHistory) {
-            this.moveBackStack.add(new Move(new Square(begin), new Square(end), begin.getPiece(), end.getPiece(), castlingMove, wasEnPassant, promotedPiece));
-        }
-    }
-
-    public void clearMoveForwardStack() {
-        this.moveForwardStack.clear();
-    }
 
     public ArrayList<String> getMoves() {
         return this.move;
@@ -322,96 +245,5 @@ public class Moves {
                 return;//finish reading game and show message
             }
         }
-    }
-
-    public synchronized Move getLastMoveFromHistory() {
-        try {
-            Move last = this.moveBackStack.get(this.moveBackStack.size() - 1);
-            return last;
-        } catch (ArrayIndexOutOfBoundsException exc) {
-            return null;
-        }
-    }
-
-    public synchronized Move getNextMoveFromHistory() {
-        try {
-            Move next = this.moveForwardStack.get(this.moveForwardStack.size() - 1);
-            return next;
-        } catch (ArrayIndexOutOfBoundsException exc) {
-            return null;
-        }
-
-    }
-
-    public synchronized Move undo() {
-        try {
-            Move last = this.moveBackStack.pop();
-            if (last != null) {
-                if (this.game.getSettings().gameType == Settings.gameTypes.local) //moveForward / redo available only for local game
-                {
-                    this.moveForwardStack.push(last);
-                }
-                if (this.enterBlack) {
-                    if (this.rowsNum > 0) {
-                        this.rowsNum--;
-                    }
-                }
-                this.move.remove(this.move.size() - 1);
-                this.enterBlack = !this.enterBlack;
-            }
-            return last;
-        } catch (java.util.EmptyStackException exc) {
-            this.enterBlack = false;
-            return null;
-        } catch (ArrayIndexOutOfBoundsException exc) {
-            return null;
-        }
-    }
-
-    public synchronized Move redo() {
-        try {
-            if (this.game.getSettings().gameType == Settings.gameTypes.local) {
-                Move first = this.moveForwardStack.pop();
-                this.moveBackStack.push(first);
-
-                return first;
-            }
-            return null;
-        } catch (java.util.EmptyStackException exc) {
-            return null;
-        }
-
-    }
-
-    public void addMoves(ArrayList<String> list) {
-        for (String singleMove : list) {
-            if (isMoveCorrect(singleMove)) {
-                this.addMove(singleMove);
-            }
-        }
-    }
-
-    /**
-     * Method of getting the moves in string
-     *
-     * @return str String which in is capt player move
-     */
-    public String getMovesInString() {
-        int n = 1;
-        int i = 0;
-        String str = "";
-        for (String locMove : this.getMoves()) {
-            if (i % 2 == 0) {
-                str += n + ". ";
-                n += 1;
-            }
-            str += locMove + " ";
-            i += 1;
-        }
-        return str;
-    }
-
-    enum castling {
-        none, shortCastling, longCastling
     }
 }

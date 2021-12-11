@@ -1,5 +1,6 @@
 package com.chess.backend.gamemodel;
 
+import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
 import lombok.Data;
 
@@ -10,17 +11,16 @@ import java.util.Objects;
  */
 @Data
 public class Move {
-
     private Square from = null;
     private Square to = null;
     private Piece movedPiece = null;
     private Piece takenPiece = null;
     private Piece promotedTo = null;
     private boolean wasEnPassant = false;
-    private Moves.castling castlingMove = Moves.castling.none;
+    private Castling castlingMove = Castling.NONE;
     private boolean wasPawnTwoFieldsMove = false;
 
-    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
+    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
         this.from = from;
         this.to = to;
 
@@ -48,7 +48,7 @@ public class Move {
         return this.wasPawnTwoFieldsMove;
     }
 
-    public Moves.castling getCastlingMove() {
+    public Castling getCastlingMove() {
         return this.castlingMove;
     }
 

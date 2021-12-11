@@ -70,20 +70,4 @@ public class Player implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public Color getColor() {
-//        return color;
-//    }
-
-//    public void setColor(Color color) {
-//        this.color = color;
-//    }
-
-    public boolean isGoDown() {
-        return goDown;
-    }
-//
-//    public void setGoDown(boolean goDown) {
-//        this.goDown = goDown;
-//    }
 }

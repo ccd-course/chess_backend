@@ -15,7 +15,7 @@ on:
       - develop
 
 jobs:
-  Build:
+  Compile:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -28,11 +28,11 @@ jobs:
         distribution: 'adopt'
         cache: maven
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Compile with Maven
+      run: mvn compile
 
   Tests:
-    needs: [ Build ]
+    needs: [ Compile ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: maven
-      - name: Build with Maven
+      - name: Test with Maven
         run: mvn test
       - name: Generate Test Reports
         uses: dorny/test-reporter@v1
@@ -53,7 +53,7 @@ jobs:
           reporter: java-junit
 
   JavaDoc:
-    needs: [ Build ]
+    needs: [ Compile ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
