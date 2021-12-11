@@ -42,6 +42,10 @@ public class Game {
         return this.activePlayer.getName();
     }
 
+    public Square[][] getAllSquaresFromChessboard(){
+        return this.chessboard.getSquares();
+    }
+
     /**
      * Method to go to next move (checks if game is local/network etc.)
      */

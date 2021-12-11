@@ -21,6 +21,8 @@
 package com.chess.backend.gamemodel;
 
 
+import com.chess.backend.gamemodel.constants.PieceType;
+
 /**
  * Represents a chessboard square.
  */
@@ -43,6 +45,10 @@ public class Square {
 
     public Piece getPiece() {
         return piece;
+    }
+
+    public PieceType getPieceTypeOfPiece(){
+        return piece.getType();
     }
 
     public void setPiece(Piece piece) {

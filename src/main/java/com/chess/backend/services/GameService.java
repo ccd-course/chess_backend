@@ -1,9 +1,6 @@
 package com.chess.backend.services;
 
-import com.chess.backend.gamemodel.Chessboard;
-import com.chess.backend.gamemodel.Game;
-import com.chess.backend.gamemodel.Player;
-import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -72,15 +69,11 @@ public class GameService {
 
     public Square[][] getChessboard(int gameID) {
         if (verifyGameID(gameID)) {
-            //TODO: handle the getting of the chessboard with the gameID
-            //TODO: implement this call: game.getChessboard(gameID)
-
-            return game.getChessboard().getSquares();
+            return this.game.getAllSquaresFromChessboard();
         } else {
             return null;
         }
     }
-
 
     /**
      * returns possible moves for a piece position
@@ -92,9 +85,9 @@ public class GameService {
      */
     public int[][] getPossibleMoves(int gameID, int[] piecePosition){
         if(verifyGameID(gameID)){
-            //TODO: resolve this, use delegation
-            //we need a method getPieceByPosition(int x, int y) in game or in the chessboardService
-            ArrayList<Square> moveList = game.getChessboard().getSquares()[piecePosition[0]][piecePosition[1]].getPiece().getAllowedMoves(game);
+            Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
+            ArrayList<Square> moveList = piece.getAllowedMoves(game);
+
             int[][] moves = new int[moveList.size()][2];
 
             for(int i = 0; i < moveList.size(); i++){

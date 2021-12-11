@@ -233,9 +233,9 @@ public class Moves {
                 }
             } else {
                 xFrom = locMove.charAt(from) - 97;//from ASCII
-                yFrom = ChessboardService.getBottom(game.getChessboard().getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
+                yFrom = ChessboardService.getBottom(game.getAllSquaresFromChessboard()) - (locMove.charAt(from + 1) - 49);//from ASCII
                 xTo = locMove.charAt(from + 3) - 97;//from ASCII
-                yTo = ChessboardService.getBottom(game.getChessboard().getSquares()) - (locMove.charAt(from + 4) - 49);//from ASCII
+                yTo = ChessboardService.getBottom(game.getAllSquaresFromChessboard()) - (locMove.charAt(from + 4) - 49);//from ASCII
             }
             canMove = this.game.simulateMove(xFrom, yFrom, xTo, yTo);
             if (!canMove) //if move is illegal
