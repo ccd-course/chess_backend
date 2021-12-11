@@ -27,7 +27,7 @@ public class MoveForward {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         return forward(game, fromSquare, attack, jump, peaceful, -1);
     }
 
@@ -43,7 +43,7 @@ public class MoveForward {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> forward(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> forward(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());

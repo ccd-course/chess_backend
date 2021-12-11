@@ -36,7 +36,7 @@ public class Piece {
      * @param game Game context
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */
-    public HashSet<Move> getAllowedFullMoves(Game game) {
+    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
 
         switch (this.type) {
@@ -94,7 +94,7 @@ public class Piece {
      * @param game Game context
      * @return ArrayList of possible Squares to move to.
      */
-    public ArrayList<Square> getAllowedMoves(Game game) {
+    public ArrayList<Square> getAllowedMoves(ChessGame game) {
         Set<Move> allowedFullMoves = getAllowedFullMoves(game);
         ArrayList<Square> allowedMoves = new ArrayList<>();
 
@@ -124,7 +124,7 @@ public class Piece {
      *
      * @return int 0 if nothing, 1 if checkmate, else returns 2
      */
-    public int isCheckmatedOrStalemated(Game game) {
+    public int isCheckmatedOrStalemated(ChessGame game) {
         /*
          *returns: 0-nothing, 1-checkmate, 2-stalemate
          */

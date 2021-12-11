@@ -25,7 +25,7 @@ public class MoveLeft {
      * @param peaceful   Whether the piece may move to an empty field.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         return left(game, fromSquare, attack, jump, peaceful, -1);
     }
 
@@ -42,7 +42,7 @@ public class MoveLeft {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> left(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> left(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());

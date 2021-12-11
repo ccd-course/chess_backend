@@ -1,6 +1,6 @@
 package com.chess.backend.restController.service;
 
-import com.chess.backend.services.GameService;
+import com.chess.backend.services.ChessGameService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class EndGameService {
     /**
-     * This method tells the {@link GameService} to end the game with the responding game ID and returns a boolean value indicating the success.
+     * This method tells the {@link ChessGameService} to end the game with the responding game ID and returns a boolean value indicating the success.
      *
      * @param gameID the ID of the game that should be ended.
      * @return a boolean value indicating if the ending of the game was successful or not.
      */
     public boolean endGame(int gameID) {
-        GameService gc = GameService.getInstance();
+        ChessGameService gc = ChessGameService.getInstance();
 
         return gc.endGame(gameID);
     }

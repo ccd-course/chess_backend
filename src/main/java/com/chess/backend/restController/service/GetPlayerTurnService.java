@@ -1,7 +1,7 @@
 package com.chess.backend.restController.service;
 
 import com.chess.backend.restController.objects.GetPlayerTurnObject;
-import com.chess.backend.services.GameService;
+import com.chess.backend.services.ChessGameService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetPlayerTurnService {
     /**
-     * This methods gets the player who is currently on turn from the {@link GameService}.
+     * This methods gets the player who is currently on turn from the {@link ChessGameService}.
      *
      * @param gameID the id of the current game.
      * @return containing the name of the player.
      */
     public GetPlayerTurnObject getPlayerTurn(int gameID) {
-        GameService gc = GameService.getInstance();
+        ChessGameService gc = ChessGameService.getInstance();
 
         return new GetPlayerTurnObject(gameID, gc.getPlayerTurn(gameID));
     }

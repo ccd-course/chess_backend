@@ -4,7 +4,7 @@ import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.services.ChessboardService;
-import com.chess.backend.services.GameService;
+import com.chess.backend.services.ChessGameService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,14 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AbstractMovementTests {
 
-    Game game;
+    ChessGame game;
 
     @BeforeEach
     void setUp() {
         String[] players = {"Test Player 1", "Test Player 2", "Test Player 3"};
-        GameService gameService = new GameService();
-        gameService.createNewGame(players);
-        game = gameService.getGame();
+        ChessGameService chessGameService = new ChessGameService();
+        chessGameService.createNewGame(players);
+        game = chessGameService.getGame();
     }
 
     void setUpChessboard(PieceType pieceType) {

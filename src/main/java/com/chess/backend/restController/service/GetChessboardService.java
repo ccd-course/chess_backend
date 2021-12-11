@@ -3,7 +3,7 @@ package com.chess.backend.restController.service;
 import com.chess.backend.gamemodel.Square;
 import com.chess.backend.restController.objects.ChessboardObject;
 import com.chess.backend.restController.objects.SquareObject;
-import com.chess.backend.services.GameService;
+import com.chess.backend.services.ChessGameService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class GetChessboardService {
     /**
-     * This methods calls the {@link GameService} to get the chessboard.
+     * This methods calls the {@link ChessGameService} to get the chessboard.
      *
      * @param gameID the id of the current game.
      * @return containing the chessboard.
      */
     public ChessboardObject getChessboard(int gameID) {
-        GameService gc = GameService.getInstance();
-        Square[][] chessboard = gc.getChessboard(gameID);
+        ChessGameService gc = ChessGameService.getInstance();
+        Square[][] chessboard = gc.getBoard(gameID);
 
         //[4][24]
         /*
