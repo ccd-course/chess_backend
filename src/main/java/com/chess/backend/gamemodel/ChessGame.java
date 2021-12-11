@@ -17,7 +17,13 @@ public class ChessGame implements IGame {
     private int id;
     private Player[] players;
 
+    public String getActivePlayerName(){
+        return activePlayer.getName();
+    }
 
+    public Square[][] getAllSquaresFromChessboard(){
+        return this.chessboard.getSquares();
+    }
 
 //    /**
 //     * Method to switch active players after move

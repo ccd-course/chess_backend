@@ -2,10 +2,7 @@ package com.chess.backend.services;
 
 import com.chess.backend.domain.models.IGame;
 import com.chess.backend.domain.services.IGameService;
-import com.chess.backend.gamemodel.Chessboard;
-import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.Player;
-import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -79,9 +76,7 @@ public class ChessGameService implements IGameService {
 
     public Square[][] getBoard(int gameID) {
         if (verifyGameID(gameID)) {
-            //TODO: handle the getting of the chessboard with the gameID
-            //TODO: implement this call: game.getChessboard(gameID)
-            return game.getChessboard().getSquares();
+            return game.getAllSquaresFromChessboard();
         } else {
             return null;
         }
@@ -120,9 +115,8 @@ public class ChessGameService implements IGameService {
     @Override
     public int[][] getPossibleMoves(int gameID, int[] piecePosition) {
         if (verifyGameID(gameID)) {
-            //TODO: resolve this, use delegation
-            //we need a method getPieceByPosition(int x, int y) in game or in the chessboardService
-            ArrayList<Square> moveList = game.getChessboard().getSquares()[piecePosition[0]][piecePosition[1]].getPiece().getAllowedMoves(game);
+            Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
+            ArrayList<Square> moveList = piece.getAllowedMoves(game);
             int[][] moves = new int[moveList.size()][2];
 
             for (int i = 0; i < moveList.size(); i++) {
@@ -151,17 +145,13 @@ public class ChessGameService implements IGameService {
                 ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
                 this.switchActive(game);
 
-                return this.getActivePlayerName(game);
+                return game.getActivePlayerName();
             } else {
                 return "";
             }
         } else {
             return "";
         }
-    }
-
-    private String getActivePlayerName(IGame game){
-        return game.getActivePlayer().getName();
     }
 
     /**
@@ -192,7 +182,7 @@ public class ChessGameService implements IGameService {
     @Override
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
-            return this.getActivePlayerName(getGame());
+            return game.getActivePlayerName();
         } else {
             return "";
         }
