@@ -1,5 +1,6 @@
 package com.chess.backend.services;
 
+import com.chess.backend.domain.services.IGameService;
 import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Game;
 import com.chess.backend.gamemodel.Player;
@@ -12,30 +13,32 @@ import java.util.ArrayList;
  * Game service to initialize new Game and do operations on it
  */
 @Component
-public class GameService {
+public class ChessGameService implements IGameService {
     private final PlayerService playerService = new PlayerService();
 
-    private static final GameService gameService = new GameService();
+    private static final ChessGameService CHESS_GAME_SERVICE = new ChessGameService();
 
     private Game game;
+
+    /**
+     * generate new ID for a game object
+     *
+     * @return id
+     */
+    @Override
+    public Integer getNewGameID() {
+        return 1;
+    }
 
     /**
      * get current game service instance
      * @return GameService instance
      */
-    public static GameService getInstance() {
-        return gameService;
+    public static ChessGameService getInstance() {
+        return CHESS_GAME_SERVICE;
     }
 
-    public GameService() {
-    }
-
-    /**
-     * generate new ID for a game object
-     * @return id
-     */
-    private Integer getNewGameID(){
-        return 1;
+    public ChessGameService() {
     }
 
     /**
@@ -61,25 +64,46 @@ public class GameService {
         return true;
     }
 
+    @Override
     public Game getGame() {
         return game;
     }
 
+    @Override
     public int getGameID() {
         return game.getId();
     }
 
-    public Square[][] getChessboard(int gameID) {
+    public Square[][] getBoard(int gameID) {
         if (verifyGameID(gameID)) {
             //TODO: handle the getting of the chessboard with the gameID
             //TODO: implement this call: game.getChessboard(gameID)
-
             return game.getChessboard().getSquares();
         } else {
             return null;
         }
     }
 
+    /**
+     * check if piece can move to the target position
+     *
+     * @param gameID                game id
+     * @param previousPiecePosition [x,y] position
+     * @param newPiecePosition      [x,y] position
+     * @return true if valid
+     */
+    @Override
+    public boolean validateMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
+        int[][] possibleMoves = getPossibleMoves(gameID, previousPiecePosition);
+
+        for (int[] possibleMove : possibleMoves) {
+            if ((possibleMove[0] == newPiecePosition[0]) && (possibleMove[1] == newPiecePosition[1])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * returns possible moves for a piece position
@@ -89,6 +113,7 @@ public class GameService {
      * @param piecePosition position of a piece
      * @return 2D array of possible positions [x,y]
      */
+    @Override
     public int[][] getPossibleMoves(int gameID, int[] piecePosition){
         if(verifyGameID(gameID)){
             //TODO: resolve this, use delegation
@@ -114,9 +139,10 @@ public class GameService {
      * @param newPiecePosition [x,y] position
      * @return if verified game id and valid move return the Activate player name otherwise return empty string
      */
+    @Override
     public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
         if(verifyGameID(gameID)){
-            if(validateMove(gameID, previousPiecePosition, newPiecePosition)){
+            if(this.validateMove(gameID, previousPiecePosition, newPiecePosition)){
                 ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
                 game.switchActive();
 
@@ -130,29 +156,11 @@ public class GameService {
     }
 
     /**
-     * check if piece can move to the target position
-     * @param gameID game id
-     * @param previousPiecePosition [x,y] position
-     * @param newPiecePosition [x,y] position
-     * @return true if valid
-     */
-    private boolean validateMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
-        int[][] possibleMoves = getPossibleMoves(gameID, previousPiecePosition);
-
-        for (int[] possibleMove : possibleMoves) {
-            if ((possibleMove[0] == newPiecePosition[0]) && (possibleMove[1] == newPiecePosition[1])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * returns activate player
      * @param gameID game id
      * @return player name
      */
+    @Override
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
             return game.getActivePlayerName();
@@ -166,6 +174,7 @@ public class GameService {
      * @param gameID game id
      * @return true if game is valid and ended successfully
      */
+    @Override
     public boolean endGame(int gameID){
         if(verifyGameID(gameID)){
             game = null;
@@ -177,12 +186,4 @@ public class GameService {
         }
     }
 
-    /**
-     * check if game id is valid
-     * @param gameID game id
-     * @return true if valid
-     */
-    private boolean verifyGameID(int gameID) {
-        return gameID == getGameID();
-    }
 }
