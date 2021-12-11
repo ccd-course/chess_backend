@@ -26,6 +26,10 @@ git clone git@github.com:ccd-course/frontend_app.git
 cd frontend_app
 docker-compose up
 ```
+Local instances can be found here:
+- Frontend [http://localhost:3000/](http://localhost:3000/)
+- Backend [http://localhost:8080/](http://localhost:8080/)
+- JavaDocs for Backend [http://localhost:80/](http://localhost:80/)
 
 ## Auto deployment
 The develop branches of [frontend](https://github.com/ccd-course/frontend_app) and [backend](https://github.com/ccd-course/chess_backend) are auto deployed on every commit:
