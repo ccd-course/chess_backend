@@ -1,12 +1,14 @@
 package com.chess.backend.restController.objects;
 
 import com.chess.backend.restController.controller.GetPlayerTurnController;
+import lombok.Data;
 
 /**
  * This class is send as a response from the {@link GetPlayerTurnController}.
  *
  * @author Hannes Stuetzer
  */
+@Data
 public class GetPlayerTurnObject {
     /**
      * the id of the current game.
@@ -20,13 +22,5 @@ public class GetPlayerTurnObject {
     public GetPlayerTurnObject(int gameID, String player) {
         this.gameID = gameID;
         this.player = player;
-    }
-
-    public int getGameID() {
-        return gameID;
-    }
-
-    public String getPlayer() {
-        return player;
     }
 }

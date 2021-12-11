@@ -80,21 +80,8 @@ public class Game {
         }
     }
 
-    /**
-     * Method of getting accualy active player
-     *
-     * @return player The player which have a move
-     */
-    public Player getActivePlayer() {
-        return this.activePlayer;
-    }
-
     public String getActivePlayerName(){
         return this.activePlayer.getName();
-    }
-
-    public int getId() {
-        return this.id;
     }
 
     /**
@@ -135,10 +122,6 @@ public class Game {
         } finally {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
         }
-    }
-
-    public Player[] getPlayers() {
-        return players;
     }
 }
 

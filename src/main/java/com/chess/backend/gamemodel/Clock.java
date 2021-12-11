@@ -20,10 +20,13 @@
  */
 package com.chess.backend.gamemodel;
 
+import lombok.Data;
+
 /**
  * Class to represent seperate wall-clock for one player.
  * Full ChessClock is represented by GameClock object (two clock - one for each player)
  */
+@Data
 public class Clock {
 
     private int time_left;
@@ -69,24 +72,6 @@ public class Clock {
      */
     public int get_left_time() {
         return this.time_left;
-    }
-
-    /**
-     * Method to get player (owner of this clock)
-     *
-     * @return Reference to player class object
-     */
-    public Player getPlayer() {
-        return this.player;
-    }
-
-    /**
-     * Method to get player (owner of this clock)
-     *
-     * @param player player to set as owner of clock
-     */
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 
     /**

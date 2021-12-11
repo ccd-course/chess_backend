@@ -3,12 +3,14 @@ package com.chess.backend.restController.objects;
 import com.chess.backend.restController.controller.ExecutedMoveController;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
  * This class is received from the API-Call of the {@link ExecutedMoveController}.
  *
  * @author Hannes Stuetzer
  */
+@Data
 public class ExecutedMoveObject {
     /**
      * the id of the current game.

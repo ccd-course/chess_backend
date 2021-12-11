@@ -20,6 +20,8 @@
  */
 package com.chess.backend.gamemodel;
 
+import lombok.Data;
+
 /**
  * Represents a chessboard square.
  */

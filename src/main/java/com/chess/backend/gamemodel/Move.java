@@ -40,22 +40,6 @@ public class Move {
 //        }
     }
 
-    public Square getFrom() {
-        return this.from;
-    }
-
-    public Square getTo() {
-        return this.to;
-    }
-
-    public Piece getMovedPiece() {
-        return this.movedPiece;
-    }
-
-    public Piece getTakenPiece() {
-        return this.takenPiece;
-    }
-
     public boolean wasEnPassant() {
         return this.wasEnPassant;
     }

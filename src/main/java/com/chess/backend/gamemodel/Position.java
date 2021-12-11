@@ -1,12 +1,14 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.services.ChessboardService;
+import lombok.Data;
 
 import java.util.Objects;
 
 /**
  * Represents a position (x and y coordinates).
  */
+@Data
 public class Position {
     private int x;
     private int y;
