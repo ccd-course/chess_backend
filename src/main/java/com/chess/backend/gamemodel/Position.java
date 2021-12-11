@@ -1,5 +1,6 @@
 package com.chess.backend.gamemodel;
 
+import com.chess.backend.domain.models.IBoard;
 import com.chess.backend.services.ChessboardService;
 import lombok.Data;
 
@@ -53,7 +54,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position left to the current position
      */
-    public Position left(Chessboard chessboard) {
+    public Position left(IBoard chessboard) {
         if (this.getX() + 1 > ChessboardService.getMaxX(chessboard.getSquares())) {
             return null;
         } else {
@@ -69,7 +70,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position right to the current position
      */
-    public Position right(Chessboard chessboard) {
+    public Position right(IBoard chessboard) {
         if (this.getX() - 1 < 0) {
             return null;
         } else {
@@ -86,7 +87,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position at the top of the current position
      */
-    public Position forward(Chessboard chessboard) {
+    public Position forward(IBoard chessboard) {
         if (this.getY() - 1 < 0) {
             return new Position(this.getX(), ChessboardService.getMaxY(chessboard.getSquares()));
         } else {
@@ -103,7 +104,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position at the bottom of the current position
      */
-    public Position backward(Chessboard chessboard) {
+    public Position backward(IBoard chessboard) {
         if (this.getY() + 1 > ChessboardService.getMaxY(chessboard.getSquares())) {
             return new Position(this.getX(), 0);
         } else {
@@ -119,7 +120,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position diagonally at the bottom left of the current position
      */
-    public Position diagBL(Chessboard chessboard) {
+    public Position diagBL(IBoard chessboard) {
         return this.backward(chessboard).left(chessboard);
     }
 
@@ -131,7 +132,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position diagonally at the bottom right of the current position
      */
-    public Position diagBR(Chessboard chessboard) {
+    public Position diagBR(IBoard chessboard) {
         return this.backward(chessboard).right(chessboard);
     }
 
@@ -143,7 +144,7 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position diagonally at the front left of the current position
      */
-    public Position diagFL(Chessboard chessboard) {
+    public Position diagFL(IBoard chessboard) {
         return this.forward(chessboard).left(chessboard);
     }
 
@@ -155,11 +156,11 @@ public class Position {
      * @param chessboard Chessboard context
      * @return Position diagonally at the front right of the current position
      */
-    public Position diagFR(Chessboard chessboard) {
+    public Position diagFR(IBoard chessboard) {
         return this.forward(chessboard).right(chessboard);
     }
 
-    public Position getPosFromDir(Chessboard chessboard, Position.Direction direction){
+    public Position getPosFromDir(IBoard chessboard, Position.Direction direction){
         return switch (direction) {
             case LEFT -> this.left(chessboard);
             case RIGHT -> this.right(chessboard);
