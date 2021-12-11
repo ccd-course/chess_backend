@@ -8,15 +8,21 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+/**
+ * Game service to initialize new Game and do operations on it
+ */
 @Component
 public class GameService {
-    private PlayerService playerService = new PlayerService();
-    private GameIDService gameIDService = new GameIDService();
+    private final PlayerService playerService = new PlayerService();
 
     private static final GameService gameService = new GameService();
 
     private Game game;
 
+    /**
+     * get current game service instance
+     * @return GameService instance
+     */
     public static GameService getInstance() {
         return gameService;
     }
@@ -24,11 +30,24 @@ public class GameService {
     public GameService() {
     }
 
+    /**
+     * generate new ID for a game object
+     * @return id
+     */
+    private Integer getNewGameID(){
+        return 1;
+    }
+
+    /**
+     * create new Game
+     * @param playerNames players names
+     * @return boolean that's true if game is created
+     */
     public boolean createNewGame(String[] playerNames) {
         game = new Game();
 
         //getting and setting the gameID
-        game.setId(gameIDService.getNewGameID());
+        game.setId(this.getNewGameID());
 
         //initialize the players
         Player[] players = playerService.initPlayers(playerNames);
@@ -61,9 +80,14 @@ public class GameService {
         }
     }
 
-    /*
-        return value looks like that
-        [[x,y], [2,2], [2,3], [3,3]]
+
+    /**
+     * returns possible moves for a piece position
+     *         return value looks like that
+     *         [[x,y], [2,2], [2,3], [3,3]]
+     * @param gameID game id
+     * @param piecePosition position of a piece
+     * @return 2D array of possible positions [x,y]
      */
     public int[][] getPossibleMoves(int gameID, int[] piecePosition){
         if(verifyGameID(gameID)){
@@ -83,6 +107,13 @@ public class GameService {
         }
     }
 
+    /**
+     * move piece from one position to another
+     * @param gameID game id
+     * @param previousPiecePosition [x,y] position
+     * @param newPiecePosition [x,y] position
+     * @return if verified game id and valid move return the Activate player name otherwise return empty string
+     */
     public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
         if(verifyGameID(gameID)){
             if(validateMove(gameID, previousPiecePosition, newPiecePosition)){
@@ -98,11 +129,18 @@ public class GameService {
         }
     }
 
+    /**
+     * check if piece can move to the target position
+     * @param gameID game id
+     * @param previousPiecePosition [x,y] position
+     * @param newPiecePosition [x,y] position
+     * @return true if valid
+     */
     private boolean validateMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
         int[][] possibleMoves = getPossibleMoves(gameID, previousPiecePosition);
 
-        for(int i = 0; i < possibleMoves.length; i++){
-            if((possibleMoves[i][0] == newPiecePosition[0]) && (possibleMoves[i][1] == newPiecePosition[1])){
+        for (int[] possibleMove : possibleMoves) {
+            if ((possibleMove[0] == newPiecePosition[0]) && (possibleMove[1] == newPiecePosition[1])) {
                 return true;
             }
         }
@@ -110,6 +148,11 @@ public class GameService {
         return false;
     }
 
+    /**
+     * returns activate player
+     * @param gameID game id
+     * @return player name
+     */
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
             return game.getActivePlayerName();
@@ -118,6 +161,11 @@ public class GameService {
         }
     }
 
+    /**
+     * End game function
+     * @param gameID game id
+     * @return true if game is valid and ended successfully
+     */
     public boolean endGame(int gameID){
         if(verifyGameID(gameID)){
             game = null;
@@ -129,11 +177,12 @@ public class GameService {
         }
     }
 
+    /**
+     * check if game id is valid
+     * @param gameID game id
+     * @return true if valid
+     */
     private boolean verifyGameID(int gameID) {
-        if (gameID == getGameID()) {
-            return true;
-        } else {
-            return false;
-        }
+        return gameID == getGameID();
     }
 }
