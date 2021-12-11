@@ -1,8 +1,9 @@
 package com.chess.backend.services;
 
+import com.chess.backend.domain.models.IGame;
 import com.chess.backend.domain.services.IGameService;
 import com.chess.backend.gamemodel.Chessboard;
-import com.chess.backend.gamemodel.Game;
+import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.Square;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class ChessGameService implements IGameService {
 
     private static final ChessGameService CHESS_GAME_SERVICE = new ChessGameService();
 
-    private Game game;
+    private ChessGame game;
 
     /**
      * generate new ID for a game object
@@ -32,6 +33,7 @@ public class ChessGameService implements IGameService {
 
     /**
      * get current game service instance
+     *
      * @return GameService instance
      */
     public static ChessGameService getInstance() {
@@ -43,11 +45,12 @@ public class ChessGameService implements IGameService {
 
     /**
      * create new Game
+     *
      * @param playerNames players names
      * @return boolean that's true if game is created
      */
     public boolean createNewGame(String[] playerNames) {
-        game = new Game();
+        game = new ChessGame();
 
         //getting and setting the gameID
         game.setId(this.getNewGameID());
@@ -65,7 +68,7 @@ public class ChessGameService implements IGameService {
     }
 
     @Override
-    public Game getGame() {
+    public ChessGame getGame() {
         return game;
     }
 
@@ -107,21 +110,22 @@ public class ChessGameService implements IGameService {
 
     /**
      * returns possible moves for a piece position
-     *         return value looks like that
-     *         [[x,y], [2,2], [2,3], [3,3]]
-     * @param gameID game id
+     * return value looks like that
+     * [[x,y], [2,2], [2,3], [3,3]]
+     *
+     * @param gameID        game id
      * @param piecePosition position of a piece
      * @return 2D array of possible positions [x,y]
      */
     @Override
-    public int[][] getPossibleMoves(int gameID, int[] piecePosition){
-        if(verifyGameID(gameID)){
+    public int[][] getPossibleMoves(int gameID, int[] piecePosition) {
+        if (verifyGameID(gameID)) {
             //TODO: resolve this, use delegation
             //we need a method getPieceByPosition(int x, int y) in game or in the chessboardService
             ArrayList<Square> moveList = game.getChessboard().getSquares()[piecePosition[0]][piecePosition[1]].getPiece().getAllowedMoves(game);
             int[][] moves = new int[moveList.size()][2];
 
-            for(int i = 0; i < moveList.size(); i++){
+            for (int i = 0; i < moveList.size(); i++) {
                 moves[i][0] = moveList.get(i).getPosX();
                 moves[i][1] = moveList.get(i).getPosY();
             }
@@ -134,19 +138,20 @@ public class ChessGameService implements IGameService {
 
     /**
      * move piece from one position to another
-     * @param gameID game id
+     *
+     * @param gameID                game id
      * @param previousPiecePosition [x,y] position
-     * @param newPiecePosition [x,y] position
+     * @param newPiecePosition      [x,y] position
      * @return if verified game id and valid move return the Activate player name otherwise return empty string
      */
     @Override
-    public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition){
-        if(verifyGameID(gameID)){
-            if(this.validateMove(gameID, previousPiecePosition, newPiecePosition)){
+    public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
+        if (verifyGameID(gameID)) {
+            if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
                 ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
-                game.switchActive();
+                this.switchActive(game);
 
-                return game.getActivePlayerName();
+                return this.getActivePlayerName(game);
             } else {
                 return "";
             }
@@ -155,15 +160,39 @@ public class ChessGameService implements IGameService {
         }
     }
 
+    private String getActivePlayerName(IGame game){
+        return game.getActivePlayer().getName();
+    }
+
+    /**
+     * Method to switch active players after move
+     */
+    private void switchActive(IGame game) {
+        Player[] players = game.getPlayers();
+        Player activePlayer = game.getActivePlayer();
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].equals(activePlayer)) {
+                if (i == (players.length - 1)) {
+                    game.setActivePlayer(players[0]);
+                    break;
+                } else {
+                    game.setActivePlayer(players[i + 1]);
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * returns activate player
+     *
      * @param gameID game id
      * @return player name
      */
     @Override
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
-            return game.getActivePlayerName();
+            return this.getActivePlayerName(getGame());
         } else {
             return "";
         }
@@ -171,12 +200,13 @@ public class ChessGameService implements IGameService {
 
     /**
      * End game function
+     *
      * @param gameID game id
      * @return true if game is valid and ended successfully
      */
     @Override
-    public boolean endGame(int gameID){
-        if(verifyGameID(gameID)){
+    public boolean endGame(int gameID) {
+        if (verifyGameID(gameID)) {
             game = null;
             System.gc();
 

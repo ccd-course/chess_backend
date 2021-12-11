@@ -1,6 +1,6 @@
 package com.chess.backend.domain.services;
 
-import com.chess.backend.gamemodel.Game;
+import com.chess.backend.domain.models.IGame;
 import com.chess.backend.gamemodel.Square;
 
 public interface IGameService {
@@ -11,7 +11,7 @@ public interface IGameService {
      */
     Integer getNewGameID();
 
-    Game getGame();
+    IGame getGame();
 
     Square[][] getBoard(int gameID);
 
