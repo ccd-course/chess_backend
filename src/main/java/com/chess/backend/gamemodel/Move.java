@@ -1,5 +1,6 @@
 package com.chess.backend.gamemodel;
 
+import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
 
 import java.util.Objects;
@@ -15,10 +16,10 @@ public class Move {
     protected Piece takenPiece = null;
     protected Piece promotedTo = null;
     protected boolean wasEnPassant = false;
-    protected Moves.castling castlingMove = Moves.castling.none;
+    protected Castling castlingMove = Castling.NONE;
     protected boolean wasPawnTwoFieldsMove = false;
 
-    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Moves.castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
+    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
         this.from = from;
         this.to = to;
 
@@ -62,7 +63,7 @@ public class Move {
         return this.wasPawnTwoFieldsMove;
     }
 
-    public Moves.castling getCastlingMove() {
+    public Castling getCastlingMove() {
         return this.castlingMove;
     }
 
