@@ -46,7 +46,7 @@ public class Square {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
-        this.piece.square = this;
+        this.piece.setSquare(this);
     }
 
     /**

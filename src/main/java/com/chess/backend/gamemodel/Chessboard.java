@@ -29,13 +29,13 @@ import lombok.Data;
  */
 @Data
 public class Chessboard {
-    public int numberOfPlayers;
-    public Square[][] squares;//squares of chessboard
+    private int numberOfPlayers;
+    private Square[][] squares;//squares of chessboard
     //    ----------------------------
     //    For En passant:
     //    |-> Pawn whose in last turn moved two square
-    public Piece twoSquareMovedPawn = null;
-    public Piece twoSquareMovedPawn2 = null;
+    private Piece twoSquareMovedPawn = null;
+    private Piece twoSquareMovedPawn2 = null;
     private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
 

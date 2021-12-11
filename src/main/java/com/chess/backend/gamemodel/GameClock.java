@@ -47,7 +47,7 @@ public class GameClock implements Runnable {
         this.clock2 = new Clock();//black player clock
         this.runningClock = this.clock1;//running/active clock
         this.game = game;
-        this.settings = game.settings;
+        this.settings = game.getSettings();
         this.background = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
 
         int time = this.settings.getTimeForGame();
@@ -120,7 +120,7 @@ public class GameClock implements Runnable {
         /*in documentation it's called 'setPlayer' but when we've 'setTimes' better to use
          * one convention of naming methods - this've to be repaired in documentation by Wąsu:P
         dojdziemy do tego:D:D:D*/
-        if (p1.color == Color.WHITE) {
+        if (p1.getColor() == Color.WHITE) {
             this.clock1.setPlayer(p1);
             this.clock2.setPlayer(p2);
         } else {
@@ -157,9 +157,9 @@ public class GameClock implements Runnable {
     private void timeOver() {
         String color = "";
         if (this.clock1.get_left_time() == 0) {//Check which player win
-            color = this.clock2.getPlayer().getColor().label;
+            color = this.clock2.getPlayer().getColor().getLabel();
         } else if (this.clock2.get_left_time() == 0) {
-            color = this.clock1.getPlayer().getColor().label;
+            color = this.clock1.getPlayer().getColor().getLabel();
         } else {//if called in wrong moment
             System.out.println("Time over called when player got time 2 play");
         }

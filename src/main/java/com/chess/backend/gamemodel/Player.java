@@ -33,9 +33,9 @@ import java.io.Serializable;
 public class Player implements Serializable {
 
     private String name;
-    Color color;
-    int id;
-    boolean goDown;
+    private Color color;
+    private int id;
+    private boolean goDown;
 
     public Player() {
     }
@@ -79,9 +79,9 @@ public class Player implements Serializable {
 //        this.color = color;
 //    }
 
-//    public boolean isGoDown() {
-//        return goDown;
-//    }
+    public boolean isGoDown() {
+        return goDown;
+    }
 //
 //    public void setGoDown(boolean goDown) {
 //        this.goDown = goDown;

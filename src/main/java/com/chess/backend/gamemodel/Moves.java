@@ -23,6 +23,7 @@ package com.chess.backend.gamemodel;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.services.ChessboardService;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -33,10 +34,11 @@ import java.util.Stack;
  * It also checks that the moves taken by the player are correct.
  * All moves which were made by the current player saved as a list of strings.
  */
+@Data
 public class Moves {
 
-    protected Stack<Move> moveBackStack = new Stack<Move>();
-    protected Stack<Move> moveForwardStack = new Stack<Move>();
+    private Stack<Move> moveBackStack = new Stack<Move>();
+    private Stack<Move> moveForwardStack = new Stack<Move>();
     private final ArrayList<String> move = new ArrayList<String>();
     private final int columnsNum = 3;
     private int rowsNum = 0;
@@ -131,10 +133,10 @@ public class Moves {
 
     public void addMove(Square begin, Square end, boolean registerInHistory, castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
         boolean wasCastling = castlingMove != castling.none;
-        String locMove = begin.getPiece().getType().symbol;
+        String locMove = begin.getPiece().getType().getSymbol();
 
-        if (game.settings.upsideDown) {
-            locMove += Character.toString((char) ((ChessboardService.getBottom(game.chessboard.getSquares()) - begin.getPosX()) + 97));//add letter of Square from which move was made
+        if (game.getSettings().upsideDown) {
+            locMove += Character.toString((char) ((ChessboardService.getBottom(game.getChessboard().getSquares()) - begin.getPosX()) + 97));//add letter of Square from which move was made
             locMove += Integer.toString(begin.getPosY() + 1);//add number of Square from which move was made
         } else {
             locMove += Character.toString((char) (begin.getPosX() + 97));//add letter of Square from which move was made
@@ -147,23 +149,23 @@ public class Moves {
             locMove += "-";//normal move
         }
 
-        if (game.settings.upsideDown) {
-            locMove += Character.toString((char) ((ChessboardService.getBottom(game.chessboard.getSquares()) - end.getPosX()) + 97));//add letter of Square to which move was made
+        if (game.getSettings().upsideDown) {
+            locMove += Character.toString((char) ((ChessboardService.getBottom(game.getChessboard().getSquares()) - end.getPosX()) + 97));//add letter of Square to which move was made
             locMove += Integer.toString(end.getPosY() + 1);//add number of Square to which move was made
         } else {
             locMove += Character.toString((char) (end.getPosX() + 97));//add letter of Square to which move was made
             locMove += Integer.toString(8 - end.getPosY());//add number of Square to which move was made
         }
 
-        if (begin.getPiece().getType().symbol.equals("") && begin.getPosX() - end.getPosX() != 0 && end.getPiece() == null) {
+        if (begin.getPiece().getType().getSymbol().equals("") && begin.getPosX() - end.getPosX() != 0 && end.getPiece() == null) {
             locMove += "(e.p)";//pawn take down opponent en passant
             wasEnPassant = true;
         }
-        if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece().isChecked())
-                || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece().isChecked())) {//if checked
+        if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.BLACK, null).get(0).getPiece().isChecked())
+                || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.WHITE, null).get(0).getPiece().isChecked())) {//if checked
 
-            if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.BLACK, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)
-                    || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.chessboard.squares, PieceType.KING, Color.WHITE, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)) {//check if checkmated
+            if ((!this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.BLACK, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)
+                    || (this.enterBlack && ChessboardService.searchSquaresByPiece(this.game.getChessboard().getSquares(), PieceType.KING, Color.WHITE, null).get(0).getPiece().isCheckmatedOrStalemated(this.game) == 1)) {//check if checkmated
                 locMove += "#";//check mate
             } else {
                 locMove += "+";//check
@@ -239,7 +241,7 @@ public class Moves {
             {
                 int[] values = new int[4];
                 if (locMove.equals("O-O-O")) {
-                    if (this.game.getActivePlayer().color == Color.BLACK) //if black turn
+                    if (this.game.getActivePlayer().getColor() == Color.BLACK) //if black turn
                     {
                         values = new int[]
                                 {
@@ -287,20 +289,20 @@ public class Moves {
             int yTo = 9;
             boolean pieceFound = false;
             if (locMove.length() <= 3) {
-                Square[][] squares = this.game.chessboard.squares;
+                Square[][] squares = this.game.getChessboard().getSquares();
                 xTo = locMove.charAt(from) - 97;//from ASCII
-                yTo = ChessboardService.getBottom(game.chessboard.getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
+                yTo = ChessboardService.getBottom(game.getChessboard().getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
                 for (int i = 0; i < squares.length && !pieceFound; i++) {
                     for (int j = 0; j < squares[i].length && !pieceFound; j++) {
-                        if (squares[i][j].getPiece() == null || this.game.getActivePlayer().color != squares[i][j].getPiece().player.color) {
+                        if (squares[i][j].getPiece() == null || this.game.getActivePlayer().getColor() != squares[i][j].getPiece().getPlayer().getColor()) {
                             continue;
                         }
                         ArrayList pieceMoves = squares[i][j].getPiece().getAllowedMoves(game);
                         for (Object square : pieceMoves) {
                             Square currSquare = (Square) square;
                             if (currSquare.getPosX() == xTo && currSquare.getPosY() == yTo) {
-                                xFrom = squares[i][j].getPiece().square.getPosX();
-                                yFrom = squares[i][j].getPiece().square.getPosY();
+                                xFrom = squares[i][j].getPiece().getSquare().getPosX();
+                                yFrom = squares[i][j].getPiece().getSquare().getPosY();
                                 pieceFound = true;
                             }
                         }
@@ -308,9 +310,9 @@ public class Moves {
                 }
             } else {
                 xFrom = locMove.charAt(from) - 97;//from ASCII
-                yFrom = ChessboardService.getBottom(game.chessboard.getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
+                yFrom = ChessboardService.getBottom(game.getChessboard().getSquares()) - (locMove.charAt(from + 1) - 49);//from ASCII
                 xTo = locMove.charAt(from + 3) - 97;//from ASCII
-                yTo = ChessboardService.getBottom(game.chessboard.getSquares()) - (locMove.charAt(from + 4) - 49);//from ASCII
+                yTo = ChessboardService.getBottom(game.getChessboard().getSquares()) - (locMove.charAt(from + 4) - 49);//from ASCII
             }
             canMove = this.game.simulateMove(xFrom, yFrom, xTo, yTo);
             if (!canMove) //if move is illegal
@@ -345,7 +347,7 @@ public class Moves {
         try {
             Move last = this.moveBackStack.pop();
             if (last != null) {
-                if (this.game.settings.gameType == Settings.gameTypes.local) //moveForward / redo available only for local game
+                if (this.game.getSettings().gameType == Settings.gameTypes.local) //moveForward / redo available only for local game
                 {
                     this.moveForwardStack.push(last);
                 }
@@ -368,7 +370,7 @@ public class Moves {
 
     public synchronized Move redo() {
         try {
-            if (this.game.settings.gameType == Settings.gameTypes.local) {
+            if (this.game.getSettings().gameType == Settings.gameTypes.local) {
                 Move first = this.moveForwardStack.pop();
                 this.moveBackStack.push(first);
 

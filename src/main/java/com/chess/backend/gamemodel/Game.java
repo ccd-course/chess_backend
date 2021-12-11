@@ -35,10 +35,10 @@ import java.util.logging.Logger;
 @Data
 public class Game {
 
-    public Settings settings;
-    public Chessboard chessboard;
-    public GameClock gameClock;
-    public Moves moves;
+    private Settings settings;
+    private Chessboard chessboard;
+    private GameClock gameClock;
+    private Moves moves;
     private Player activePlayer;
     private int id;
     private Player[] players;
@@ -102,7 +102,7 @@ public class Game {
      */
     public void nextMove() {
         switchActive();
-        System.out.println("next move, active player: " + activePlayer.getName() + ", color: " + activePlayer.color.name());
+        System.out.println("next move, active player: " + activePlayer.getName() + ", color: " + activePlayer.getColor().name());
     }
 
     /**
@@ -115,7 +115,7 @@ public class Game {
      */
     public boolean simulateMove(int beginX, int beginY, int endX, int endY) {
         try {
-            if (chessboard.squares[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
+            if (chessboard.getSquares()[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.getSquares()[endX][endY])) //move
             {
                 ChessboardService.move(chessboard, beginX, beginY, endX, endY);
             } else {

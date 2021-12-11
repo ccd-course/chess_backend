@@ -21,6 +21,6 @@ public class PlayerService {
     }
 
     public static int getBaseY(Player player) {
-        return player.getColor().position * 8;
+        return player.getColor().getPosition() * 8;
     }
 }
