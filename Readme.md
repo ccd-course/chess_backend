@@ -16,9 +16,15 @@ For building and running the application you need:
 - [Maven 4](https://maven.apache.org)
 
 ## Run locally
-
+### Backend only
 ```
 mvn spring-boot:run
+```
+### Complete stack
+```
+git clone git@github.com:ccd-course/frontend_app.git
+cd frontend_app
+docker-compose up
 ```
 
 ## Auto deployment
