@@ -1,9 +1,10 @@
 package com.chess.backend.restController.controller;
 
+import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.restController.objects.NewPlayersObject;
-import com.chess.backend.restController.service.NewGameService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/createNewGame")
 public class NewGameController {
 
-    private final NewGameService newGameService;
+    private final INewGameService newGameService;
 
     @Autowired
-    public NewGameController(NewGameService newGameService) {
+    public NewGameController(@Qualifier("NewChessGameService")INewGameService newGameService) {
         this.newGameService = newGameService;
     }
 

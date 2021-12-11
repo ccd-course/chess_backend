@@ -1,8 +1,6 @@
 package com.chess.backend.restController.controller;
 
-import com.chess.backend.restController.objects.NewPlayersObject;
 import com.chess.backend.restController.service.EndGameService;
-import com.chess.backend.restController.service.NewGameService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

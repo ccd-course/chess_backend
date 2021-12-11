@@ -3,7 +3,7 @@ package com.chess.backend.restController.service;
 import com.chess.backend.restController.controller.MoveRequestController;
 import com.chess.backend.restController.objects.MoveRequestInputObject;
 import com.chess.backend.restController.objects.MoveRequestOutputObject;
-import com.chess.backend.services.GameService;
+import com.chess.backend.services.ChessGameService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoveRequestService {
     /**
-     * This method gets the possible moves from the {@link GameService}.
+     * This method gets the possible moves from the {@link ChessGameService}.
      *
      * @param moveRequestInputObject the object that is generated via the API-Call of the {@link MoveRequestController}.
      * @return containing all possible moves.
      */
     public MoveRequestOutputObject getPossibleMoves(MoveRequestInputObject moveRequestInputObject) {
 
-        GameService gc = GameService.getInstance();
+        ChessGameService gc = ChessGameService.getInstance();
 
         return new MoveRequestOutputObject(gc.getPossibleMoves(moveRequestInputObject.getGameID(), moveRequestInputObject.getPiecePosition()));
     }
