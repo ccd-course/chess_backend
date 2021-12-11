@@ -25,7 +25,7 @@ public class MoveKnight {
      * @param peaceful   Whether the piece may move to an empty field.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
         allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
@@ -52,7 +52,7 @@ public class MoveKnight {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> knight(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful,
+    public static Set<Move> knight(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful,
                                    int limit, Position.Direction direction1, Position.Direction direction2) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();

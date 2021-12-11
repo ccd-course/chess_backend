@@ -25,7 +25,7 @@ public class MoveDiagonal {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
         return diagonal(game, fromSquare, attack, jump, peaceful, -1);
     }
 
@@ -40,7 +40,7 @@ public class MoveDiagonal {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> diagonal(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BL));
         allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BR));
@@ -61,7 +61,7 @@ public class MoveDiagonal {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> diagonal(Game game, Square fromSquare, boolean attack, boolean jump, boolean peaceful,
+    public static Set<Move> diagonal(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful,
                                      int limit, Position.Direction direction) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
