@@ -20,6 +20,7 @@
  */
 package com.chess.backend.gamemodel;
 
+
 /**
  * Represents a chessboard square.
  */
@@ -46,7 +47,7 @@ public class Square {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
-        this.piece.square = this;
+        this.piece.setSquare(this);
     }
 
     /**

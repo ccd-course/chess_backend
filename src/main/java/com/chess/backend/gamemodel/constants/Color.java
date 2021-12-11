@@ -13,11 +13,19 @@ public enum Color {
     RED("Red", 2),
     BLUE("Blue", 3);
 
-    public final String label;
-    public final int position;
+    private final String label;
+    private final int position;
 
     Color(String label, int position) {
         this.label = label;
         this.position = position;
+    }
+
+    public String getLabel(){
+        return this.label;
+    }
+
+    public int getPosition() {
+        return position;
     }
 }

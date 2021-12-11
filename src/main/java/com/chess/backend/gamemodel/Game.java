@@ -38,15 +38,6 @@ public class Game {
         }
     }
 
-    /**
-     * Method of getting accualy active player
-     *
-     * @return player The player which have a move
-     */
-    public Player getActivePlayer() {
-        return this.activePlayer;
-    }
-
     public String getActivePlayerName(){
         return this.activePlayer.getName();
     }
@@ -56,7 +47,7 @@ public class Game {
      */
     public void nextMove() {
         switchActive();
-        System.out.println("next move, active player: " + activePlayer.getName() + ", color: " + activePlayer.color.name());
+        System.out.println("next move, active player: " + activePlayer.getName() + ", color: " + activePlayer.getColor().name());
     }
 
     /**
@@ -69,7 +60,7 @@ public class Game {
      */
     public boolean simulateMove(int beginX, int beginY, int endX, int endY) {
         try {
-            if (chessboard.squares[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.squares[endX][endY])) //move
+            if (chessboard.getSquares()[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.getSquares()[endX][endY])) //move
             {
                 ChessboardService.move(chessboard, beginX, beginY, endX, endY);
             } else {
@@ -90,5 +81,4 @@ public class Game {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
         }
     }
-
 }

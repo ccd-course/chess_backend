@@ -2,12 +2,14 @@ package com.chess.backend.restController.objects;
 
 import com.chess.backend.restController.controller.NewGameController;
 import io.swagger.v3.oas.annotations.Hidden;
+import lombok.Data;
 
 /**
  * This class is created via the API-Call of {@link NewGameController}.
  *
  * @author Hannes Stuetzer
  */
+@Data
 public class NewPlayersObject {
     /**
      * holds some simple player objects only containing the name of the players.
@@ -15,14 +17,6 @@ public class NewPlayersObject {
     private NewPlayerObject[] players;
 
     public NewPlayersObject() {
-    }
-
-    public NewPlayerObject[] getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(NewPlayerObject[] players) {
-        this.players = players;
     }
 
     /**

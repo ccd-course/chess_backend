@@ -1,10 +1,13 @@
 package com.chess.backend.restController.objects;
 
+import lombok.Data;
+
 /**
  * This class is a simple player object for handling an API-Call.
  *
  * @author Hannes Stuetzer
  */
+@Data
 public class NewPlayerObject {
     /**
      * the name of a player.
@@ -12,13 +15,5 @@ public class NewPlayerObject {
     private String playerName;
 
     public NewPlayerObject() {
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 }

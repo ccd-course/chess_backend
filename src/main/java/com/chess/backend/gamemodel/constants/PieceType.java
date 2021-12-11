@@ -11,8 +11,8 @@ public enum PieceType {
     QUEEN("Queen", "Q"),
     KING("King", "K");
 
-    public final String label;
-    public final String symbol;
+    private final String label;
+    private final String symbol;
 
     PieceType(String label, String symbol) {
         this.label = label;
@@ -21,5 +21,9 @@ public enum PieceType {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }

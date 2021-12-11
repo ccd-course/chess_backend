@@ -1,10 +1,13 @@
 package com.chess.backend.restController.objects;
 
+import lombok.Data;
+
 /**
  * This class represents one simple square of the chessboard ({@link ChessboardObject}).
  *
  * @author Hannes Stuetzer
  */
+@Data
 public class SquareObject {
     /**
      * the name of a chess piece
@@ -17,22 +20,6 @@ public class SquareObject {
 
     public SquareObject(String pieceID, String playerName) {
         this.pieceID = pieceID;
-        this.playerName = playerName;
-    }
-
-    public String getPieceID() {
-        return pieceID;
-    }
-
-    public void setPieceID(String pieceID) {
-        this.pieceID = pieceID;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 }

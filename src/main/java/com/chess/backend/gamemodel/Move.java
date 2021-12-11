@@ -2,22 +2,23 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
+import lombok.Data;
 
 import java.util.Objects;
 
 /**
  * Represents a concrete move of a piece with getters and setters for its fields.
  */
+@Data
 public class Move {
-
-    protected Square from = null;
-    protected Square to = null;
-    protected Piece movedPiece = null;
-    protected Piece takenPiece = null;
-    protected Piece promotedTo = null;
-    protected boolean wasEnPassant = false;
-    protected Castling castlingMove = Castling.NONE;
-    protected boolean wasPawnTwoFieldsMove = false;
+    private Square from = null;
+    private Square to = null;
+    private Piece movedPiece = null;
+    private Piece takenPiece = null;
+    private Piece promotedTo = null;
+    private boolean wasEnPassant = false;
+    private Castling castlingMove = Castling.NONE;
+    private boolean wasPawnTwoFieldsMove = false;
 
     public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
         this.from = from;
@@ -37,22 +38,6 @@ public class Move {
 //        {
 //            this.promotedTo = promotedPiece;
 //        }
-    }
-
-    public Square getFrom() {
-        return this.from;
-    }
-
-    public Square getTo() {
-        return this.to;
-    }
-
-    public Piece getMovedPiece() {
-        return this.movedPiece;
-    }
-
-    public Piece getTakenPiece() {
-        return this.takenPiece;
     }
 
     public boolean wasEnPassant() {

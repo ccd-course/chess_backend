@@ -3,12 +3,14 @@ package com.chess.backend.restController.objects;
 import com.chess.backend.restController.controller.MoveRequestController;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
  * This class is created via API-Call of the {@link MoveRequestController}.
  *
  * @author Hannes Stuetzer
  */
+@Data
 public class MoveRequestInputObject {
     /**
      * the id of the current game.
@@ -27,10 +29,6 @@ public class MoveRequestInputObject {
     @Schema(description = "Game ID", example = "2")
     public int getGameID() {
         return gameID;
-    }
-
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
     }
 
     @ArraySchema(schema = @Schema(description = "Piece position [x, y]", example = "0"), minItems = 2, maxItems = 2)
