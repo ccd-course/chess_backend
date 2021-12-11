@@ -1,5 +1,7 @@
 package com.chess.backend.restController.objects;
 
+import com.chess.backend.domain.controllers.objects.INewPlayerObject;
+import com.chess.backend.domain.controllers.objects.INewPlayersObject;
 import com.chess.backend.restController.controller.NewGameController;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Data;
@@ -10,11 +12,11 @@ import lombok.Data;
  * @author Hannes Stuetzer
  */
 @Data
-public class NewPlayersObject {
+public class NewPlayersObject implements INewPlayersObject {
     /**
      * holds some simple player objects only containing the name of the players.
      */
-    private NewPlayerObject[] players;
+    private INewPlayerObject[] players;
 
     public NewPlayersObject() {
     }
@@ -24,6 +26,7 @@ public class NewPlayersObject {
      *
      * @return an array of all the player names.
      */
+    @Override
     @Hidden
     public String[] getAllPlayerNames() {
         String[] allPlayerNames = new String[players.length];

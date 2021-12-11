@@ -1,5 +1,6 @@
 package com.chess.backend.restController.objects;
 
+import com.chess.backend.domain.controllers.objects.INewPlayerObject;
 import lombok.Data;
 
 /**
@@ -8,7 +9,7 @@ import lombok.Data;
  * @author Hannes Stuetzer
  */
 @Data
-public class NewPlayerObject {
+public class NewPlayerObject implements INewPlayerObject {
     /**
      * the name of a player.
      */
