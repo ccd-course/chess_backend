@@ -6,6 +6,7 @@ import com.chess.backend.gamemodel.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Game service to initialize new Game and do operations on it
@@ -25,7 +26,7 @@ public class ChessGameService implements IGameService {
      */
     @Override
     public Integer getNewGameID() {
-        return 1;
+        return ThreadLocalRandom.current().nextInt(1, 1000 + 1);
     }
 
     /**
