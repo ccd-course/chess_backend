@@ -38,4 +38,4 @@ The develop branches of [frontend](https://github.com/ccd-course/frontend_app) a
 
 ## Documentation
 - [Generated JavaDocs](https://docs.backend.chess.valentinriess.com)
-- [API Documentation](https://backend.chess.valentinriess.com/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config)
+- [API Documentation](https://backend.chess.valentinriess.com/docs.html)
