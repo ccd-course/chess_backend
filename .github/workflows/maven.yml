@@ -235,7 +235,7 @@ jobs:
         if: ${{ github.ref_name == 'main' }}
         with:
           # relative path to the place where source code with Dockerfile is located
-          context: .
+          context: ./docs
           # Note: tags has to be all lower-case
           tags: |
             valentinriess/chess_backend_docs:latest 
