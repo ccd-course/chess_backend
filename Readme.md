@@ -37,5 +37,5 @@ The develop branches of [frontend](https://github.com/ccd-course/frontend_app) a
 - [backend.chess.valentinriess.com](https://backend.chess.valentinriess.com)
 
 ## Documentation
-- [Generated JavaDocs](https://docs.backend.chess.valentinriess.com)
+- [Generated JavaDocs](https://ccd-course.github.io/chess_backend/index.html)
 - [API Documentation](https://backend.chess.valentinriess.com/docs.html)
