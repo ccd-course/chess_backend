@@ -70,6 +70,27 @@ jobs:
           name: JavaDoc
           path: target/site/apidocs
 
+  JavaDocs-gh-pages:
+    name: Deploy JavaDocs on gh-pages
+    runs-on: ubuntu-latest
+    needs: JavaDoc
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download target dir from JavaDoc
+        uses: actions/download-artifact@v2
+        with:
+          name: JavaDoc
+          path: ./docs/apidocs
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/apidocs
+
   publish-job:
     runs-on: ubuntu-latest
     needs: [ Tests ]
