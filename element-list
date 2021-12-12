@@ -1,0 +1,11 @@
+com.chess.backend
+com.chess.backend.domain.controllers.objects
+com.chess.backend.domain.models
+com.chess.backend.domain.services
+com.chess.backend.gamemodel
+com.chess.backend.gamemodel.abstractmoves
+com.chess.backend.gamemodel.constants
+com.chess.backend.restController.controller
+com.chess.backend.restController.objects
+com.chess.backend.restController.service
+com.chess.backend.services
