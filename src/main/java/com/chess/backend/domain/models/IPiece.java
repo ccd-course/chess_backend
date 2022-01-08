@@ -82,7 +82,5 @@ public interface IPiece {
 
     boolean equals(Object o);
 
-    boolean canEqual(Object other);
-
     int hashCode();
 }
