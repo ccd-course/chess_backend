@@ -2,6 +2,7 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.domain.models.IPiece;
 import lombok.Data;
 
 import java.util.Objects;
@@ -13,14 +14,14 @@ import java.util.Objects;
 public class Move {
     private Square from = null;
     private Square to = null;
-    private Piece movedPiece = null;
-    private Piece takenPiece = null;
-    private Piece promotedTo = null;
+    private IPiece movedPiece = null;
+    private IPiece takenPiece = null;
+    private IPiece promotedTo = null;
     private boolean wasEnPassant = false;
     private Castling castlingMove = Castling.NONE;
     private boolean wasPawnTwoFieldsMove = false;
 
-    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
+    public Move(Square from, Square to, IPiece movedPiece, IPiece takenPiece, Castling castlingMove, boolean wasEnPassant, IPiece promotedPiece) {
         this.from = from;
         this.to = to;
 
@@ -52,7 +53,7 @@ public class Move {
         return this.castlingMove;
     }
 
-    public Piece getPromotedPiece() {
+    public IPiece getPromotedPiece() {
         return this.promotedTo;
     }
 
