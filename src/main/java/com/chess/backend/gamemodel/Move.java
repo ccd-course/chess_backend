@@ -34,6 +34,7 @@ public class Move {
         if (movedPiece.getType().equals(PieceType.PAWN) && Math.abs(to.getPosY() - from.getPosY()) == 2) {
             this.wasPawnTwoFieldsMove = true;
         }
+        System.out.println(promotedPiece);//avoid static error
         // TODO: Implement promotion
 //        else if (movedPiece.getType().equals(PieceType.PAWN) && to.pozY == Chessboard.bottom || to.pozY == Chessboard.top && promotedPiece != null)
 //        {
