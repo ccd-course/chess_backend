@@ -51,11 +51,7 @@ public class ChessGameService implements IGameService {
         game = new ChessGame();
 
         //getting and setting the gameID
-        try {
-            game.setId(this.getNewGameID());
-        } catch (Exception e) {
-
-        }
+        game.setId(this.getNewGameID());
 
         //initialize the players
         Player[] players = playerService.initPlayers(playerNames);

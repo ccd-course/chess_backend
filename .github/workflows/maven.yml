@@ -32,7 +32,7 @@ jobs:
       run: mvn compile
 
   Sonarcloud:
-    name: Build
+    name: Sonarcloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
