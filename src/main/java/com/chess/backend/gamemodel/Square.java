@@ -22,6 +22,7 @@ package com.chess.backend.gamemodel;
 
 
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.domain.models.IPiece;
 
 /**
  * Represents a chessboard square.
@@ -31,9 +32,9 @@ public class Square {
     /**
      * Piece on a square
      */
-    private Piece piece = null;
+    private IPiece piece = null;
 
-    public Square(int posX, int posY, Piece piece) {
+    public Square(int posX, int posY, IPiece piece) {
         this.position = new Position(posX, posY);
         this.piece = piece;
     }
@@ -43,11 +44,11 @@ public class Square {
         this.piece = square.getPiece();
     }
 
-    public Piece getPiece() {
+    public IPiece getPiece() {
         return piece;
     }
 
-    public void setPiece(Piece piece) {
+    public void setPiece(IPiece piece) {
         this.piece = piece;
         this.piece.setSquare(this);
     }

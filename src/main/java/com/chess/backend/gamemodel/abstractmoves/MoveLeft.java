@@ -1,6 +1,7 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.gamemodel.*;
+import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
@@ -53,7 +54,7 @@ public class MoveLeft {
 
             toPosition = toPosition.left(chessboard);
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
-            Piece takenPiece = null;
+            IPiece takenPiece = null;
 
             if (toSquare.getPiece() != null) {
                 if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {

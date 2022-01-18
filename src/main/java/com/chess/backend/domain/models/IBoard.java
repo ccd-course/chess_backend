@@ -1,7 +1,6 @@
 package com.chess.backend.domain.models;
 
 import com.chess.backend.gamemodel.Moves;
-import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.gamemodel.Square;
 
 public interface IBoard {
@@ -9,9 +8,9 @@ public interface IBoard {
 
     Square[][] getSquares();
 
-    Piece getTwoSquareMovedPawn();
+    IPiece getTwoSquareMovedPawn();
 
-    Piece getTwoSquareMovedPawn2();
+    IPiece getTwoSquareMovedPawn2();
 
     boolean isBreakCastling();
 
@@ -21,9 +20,9 @@ public interface IBoard {
 
     void setSquares(Square[][] squares);
 
-    void setTwoSquareMovedPawn(Piece twoSquareMovedPawn);
+    void setTwoSquareMovedPawn(IPiece twoSquareMovedPawn);
 
-    void setTwoSquareMovedPawn2(Piece twoSquareMovedPawn2);
+    void setTwoSquareMovedPawn2(IPiece twoSquareMovedPawn2);
 
     void setBreakCastling(boolean breakCastling);
 

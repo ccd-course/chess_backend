@@ -1,8 +1,10 @@
 package com.chess.backend.services;
 
+import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.gamemodel.pieces.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -59,8 +61,8 @@ public class ChessboardService {
     private static void initPlayerPawns(Square[][] squares, Player player) {
         int figuresFirstColumn = PlayerService.getBaseY(player);
         for (int x = 0; x < squares.length; x++) {
-            setPiece(x, figuresFirstColumn, squares, new Piece(PieceType.PAWN, player, true));
-            setPiece(x, figuresFirstColumn + 3, squares, new Piece(PieceType.PAWN, player, false));
+            setPiece(x, figuresFirstColumn, squares, new Pawn(player, true));
+            setPiece(x, figuresFirstColumn + 3, squares, new Pawn(player, false));
         }
     }
 
@@ -74,16 +76,16 @@ public class ChessboardService {
         int figuresFirstColumn = PlayerService.getBaseY(player);
 
         // anticlockwise
-        setPiece(0, figuresFirstColumn + 1, squares, new Piece(PieceType.QUEEN, player, false));
-        setPiece(1, figuresFirstColumn + 1, squares, new Piece(PieceType.BISHOP, player, false));
-        setPiece(2, figuresFirstColumn + 1, squares, new Piece(PieceType.KNIGHT, player, false));
-        setPiece(3, figuresFirstColumn + 1, squares, new Piece(PieceType.ROOK, player, false));
+        setPiece(0, figuresFirstColumn + 1, squares, new Queen(player, false));
+        setPiece(1, figuresFirstColumn + 1, squares, new Bishop(player, false));
+        setPiece(2, figuresFirstColumn + 1, squares, new Knight(player, false));
+        setPiece(3, figuresFirstColumn + 1, squares, new Rook(player, false));
 
         // clockwise
-        setPiece(0, figuresFirstColumn + 2, squares, new Piece(PieceType.KING, player, true));
-        setPiece(1, figuresFirstColumn + 2, squares, new Piece(PieceType.BISHOP, player, true));
-        setPiece(2, figuresFirstColumn + 2, squares, new Piece(PieceType.KNIGHT, player, true));
-        setPiece(3, figuresFirstColumn + 2, squares, new Piece(PieceType.ROOK, player, true));
+        setPiece(0, figuresFirstColumn + 2, squares, new King(player, true));
+        setPiece(1, figuresFirstColumn + 2, squares, new Bishop(player, true));
+        setPiece(2, figuresFirstColumn + 2, squares, new Knight(player, true));
+        setPiece(3, figuresFirstColumn + 2, squares, new Rook(player, true));
     }
 
     /**
@@ -94,7 +96,7 @@ public class ChessboardService {
      * @param squares 2D array of Square object
      * @param piece   Piece object
      */
-    public static void setPiece(int posX, int posY, Square[][] squares, Piece piece) {
+    public static void setPiece(int posX, int posY, Square[][] squares, IPiece piece) {
         Square square = squares[posX][posY];
         square.setPiece(piece);
         squares[posX][posY] = square;
@@ -121,7 +123,7 @@ public class ChessboardService {
         for (Square square :
                 inputSquares) {
             if (square.getPiece() == null) continue;
-            Piece piece = square.getPiece();
+            IPiece piece = square.getPiece();
             if ((pieceType == null || piece.getType() == pieceType)
                     && (color == null || piece.getColor() == color)
                     && (player == null || piece.getPlayer() == player)) {
@@ -226,7 +228,7 @@ public class ChessboardService {
         }
     }
 
-    public static Piece getPieceByPosition(Chessboard chessboard, int x, int y){
+    public static IPiece getPieceByPosition(Chessboard chessboard, int x, int y){
         return chessboard.getSquares()[x][y].getPiece();
     }
 }

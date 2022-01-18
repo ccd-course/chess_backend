@@ -21,6 +21,7 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.domain.models.IBoard;
+import com.chess.backend.domain.models.IPiece;
 import lombok.Data;
 
 /**
@@ -35,8 +36,8 @@ public class Chessboard implements IBoard {
     //    ----------------------------
     //    For En passant:
     //    |-> Pawn whose in last turn moved two square
-    private Piece twoSquareMovedPawn = null;
-    private Piece twoSquareMovedPawn2 = null;
+    private IPiece twoSquareMovedPawn = null;
+    private IPiece twoSquareMovedPawn2 = null;
     private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
 }
