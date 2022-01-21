@@ -269,11 +269,7 @@ public class ChessboardService {
     }
 
     private static boolean checkPawnPromotion(Pawn pawn){
-        if(pawn.getRank() == 8){
-            return true;
-        } else {
-            return false;
-        }
+        return pawn.getRank() == 8;
     }
 
     private static void promotePawn(Chessboard chessboard, IPiece piece){
@@ -282,7 +278,5 @@ public class ChessboardService {
                 .removePiece();
 
         setPiece(piece.getSquare().getPosX(), piece.getSquare().getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
-
-        piece = null;
     }
 }
