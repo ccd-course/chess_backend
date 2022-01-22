@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class Firebase {
-    private static Firestore db;
+    private Firestore db;
 
     /**
      * Add  documents with fields.
@@ -20,7 +20,8 @@ public class Firebase {
      */
     void addDocument(String collection, String docId, Object value)  {
         DocumentReference docRef = db.collection(collection).document(docId);
-        ApiFuture<WriteResult> result = docRef.set(value);
+        docRef.set(value);
+//        ApiFuture<WriteResult> result = docRef.set(value);
 
     }
     public Firebase() {
@@ -28,7 +29,6 @@ public class Firebase {
 
         try{
 
-            if(Firebase.db == null){
                 String firebaseJsonKeys = System.getenv("FIREBASE_JSON_KEYS");
 //                System.out.println("firebaseJsonKeys: "+ firebaseJsonKeys);
                 InputStream is = new ByteArrayInputStream(firebaseJsonKeys.getBytes());
@@ -37,8 +37,7 @@ public class Firebase {
                         FirestoreOptions.getDefaultInstance().toBuilder()
                                 .setCredentials(GoogleCredentials.fromStream(is))
                                 .build();
-                Firebase.db = firestoreOptions.getService();
-            }
+                db = firestoreOptions.getService();
 
 
         }
