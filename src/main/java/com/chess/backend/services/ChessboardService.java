@@ -29,7 +29,7 @@ public class ChessboardService {
     public static Chessboard initNewGameBoard(Player[] players) {
         Chessboard chessboard = new Chessboard();
         chessboard.setNumberOfPlayers(players.length);
-        Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
+        Square[][] squares = new Square[5][chessboard.getNumberOfPlayers() * 9];
         initClean(squares);
 
         for (Player player :
@@ -86,6 +86,11 @@ public class ChessboardService {
         setPiece(1, figuresFirstColumn + 2, squares, new Bishop(player, true));
         setPiece(2, figuresFirstColumn + 2, squares, new Knight(player, true));
         setPiece(3, figuresFirstColumn + 2, squares, new Rook(player, true));
+
+        //cannon
+        Player dummyCanonPlayer = new Player();
+        dummyCanonPlayer.setName("The canon");
+        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(dummyCanonPlayer, true));
     }
 
     /**
@@ -196,12 +201,18 @@ public class ChessboardService {
     public static void move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
         IPiece piece = chessboard.getSquares()[fromX][fromY].getPiece();
 
-        chessboard.getSquares()
-                [toX][toY]
-                .setPiece(piece);
-        chessboard.getSquares()
-                [fromX][fromY]
-                .removePiece();
+        if (piece.getType() != PieceType.CANNON) {
+            chessboard.getSquares()
+                    [toX][toY]
+                    .setPiece(piece);
+            chessboard.getSquares()
+                    [fromX][fromY]
+                    .removePiece();
+        } else {
+            chessboard.getSquares()
+                    [toX][toY]
+                    .removePiece();
+        }
 
         if(piece.getType() == PieceType.PAWN){
             rankUpPawn((Pawn) piece, fromY, toY, getChessboardLength(chessboard));
@@ -250,6 +261,10 @@ public class ChessboardService {
 
     public static IPiece getPieceByPosition(Chessboard chessboard, int x, int y){
         return chessboard.getSquares()[x][y].getPiece();
+    }
+
+    public static IPiece getPieceByPosition(Chessboard chessboard, Position position){
+        return chessboard.getSquares()[position.getX()][position.getY()].getPiece();
     }
 
     private static void rankUpPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){

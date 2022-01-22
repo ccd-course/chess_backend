@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Move {
     private Square from = null;
     private Square to = null;
+    private Square taken = null;
     private IPiece movedPiece = null;
     private IPiece takenPiece = null;
     private IPiece promotedTo = null;
@@ -21,9 +22,10 @@ public class Move {
     private Castling castlingMove = Castling.NONE;
     private boolean wasPawnTwoFieldsMove = false;
 
-    public Move(Square from, Square to, IPiece movedPiece, IPiece takenPiece, Castling castlingMove, boolean wasEnPassant, IPiece promotedPiece) {
+    public Move(Square from, Square to, Square taken, IPiece movedPiece, IPiece takenPiece, Castling castlingMove, boolean wasEnPassant, IPiece promotedPiece) {
         this.from = from;
         this.to = to;
+        this.taken = taken;
 
         this.movedPiece = movedPiece;
         this.takenPiece = takenPiece;

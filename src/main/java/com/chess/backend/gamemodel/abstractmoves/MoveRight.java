@@ -58,10 +58,10 @@ public class MoveRight {
                 if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor()) {
                     takenPiece = toSquare.getPiece();
                     allowedMoves.add(
-                            new Move(fromSquare, toSquare,
-                                    fromSquare.getPiece(), takenPiece,
-                                    null, false, null
-                            ));
+                            new Move(fromSquare, toSquare, toSquare,
+                                    fromSquare.getPiece(),
+                                    takenPiece, null, false,
+                                    null));
                     break;
                 } else if (jump) {
                     continue;
@@ -70,10 +70,10 @@ public class MoveRight {
                 }
             } else if (peaceful) {
                 allowedMoves.add(
-                        new Move(fromSquare, toSquare,
-                                fromSquare.getPiece(), takenPiece,
-                                null, false, null
-                        ));
+                        new Move(fromSquare, toSquare, null,
+                                fromSquare.getPiece(),
+                                null, null, false,
+                                null));
             }
         }
         return allowedMoves;
