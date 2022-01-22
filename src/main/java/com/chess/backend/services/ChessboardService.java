@@ -80,12 +80,14 @@ public class ChessboardService {
         setPiece(1, figuresFirstColumn + 1, squares, new Bishop(player, false));
         setPiece(2, figuresFirstColumn + 1, squares, new Knight(player, false));
         setPiece(3, figuresFirstColumn + 1, squares, new Rook(player, false));
+        setPiece(4, figuresFirstColumn + 1, squares, new Ferz(player, false));
 
         // clockwise
         setPiece(0, figuresFirstColumn + 2, squares, new King(player, true));
         setPiece(1, figuresFirstColumn + 2, squares, new Bishop(player, true));
         setPiece(2, figuresFirstColumn + 2, squares, new Knight(player, true));
         setPiece(3, figuresFirstColumn + 2, squares, new Rook(player, true));
+        setPiece(3, figuresFirstColumn + 2, squares, new Wazir(player, true));
 
         //cannon
         Player dummyCanonPlayer = new Player();
