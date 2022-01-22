@@ -9,7 +9,8 @@ public enum PieceType {
     KNIGHT("Knight", "N"),
     BISHOP("Bishop", "B"),
     QUEEN("Queen", "Q"),
-    KING("King", "K");
+    KING("King", "K"),
+    FERZ("Ferz", "F");
 
     private final String label;
     private final String symbol;

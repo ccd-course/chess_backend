@@ -85,51 +85,6 @@ public class King implements IPiece {
         return this.player.getColor();
     }
 
-    /**
-     * Method is useful for out of bounds protection
-     *
-     * @param x x position on chessboard
-     * @param y y position on chessboard
-     * @return true if parameters are out of bounds (array)
-     */
-    @Override
-    public boolean isout(int x, int y) {
-        return x < 0 || x > 7 || y < 0 || y > 7;
-    }
-
-    /**
-     * @param x y position on chessboard
-     * @param y y position on chessboard
-     * @return true if can move, false otherwise
-     */
-    @Override
-    public boolean checkPiece(int x, int y) {
-        if (chessboard.getSquares()[x][y].getPiece() != null
-                && chessboard.getSquares()[x][y].getPiece().getType().equals(PieceType.KING)) {
-            return false;
-        }
-        IPiece piece = chessboard.getSquares()[x][y].getPiece();
-        //or piece is another player
-        return piece == null || //if this sqhuare is empty
-                piece.getPlayer() != this.player;
-    }
-
-    /**
-     * Method check if piece has other owner than calling piece
-     *
-     * @param x x position on chessboard
-     * @param y y position on chessboard
-     * @return true if owner(player) is different
-     */
-    @Override
-    public boolean otherOwner(int x, int y) {
-        Square sq = chessboard.getSquares()[x][y];
-        if (sq.getPiece() == null) {
-            return false;
-        }
-        return this.player != sq.getPiece().getPlayer();
-    }
-
     @Override
     public String getSymbol() {
         return this.getType().getSymbol();

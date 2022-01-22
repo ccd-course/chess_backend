@@ -32,31 +32,6 @@ public interface IPiece {
 
     Color getColor();
 
-    /**
-     * Method is useful for out of bounds protection
-     *
-     * @param x x position on chessboard
-     * @param y y position on chessboard
-     * @return true if parameters are out of bounds (array)
-     */
-    boolean isout(int x, int y);
-
-    /**
-     * @param x y position on chessboard
-     * @param y y position on chessboard
-     * @return true if can move, false otherwise
-     */
-    boolean checkPiece(int x, int y);
-
-    /**
-     * Method check if piece has other owner than calling piece
-     *
-     * @param x x position on chessboard
-     * @param y y position on chessboard
-     * @return true if owner(player) is different
-     */
-    boolean otherOwner(int x, int y);
-
     String getSymbol();
 
     boolean isMotioned();
