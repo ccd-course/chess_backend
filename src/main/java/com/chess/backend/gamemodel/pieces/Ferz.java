@@ -11,43 +11,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Represents a piece.
- */
 @Data
-public class Knight implements IPiece {
+public class Ferz implements IPiece {
     private Square square;
     private Player player;
     private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
-    private PieceType type = PieceType.KNIGHT;
+    private PieceType type = PieceType.FERZ;
     private boolean motioned;
-    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+    private final boolean clockwise;
 
-
-    public Knight(Player player, boolean clockwise) {
+    public Ferz(Player player, boolean clockwise) {
         this.player = player;
         this.clockwise = clockwise;
     }
 
-    /**
-     * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
-     *
-     * @param game Game context
-     * @return A HashSet of all allowed moves of the piece in this individual game context.
-     */
     @Override
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveKnight.concretise(game, this.square, true, true, true));
+        allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false, true));
         return allowedMoves;
     }
 
-    /**
-     * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
-     *
-     * @param game Game context
-     * @return ArrayList of possible Squares to move to.
-     */
     @Override
     public ArrayList<Square> getAllowedMoves(ChessGame game) {
         Set<Move> allowedFullMoves = getAllowedFullMoves(game);
@@ -68,7 +52,7 @@ public class Knight implements IPiece {
 
     @Override
     public PieceType getType() {
-        return type;
+        return this.type;
     }
 
     @Override
