@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Stateless Chessboard Service to initialize new Chessboard
@@ -26,9 +27,9 @@ public class ChessboardService {
      * @param players Array of Player object
      * @return Chessboard object
      */
-    public static Chessboard initNewGameBoard(Player[] players) {
+    public static Chessboard initNewGameBoard(List<Player> players) {
         Chessboard chessboard = new Chessboard();
-        chessboard.setNumberOfPlayers(players.length);
+        chessboard.setNumberOfPlayers(players.size());
         Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
         initClean(squares);
 

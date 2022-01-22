@@ -1,7 +1,10 @@
 package com.chess.backend.gamemodel;
 import com.chess.backend.domain.models.IBoard;
 import com.chess.backend.domain.models.IGame;
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * Class responsible for the starts of new games, loading games,
@@ -10,20 +13,13 @@ import lombok.Data;
  * a move at the moment
  */
 @Data
+@IgnoreExtraProperties
 public class ChessGame implements IGame {
     private Chessboard chessboard;
     private Moves moves;
     private Player activePlayer;
     private int id;
-    private Player[] players;
-
-    public String getActivePlayerName(){
-        return activePlayer.getName();
-    }
-
-    public Square[][] getAllSquaresFromChessboard(){
-        return this.chessboard.getSquares();
-    }
+    private List<Player> players;
 
 //    /**
 //     * Method to switch active players after move

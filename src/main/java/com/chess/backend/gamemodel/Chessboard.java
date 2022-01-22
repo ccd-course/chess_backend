@@ -22,6 +22,7 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.domain.models.IBoard;
 import com.chess.backend.domain.models.IPiece;
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
 
 /**
@@ -30,6 +31,7 @@ import lombok.Data;
  * Chessboard is made from squares. It also contains a move history as well as the number of players.
  */
 @Data
+@IgnoreExtraProperties
 public class Chessboard implements IBoard {
     private int numberOfPlayers;
     private Square[][] squares;//squares of chessboard
