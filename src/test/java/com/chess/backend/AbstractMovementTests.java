@@ -38,7 +38,7 @@ public class AbstractMovementTests {
     void spawnPawnAsVictim(Position position) {
         ChessboardService.setPiece(position.getX(), position.getY(),
                 game.getChessboard().getSquares(),
-                new Pawn(game.getPlayers().get(0), true));
+                new Pawn(game.getPlayers().get(1), true));
     }
 
     HashSet<Position> getPossibleMovePositions(PieceType pieceType) {
