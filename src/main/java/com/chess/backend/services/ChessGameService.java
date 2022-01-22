@@ -7,6 +7,7 @@ import com.chess.backend.domain.models.IPiece;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -42,12 +43,30 @@ public class ChessGameService implements IGameService {
     public ChessGameService() {
     }
 
-    /**
-     * create new Game
-     *
-     * @param playerNames players names
-     * @return boolean that's true if game is created
-     */
+    public ChessGame createNewOnlineGame(String[] playerNames) {
+        game = new ChessGame();
+
+        //getting and setting the gameID
+        game.setId(this.getNewGameID());
+
+        //initialize the players
+        List<Player> players = playerService.initPlayers(playerNames);
+        game.setPlayers(players);
+        game.setActivePlayer(players.get(0));
+
+        //initialize the chessboard
+
+        Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
+        game.setChessboard(newGameChessboard);
+        return game;
+    }
+
+        /**
+         * create new Game
+         *
+         * @param playerNames players names
+         * @return boolean that's true if game is created
+         */
     public boolean createNewGame(String[] playerNames) {
         game = new ChessGame();
 
@@ -55,9 +74,9 @@ public class ChessGameService implements IGameService {
         game.setId(this.getNewGameID());
 
         //initialize the players
-        Player[] players = playerService.initPlayers(playerNames);
+        List<Player> players = playerService.initPlayers(playerNames);
         game.setPlayers(players);
-        game.setActivePlayer(players[0]);
+        game.setActivePlayer(players.get(0));
 
         //initialize the chessboard
         Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
@@ -78,10 +97,13 @@ public class ChessGameService implements IGameService {
 
     public Square[][] getBoard(int gameID) {
         if (verifyGameID(gameID)) {
-            return game.getAllSquaresFromChessboard();
+            return getAllSquaresFromChessboard();
         } else {
             return null;
         }
+    }
+    public Square[][] getAllSquaresFromChessboard(){
+        return this.game.getChessboard().getSquares();
     }
 
     /**
@@ -147,7 +169,7 @@ public class ChessGameService implements IGameService {
                 ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
                 this.switchActive(game);
 
-                return game.getActivePlayerName();
+                return getActivePlayerName();
             } else {
                 return "";
             }
@@ -155,20 +177,24 @@ public class ChessGameService implements IGameService {
             return "";
         }
     }
+    public String getActivePlayerName(){
+        return this.game.getActivePlayer().getName();
+    }
+
 
     /**
      * Method to switch active players after move
      */
     private void switchActive(IGame game) {
-        Player[] players = game.getPlayers();
+        List<Player> players = game.getPlayers();
         Player activePlayer = game.getActivePlayer();
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].equals(activePlayer)) {
-                if (i == (players.length - 1)) {
-                    game.setActivePlayer(players[0]);
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).equals(activePlayer)) {
+                if (i == (players.size() - 1)) {
+                    game.setActivePlayer(players.get(0));
                     break;
                 } else {
-                    game.setActivePlayer(players[i + 1]);
+                    game.setActivePlayer(players.get(i + 1));
                     break;
                 }
             }
@@ -184,7 +210,7 @@ public class ChessGameService implements IGameService {
     @Override
     public String getPlayerTurn(int gameID) {
         if (verifyGameID(gameID)) {
-            return game.getActivePlayerName();
+            return getActivePlayerName();
         } else {
             return "";
         }
