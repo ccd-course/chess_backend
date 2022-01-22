@@ -23,7 +23,7 @@ public class Pawn implements IPiece {
     private PieceType type = PieceType.PAWN;
     private boolean motioned;
     private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
-
+    private int rank = 2;
 
     public Pawn(Player player, boolean clockwise) {
         this.player = player;

@@ -89,7 +89,7 @@ public class ChessboardService {
     }
 
     /**
-     * private function that takes two positions, ie x,y and set piexe in Square[x][y]
+     * private function that takes two positions, ie x,y and set piece in Square[x][y]
      *
      * @param posX    position x
      * @param posY    position y
@@ -175,21 +175,41 @@ public class ChessboardService {
      * @param move       Move object
      */
     public static void move(Chessboard chessboard, Move move) {
+        IPiece piece = move.getMovedPiece();
+
         chessboard.getSquares()
                 [move.getTo().getPosX()][move.getTo().getPosY()]
-                .setPiece(move.getMovedPiece());
+                .setPiece(piece);
         chessboard.getSquares()
                 [move.getFrom().getPosX()][move.getFrom().getPosY()]
                 .removePiece();
+
+        if(piece.getType() == PieceType.PAWN){
+            rankUpPawn((Pawn) piece, move.getFrom().getPosY(), move.getTo().getPosY(), getChessboardLength(chessboard));
+
+            if(checkPawnPromotion((Pawn) piece)){
+                promotePawn(chessboard, piece);
+            }
+        }
     }
 
     public static void move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
+        IPiece piece = chessboard.getSquares()[fromX][fromY].getPiece();
+
         chessboard.getSquares()
                 [toX][toY]
-                .setPiece(chessboard.getSquares()[fromX][fromY].getPiece());
+                .setPiece(piece);
         chessboard.getSquares()
                 [fromX][fromY]
                 .removePiece();
+
+        if(piece.getType() == PieceType.PAWN){
+            rankUpPawn((Pawn) piece, fromY, toY, getChessboardLength(chessboard));
+
+            if(checkPawnPromotion((Pawn) piece)){
+                promotePawn(chessboard, piece);
+            }
+        }
     }
 
     /**
@@ -230,5 +250,33 @@ public class ChessboardService {
 
     public static IPiece getPieceByPosition(Chessboard chessboard, int x, int y){
         return chessboard.getSquares()[x][y].getPiece();
+    }
+
+    private static void rankUpPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
+        if((Math.abs(posFrom-posTo) == 1) || ((Math.abs(posTo-posFrom)-chessboardLength) == -1)){
+            pawn.setRank(pawn.getRank()+1);
+            System.out.println("Pawn Rank: " + pawn.getRank());
+        } else {
+            if((Math.abs(posFrom-posTo) == 2) || ((Math.abs(posTo-posFrom)-chessboardLength) == -2)){
+                pawn.setRank(pawn.getRank()+2);
+                System.out.println("Pawn Rank: " + pawn.getRank());
+            }
+        }
+    }
+
+    private static int getChessboardLength(final Chessboard chessboard) {
+        return chessboard.getSquares()[0].length;
+    }
+
+    private static boolean checkPawnPromotion(Pawn pawn){
+        return pawn.getRank() == 8;
+    }
+
+    private static void promotePawn(Chessboard chessboard, IPiece piece){
+        chessboard.getSquares()
+                [piece.getSquare().getPosX()][piece.getSquare().getPosY()]
+                .removePiece();
+
+        setPiece(piece.getSquare().getPosX(), piece.getSquare().getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
     }
 }
