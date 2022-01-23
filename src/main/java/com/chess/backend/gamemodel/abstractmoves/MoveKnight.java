@@ -20,7 +20,7 @@ public class MoveKnight {
      * Direction: Knight-like, one step
      *
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param peaceful   Whether the piece may move to an empty field.
@@ -45,7 +45,7 @@ public class MoveKnight {
      * Direction: Knight-Forward-Right, limit can be set
      *
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param limit      The maximum of steps.
