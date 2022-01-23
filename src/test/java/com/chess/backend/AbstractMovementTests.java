@@ -445,4 +445,47 @@ public class AbstractMovementTests {
         assertFalse(possibleMovePositions.contains(new Position(0, 2)));
 
     }
+
+    @Test
+    void testWazir() {
+
+        PieceType pieceType = PieceType.WAZIR;
+
+        IPiece piece = new Wazir(game.getPlayers().get(0), true);
+        setUpChessboard(piece);
+        spawnPawnAsVictim(new Position(3, 26));
+        HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
+
+        // One Left
+        assertTrue(possibleMovePositions.contains(new Position(3, 0)));
+        // One Right
+        assertTrue(possibleMovePositions.contains(new Position(1, 0)));
+        // Multiple Right
+        assertFalse(possibleMovePositions.contains(new Position(0, 0)));
+        // One Backward
+        assertTrue(possibleMovePositions.contains(new Position(2, 1)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 2)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One Forward
+        assertTrue(possibleMovePositions.contains(new Position(2, 26)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 12)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One diagonal forward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 26)));
+        // One diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
+        // One diagonal backward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 1)));
+        // One diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 1)));
+        // Multiple diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
+        // Multiple diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 2)));
+
+    }
 }
