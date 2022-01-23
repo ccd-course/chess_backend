@@ -18,7 +18,7 @@ import static com.chess.backend.gamemodel.abstractmoves.MoveRight.right;
 
 
 /**
- * Represents the implementation of a diagonal move.
+ * Represents the implementation of a cannon shoot.
  */
 public class Shoot {
 
@@ -26,13 +26,14 @@ public class Shoot {
     }
 
     /**
-     * Generate concrete possible moves from a given piece and game context.
-     * Direction: Diagonal, no limit
+     * Generate concrete possible shoots from a given piece and game context.
+     * Direction: Depends on neighbors, no limit
      *
      * @param game       The game context.
      * @param fromSquare The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param peaceful   Whether peaceful moves are allowed (moves to an unoccupied square).
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
@@ -41,12 +42,13 @@ public class Shoot {
 
     /**
      * Generate concrete possible moves from a given piece and game context.
-     * Direction: Diagonal (every direction), limit can be set
+     * Direction: Depends on neighbors, limit can be set
      *
      * @param game       The game context.
      * @param fromSquare The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param peaceful   Whether peaceful moves are allowed (moves to an unoccupied square).
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
@@ -61,7 +63,7 @@ public class Shoot {
                     N: Neighbor
                     C: Cannon
                     D: Shooting Direction
-                    N # #749
+                    N # #
                     # C #
                     # # D
                 */
@@ -73,12 +75,43 @@ public class Shoot {
                     # D #
                 */
                 case 1 -> allowedMoves.addAll(backward(game, fromSquare, attack, jump, peaceful, -1));
+                /*
+                    # # N
+                    # C #
+                    D # #
+                */
                 case 2 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BL));
+                /*
+                    # # #
+                    D C N
+                    # # #
+                */
                 case 3 -> allowedMoves.addAll(left(game, fromSquare, attack, jump, peaceful, -1));
+                /*
+                    D # #
+                    # C #
+                    # # N
+                */
                 case 4 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FL));
+                /*
+                    # D #
+                    # C #
+                    # N #
+                */
                 case 5 -> allowedMoves.addAll(forward(game, fromSquare, attack, jump, peaceful, -1));
+                /*
+                    # # D
+                    # C #
+                    N # #
+                */
                 case 6 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FR));
+                /*
+                    # # #
+                    N C D
+                    # # #
+                */
                 case 7 -> allowedMoves.addAll(right(game, fromSquare, attack, jump, peaceful, -1));
+                default -> {}
             }
         }
 
