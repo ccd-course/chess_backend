@@ -1,9 +1,9 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Move;
 import com.chess.backend.gamemodel.Square;
+import com.chess.backend.gamemodel.pieces.Piece;
 
 import java.util.Set;
 
@@ -25,7 +25,7 @@ public class MoveOneForward {
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful) {
         return MoveForward.forward(game, piece, attack, jump, peaceful, 1);
     }
 }

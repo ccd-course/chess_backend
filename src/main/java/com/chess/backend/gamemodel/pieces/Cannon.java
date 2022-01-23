@@ -1,7 +1,8 @@
 package com.chess.backend.gamemodel.pieces;
 
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.gamemodel.abstractmoves.*;
+import com.chess.backend.gamemodel.abstractmoves.MoveDiagonal;
+import com.chess.backend.gamemodel.abstractmoves.Shoot;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 import lombok.Data;
@@ -14,16 +15,17 @@ import java.util.Set;
  * Represents a piece.
  */
 @Data
-public class Knight extends Piece {
+public class Cannon extends Piece {
+    //    private Square square;
     private Integer posX;
     private Integer posY;
     private Player player;
-    private PieceType type = PieceType.KNIGHT;
+    private PieceType type = PieceType.CANNON;
     private boolean motioned;
     private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
-    public Knight(Player player, boolean clockwise) {
+    public Cannon(Player player, boolean clockwise) {
         this.player = player;
         this.clockwise = clockwise;
     }
@@ -37,7 +39,7 @@ public class Knight extends Piece {
     @Override
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveKnight.concretise(game, this, true, true, true));
+        allowedMoves.addAll(Shoot.concretise(game, this, true, false, false));
         return allowedMoves;
     }
 
@@ -54,7 +56,7 @@ public class Knight extends Piece {
 
         for (Move move :
                 allowedFullMoves) {
-            allowedMoves.add(move.getTo());
+            allowedMoves.add(move.getTaken());
         }
 
         return allowedMoves;

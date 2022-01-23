@@ -19,8 +19,16 @@ public class Firebase {
      */
     void addDocument(String collection, String docId, Object value)  {
         DocumentReference docRef = db.collection(collection).document(docId);
-        docRef.set(value);
-//        ApiFuture<WriteResult> result = docRef.set(value);
+        try{
+            ApiFuture<WriteResult> result = docRef.set(value);
+            System.out.println("Update time : " + result.get().getUpdateTime());
+        }
+        catch (ExecutionException | InterruptedException e){
+            System.out.println("ERROR: "+ docId);
+            e.fillInStackTrace();
+            e.printStackTrace();
+            System.out.println(e);
+        }
 
     }
     /**

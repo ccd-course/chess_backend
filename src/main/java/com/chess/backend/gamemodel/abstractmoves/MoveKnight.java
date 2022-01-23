@@ -1,7 +1,7 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.domain.models.IPiece;
+import com.chess.backend.gamemodel.pieces.Piece;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class MoveKnight {
      * @param peaceful   Whether the piece may move to an empty field.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
         allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
@@ -53,7 +53,7 @@ public class MoveKnight {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> knight(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful,
+    public static Set<Move> knight(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful,
                                    int limit, Position.Direction direction1, Position.Direction direction2) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
@@ -71,16 +71,16 @@ public class MoveKnight {
             }
             if (toPosition == null) break;
             Square toSquare = ChessboardService.getSquare(chessboard, toPosition);
-            IPiece takenPiece = null;
+            Piece takenPiece = null;
 
             if (toSquare.getPiece() != null) {
                 if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor() && steps == limit - 1) {
                     takenPiece = toSquare.getPiece();
                     allowedMoves.add(
-                            new Move(fromSquare, toSquare,
-                                    fromSquare.getPiece(), takenPiece,
-                                    null, false, null
-                            ));
+                            new Move(fromSquare, toSquare, toSquare,
+                                    fromSquare.getPiece(),
+                                    takenPiece, null, false,
+                                    null));
                     break;
                 } else if (jump) {
                     continue;
@@ -89,10 +89,10 @@ public class MoveKnight {
                 }
             } else if (peaceful && steps == limit - 1) {
                 allowedMoves.add(
-                        new Move(fromSquare, toSquare,
-                                fromSquare.getPiece(), takenPiece,
-                                null, false, null
-                        ));
+                        new Move(fromSquare, toSquare, null,
+                                fromSquare.getPiece(),
+                                null, null, false,
+                                null));
             }
         }
         return allowedMoves;

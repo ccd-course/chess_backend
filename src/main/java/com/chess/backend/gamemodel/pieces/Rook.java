@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -15,10 +14,10 @@ import java.util.Set;
  * Represents a piece.
  */
 @Data
-public class Rook implements IPiece {
-    private Square square;
+public class Rook extends Piece {
+    private Integer posX;
+    private Integer posY;
     private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.ROOK;
     private boolean motioned;
     private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
@@ -38,10 +37,10 @@ public class Rook implements IPiece {
     @Override
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveLeft.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveRight.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveForward.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveBackward.concretise(game, this.square, true, false, true));
+        allowedMoves.addAll(MoveLeft.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveRight.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveForward.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveBackward.concretise(game, this, true, false, true));
         return allowedMoves;
     }
 
@@ -113,7 +112,6 @@ public class Rook implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +

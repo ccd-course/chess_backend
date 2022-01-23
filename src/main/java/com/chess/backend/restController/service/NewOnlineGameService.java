@@ -30,6 +30,9 @@ public class NewOnlineGameService  {
         ChessGame game = gc.createNewOnlineGame(players);
         int gameID = game.getId();
         this.gameRepository.createNewGame(gameID, game);
+        System.out.println("gameID: "+ gameID);
+        System.out.println(game);
+
         return gameID;
 //        if (gc.createNewGame(players.getAllPlayerNames())) {
 //            return gc.getGameID();

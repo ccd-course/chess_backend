@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -12,10 +11,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class Wazir implements IPiece {
-    private Square square;
+public class Wazir extends Piece {
+    private Integer posX;
+    private Integer posY;
     private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.WAZIR;
     private boolean motioned;
     private final boolean clockwise;
@@ -28,10 +27,10 @@ public class Wazir implements IPiece {
     @Override
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveOneForward.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneLeft.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneRight.concretise(game, this.square, true, false, true));
+        allowedMoves.addAll(MoveOneForward.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveOneBackward.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveOneLeft.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveOneRight.concretise(game, this, true, false, true));
         return allowedMoves;
     }
 
@@ -97,7 +96,6 @@ public class Wazir implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +

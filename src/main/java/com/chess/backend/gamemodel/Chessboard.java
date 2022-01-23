@@ -21,7 +21,6 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.domain.models.IBoard;
-import com.chess.backend.domain.models.IPiece;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
 
@@ -37,11 +36,6 @@ import java.util.ArrayList;
 public class Chessboard implements IBoard {
     private int numberOfPlayers;
     private ArrayList<ArrayList<Square>>  squares;//squares of chessboard
-    //    ----------------------------
-    //    For En passant:
-    //    |-> Pawn whose in last turn moved two square
-    private IPiece twoSquareMovedPawn = null;
-    private IPiece twoSquareMovedPawn2 = null;
     private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
 }

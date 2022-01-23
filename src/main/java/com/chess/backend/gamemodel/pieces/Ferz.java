@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -12,12 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class Ferz implements IPiece {
+public class Ferz extends Piece {
     //    private Square square;
     private Integer posX;
     private Integer posY;
     private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.FERZ;
     private boolean motioned;
     private final boolean clockwise;
@@ -96,7 +94,6 @@ public class Ferz implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +

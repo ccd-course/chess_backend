@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -16,10 +15,10 @@ import java.util.Set;
  * Represents a piece.
  */
 @Data
-public class Pawn implements IPiece {
-    private Square square;
+public class Pawn extends Piece {
+    private Integer posX;
+    private Integer posY;
     private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.PAWN;
     private boolean motioned;
     private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
@@ -40,17 +39,17 @@ public class Pawn implements IPiece {
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
         if (clockwise) {
-            allowedMoves.addAll(MoveOneForward.concretise(game, this.square, false, false, true));
-            if (square.getPosY() == PlayerService.getBaseY(player)) {
-                allowedMoves.addAll(MoveTwoForward.concretise(game, this.square, false, false, true));
+            allowedMoves.addAll(MoveOneForward.concretise(game, this, false, false, true));
+            if (this.getPosY() == PlayerService.getBaseY(player)) {
+                allowedMoves.addAll(MoveTwoForward.concretise(game, this, false, false, true));
             }
-            allowedMoves.addAll(MovePawnCaptureForward.concretise(game, this.square, true, false, false));
+            allowedMoves.addAll(MovePawnCaptureForward.concretise(game, this, true, false, false));
         } else {
-            allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, false, false, true));
-            if (square.getPosY() == PlayerService.getBaseY(player) + 3) {
-                allowedMoves.addAll(MoveTwoBackward.concretise(game, this.square, false, false, true));
+            allowedMoves.addAll(MoveOneBackward.concretise(game, this, false, false, true));
+            if (this.getPosY() == PlayerService.getBaseY(player) + 3) {
+                allowedMoves.addAll(MoveTwoBackward.concretise(game, this, false, false, true));
             }
-            allowedMoves.addAll(MovePawnCaptureBackward.concretise(game, this.square, true, false, false));
+            allowedMoves.addAll(MovePawnCaptureBackward.concretise(game, this, true, false, false));
         }
         return allowedMoves;
     }
@@ -123,8 +122,9 @@ public class Pawn implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
+                ", posX=" + posX +
+                ", posY=" + posY +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +
                 '}';

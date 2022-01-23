@@ -45,9 +45,6 @@ public interface IPiece {
     @Override
     String toString();
 
-//    Square getSquare();
-
-    Chessboard getChessboard();
 
     void setPosX(Integer posX);
 
@@ -59,7 +56,6 @@ public interface IPiece {
 
     void setPlayer(Player player);
 
-    void setChessboard(Chessboard chessboard);
 
     boolean equals(Object o);
 

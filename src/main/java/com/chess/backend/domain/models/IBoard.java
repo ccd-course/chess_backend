@@ -10,10 +10,6 @@ public interface IBoard {
 
     ArrayList<ArrayList<Square>>  getSquares();
 
-    IPiece getTwoSquareMovedPawn();
-
-    IPiece getTwoSquareMovedPawn2();
-
     boolean isBreakCastling();
 
     Moves getMoves_history();
@@ -22,9 +18,6 @@ public interface IBoard {
 
     void setSquares(ArrayList<ArrayList<Square>>  squares);
 
-    void setTwoSquareMovedPawn(IPiece twoSquareMovedPawn);
-
-    void setTwoSquareMovedPawn2(IPiece twoSquareMovedPawn2);
 
     void setBreakCastling(boolean breakCastling);
 

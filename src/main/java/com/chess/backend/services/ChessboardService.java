@@ -1,6 +1,5 @@
 package com.chess.backend.services;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
@@ -22,10 +21,10 @@ public class ChessboardService {
     }
 
     private static ArrayList<ArrayList<Square>> initEmptySquares(Integer numberOfPlayers){
-        int boardWidth = 4;
+        int boardWidth = 5;
         ArrayList<ArrayList<Square>>squares = new ArrayList<>(boardWidth);
         for(int i =0; i<boardWidth; i++){
-            int boardLength = numberOfPlayers * 8;
+            int boardLength = numberOfPlayers * 9;
             ArrayList<Square> emptySquares = new ArrayList<>(boardLength);
             for (int squarePos = 0; squarePos < boardLength; squarePos++) {
                 emptySquares.add(new Square(i, squarePos, null));
@@ -96,12 +95,19 @@ public class ChessboardService {
         setPiece(1, figuresFirstColumn + 1, squares, new Bishop(player, false));
         setPiece(2, figuresFirstColumn + 1, squares, new Knight(player, false));
         setPiece(3, figuresFirstColumn + 1, squares, new Rook(player, false));
+        setPiece(4, figuresFirstColumn + 1, squares, new Ferz(player, false));
 
         // clockwise
         setPiece(0, figuresFirstColumn + 2, squares, new King(player, true));
         setPiece(1, figuresFirstColumn + 2, squares, new Bishop(player, true));
         setPiece(2, figuresFirstColumn + 2, squares, new Knight(player, true));
         setPiece(3, figuresFirstColumn + 2, squares, new Rook(player, true));
+        setPiece(3, figuresFirstColumn + 2, squares, new Wazir(player, true));
+
+        //cannon
+        Player dummyCanonPlayer = new Player();
+        dummyCanonPlayer.setName("The canon");
+        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(dummyCanonPlayer, true));
     }
 
     /**
@@ -112,11 +118,15 @@ public class ChessboardService {
      * @param squares 2D array of Square object
      * @param piece   Piece object
      */
-    public static void setPiece(int posX, int posY, ArrayList<ArrayList<Square>> squares, IPiece piece) {
+    public static void setPiece(int posX, int posY, ArrayList<ArrayList<Square>> squares, Piece piece) {
 
         Square square = squares.get(posX).get(posY);
+        piece.setPosY(posY);
+        piece.setPosX(posX);
+
         square.setPiece(piece);
         squares.get(posX).set(posY, square);
+
     }
 
     /**
@@ -140,7 +150,7 @@ public class ChessboardService {
         for (Square square :
                 inputSquares) {
             if (square.getPiece() == null) continue;
-            IPiece piece = square.getPiece();
+            Piece piece = square.getPiece();
             if ((pieceType == null || piece.getType() == pieceType)
                     && (color == null || piece.getColor() == color)
                     && (player == null || piece.getPlayer() == player)) {
@@ -192,9 +202,9 @@ public class ChessboardService {
      * @param move       Move object
      */
     public static void move(Chessboard chessboard, Move move) {
-        IPiece piece = move.getMovedPiece();
+        Piece piece = move.getMovedPiece();
 
-        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece(piece);
+        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece((Piece)piece);
 //                [move.getTo().getPosX()][move.getTo().getPosY()]
 //                .setPiece(piece);
         chessboard.getSquares().get(move.getFrom().getPosX()).get(move.getFrom().getPosY()).removePiece();
@@ -211,15 +221,17 @@ public class ChessboardService {
     }
 
     public static void move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
-        IPiece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
+        Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
 
-        chessboard.getSquares().get(toX).get(toY).setPiece(piece);
-//                [toX][toY]
-//                .setPiece(piece);
+        chessboard.getSquares().get(toX).get(toY).setPiece((Piece)piece);
         chessboard.getSquares().get(fromX).get(fromY).removePiece();
-//                [fromX][fromY]
-//                .removePiece();
-
+        if (piece.getType() != PieceType.CANNON) {
+            chessboard.getSquares()
+                    .get(toX).get(toY).setPiece((Piece)piece);
+            chessboard.getSquares().get(fromX).get(fromY).removePiece();
+        } else {
+            chessboard.getSquares().get(toX).get(toY).removePiece();
+        }
         if(piece.getType() == PieceType.PAWN){
             rankUpPawn((Pawn) piece, fromY, toY, getChessboardLength(chessboard));
 
@@ -267,8 +279,12 @@ public class ChessboardService {
         }
     }
 
-    public static IPiece getPieceByPosition(Chessboard chessboard, int x, int y){
+    public static Piece getPieceByPosition(Chessboard chessboard, int x, int y){
         return chessboard.getSquares().get(x).get(y).getPiece();
+    }
+
+    public static Piece getPieceByPosition(Chessboard chessboard, Position position){
+        return chessboard.getSquares().get(position.getX()).get(position.getY()).getPiece();
     }
 
     private static void rankUpPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
@@ -291,11 +307,8 @@ public class ChessboardService {
         return pawn.getRank() == 8;
     }
 
-    private static void promotePawn(Chessboard chessboard, IPiece piece){
-        chessboard.getSquares().get(piece.getSquare().getPosX()).get(piece.getSquare().getPosY()).removePiece();
-//                [piece.getSquare().getPosX()][piece.getSquare().getPosY()]
-//                .removePiece();
-
-        setPiece(piece.getSquare().getPosX(), piece.getSquare().getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
+    private static void promotePawn(Chessboard chessboard, Piece piece){
+        chessboard.getSquares().get(piece.getPosX()).get(piece.getPosY()).removePiece();
+        setPiece(piece.getPosX(), piece.getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
     }
 }

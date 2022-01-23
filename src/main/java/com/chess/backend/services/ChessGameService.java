@@ -3,7 +3,7 @@ package com.chess.backend.services;
 import com.chess.backend.domain.models.IGame;
 import com.chess.backend.domain.services.IGameService;
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.domain.models.IPiece;
+import com.chess.backend.gamemodel.pieces.Piece;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -139,7 +139,7 @@ public class ChessGameService implements IGameService {
     @Override
     public int[][] getPossibleMoves(int gameID, int[] piecePosition) {
         if (verifyGameID(gameID)) {
-            IPiece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
+            Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
             ArrayList<Square> moveList = piece.getAllowedMoves(game);
             int[][] moves = new int[moveList.size()][2];
 

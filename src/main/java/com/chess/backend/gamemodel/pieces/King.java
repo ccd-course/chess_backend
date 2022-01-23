@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -15,12 +14,10 @@ import java.util.Set;
  * Represents a piece.
  */
 @Data
-public class King implements IPiece {
-    //    private Square square;
+public class King extends Piece {
     private Integer posX;
     private Integer posY;
     private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.KING;
     private boolean motioned;
     private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
@@ -116,7 +113,6 @@ public class King implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +
