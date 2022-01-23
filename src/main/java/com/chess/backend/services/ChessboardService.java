@@ -239,7 +239,7 @@ public class ChessboardService {
     }
 
     public static void initClean(Chessboard chessboard) {
-        Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
+        Square[][] squares = new Square[5][chessboard.getNumberOfPlayers() * 9];
         initClean(squares);
         chessboard.setSquares(squares);
     }

@@ -106,6 +106,10 @@ public class Move {
         return new Position(getTo().getPosX(), getTo().getPosY());
     }
 
+    public Position getTakenPos() {
+        return new Position(getTaken().getPosX(), getTaken().getPosY());
+    }
+
     public Position getFromPos() {
         return new Position(getFrom().getPosX(), getFrom().getPosY());
     }
