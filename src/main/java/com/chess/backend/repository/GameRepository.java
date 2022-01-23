@@ -17,23 +17,23 @@ public class GameRepository {
     private static final String collection = "game";
 
     public void createNewGame(Integer gameId, ChessGame game){
-        Square[][] chessboard = game.getChessboard().getSquares();
-        SquareObject[][] board = new SquareObject[chessboard[0].length][chessboard.length];
+//        Square[][] chessboard = game.getChessboard().getSquares();
+//        SquareObject[][] board = new SquareObject[chessboard[0].length][chessboard.length];
+//
+//        for(int i = 0; i < chessboard.length; i++){
+//            for(int j = 0; j < chessboard[i].length; j++){
+//                if(chessboard[i][j].hasPiece()){
+//                    board[j][i] = new SquareObject(chessboard[i][j].getPiece().getType().getLabel(), chessboard[i][j].getPiece().getPlayer().getName());
+//                } else {
+//                    board[j][i] = null;
+//                }
+//            }
+//        }
 
-        for(int i = 0; i < chessboard.length; i++){
-            for(int j = 0; j < chessboard[i].length; j++){
-                if(chessboard[i][j].hasPiece()){
-                    board[j][i] = new SquareObject(chessboard[i][j].getPiece().getType().getLabel(), chessboard[i][j].getPiece().getPlayer().getName());
-                } else {
-                    board[j][i] = null;
-                }
-            }
-        }
-
-        ChessboardObject chessboardSimpleObject = new ChessboardObject(board);
-        String chessBoardJson = new Gson().toJson(chessboardSimpleObject.getChessboard());
-        Map<String, Object> data = new HashMap<>();
-        data.put("chessboard", chessBoardJson);
-        this.firebase.addDocument(collection, String.valueOf(gameId),data);
+//        ChessboardObject chessboardSimpleObject = new ChessboardObject(board);
+//        String chessBoardJson = new Gson().toJson(chessboardSimpleObject.getChessboard());
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("chessboard", chessBoardJson);
+        this.firebase.addDocument(collection, String.valueOf(gameId),game);
     }
 }

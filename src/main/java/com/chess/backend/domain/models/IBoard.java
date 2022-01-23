@@ -3,10 +3,12 @@ package com.chess.backend.domain.models;
 import com.chess.backend.gamemodel.Moves;
 import com.chess.backend.gamemodel.Square;
 
+import java.util.ArrayList;
+
 public interface IBoard {
     int getNumberOfPlayers();
 
-    Square[][] getSquares();
+    ArrayList<ArrayList<Square>>  getSquares();
 
     IPiece getTwoSquareMovedPawn();
 
@@ -18,7 +20,7 @@ public interface IBoard {
 
     void setNumberOfPlayers(int numberOfPlayers);
 
-    void setSquares(Square[][] squares);
+    void setSquares(ArrayList<ArrayList<Square>>  squares);
 
     void setTwoSquareMovedPawn(IPiece twoSquareMovedPawn);
 

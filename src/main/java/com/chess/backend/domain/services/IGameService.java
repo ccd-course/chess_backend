@@ -3,6 +3,8 @@ package com.chess.backend.domain.services;
 import com.chess.backend.domain.models.IGame;
 import com.chess.backend.gamemodel.Square;
 
+import java.util.ArrayList;
+
 public interface IGameService {
     /**
      * generate new ID for a game object
@@ -13,7 +15,7 @@ public interface IGameService {
 
     IGame getGame();
 
-    Square[][] getBoard(int gameID);
+    ArrayList<ArrayList<Square>> getBoard(int gameID);
 
     int getGameID();
 

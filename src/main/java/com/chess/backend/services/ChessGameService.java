@@ -95,14 +95,14 @@ public class ChessGameService implements IGameService {
         return game.getId();
     }
 
-    public Square[][] getBoard(int gameID) {
+    public ArrayList<ArrayList<Square>> getBoard(int gameID) {
         if (verifyGameID(gameID)) {
             return getAllSquaresFromChessboard();
         } else {
             return null;
         }
     }
-    public Square[][] getAllSquaresFromChessboard(){
+    public ArrayList<ArrayList<Square>> getAllSquaresFromChessboard(){
         return this.game.getChessboard().getSquares();
     }
 

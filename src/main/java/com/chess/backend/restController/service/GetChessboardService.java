@@ -6,6 +6,8 @@ import com.chess.backend.restController.objects.SquareObject;
 import com.chess.backend.services.ChessGameService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * This class handles the call to get the chessboard.
  *
@@ -21,7 +23,7 @@ public class GetChessboardService {
      */
     public ChessboardObject getChessboard(int gameID) {
         ChessGameService gc = ChessGameService.getInstance();
-        Square[][] chessboard = gc.getBoard(gameID);
+        ArrayList<ArrayList<Square>> chessboard = gc.getBoard(gameID);
 
         //[4][24]
         /*
@@ -39,12 +41,12 @@ public class GetChessboardService {
          */
 
         //[24][4]
-        SquareObject[][] board = new SquareObject[chessboard[0].length][chessboard.length];
+        SquareObject[][] board = new SquareObject[chessboard.get(0).size()][chessboard.size()];
 
-        for(int i = 0; i < chessboard.length; i++){
-            for(int j = 0; j < chessboard[i].length; j++){
-                if(chessboard[i][j].hasPiece()){
-                    board[j][i] = new SquareObject(chessboard[i][j].getPiece().getType().getLabel(), chessboard[i][j].getPiece().getPlayer().getName());
+        for(int i = 0; i < chessboard.size(); i++){
+            for(int j = 0; j < chessboard.get(i).size(); j++){
+                if(chessboard.get(i).get(j).hasPiece()){
+                    board[j][i] = new SquareObject(chessboard.get(i).get(j).getPiece().getType().getLabel(), chessboard.get(i).get(j).getPiece().getPlayer().getName());
                 } else {
                     board[j][i] = null;
                 }

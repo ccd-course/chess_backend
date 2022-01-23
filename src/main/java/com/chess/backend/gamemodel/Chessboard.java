@@ -25,6 +25,8 @@ import com.chess.backend.domain.models.IPiece;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 /**
  * Class to represent chessboard.
  *
@@ -34,7 +36,7 @@ import lombok.Data;
 @IgnoreExtraProperties
 public class Chessboard implements IBoard {
     private int numberOfPlayers;
-    private Square[][] squares;//squares of chessboard
+    private ArrayList<ArrayList<Square>>  squares;//squares of chessboard
     //    ----------------------------
     //    For En passant:
     //    |-> Pawn whose in last turn moved two square

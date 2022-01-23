@@ -50,7 +50,7 @@ public class Square {
 
     public void setPiece(IPiece piece) {
         this.piece = piece;
-        this.piece.setSquare(this);
+//        this.piece.setSquare(this);
     }
 
     public PieceType getPieceTypeOfPiece(){

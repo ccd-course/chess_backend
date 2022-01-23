@@ -16,7 +16,9 @@ import java.util.Set;
  */
 @Data
 public class Bishop implements IPiece {
-    private Square square;
+//    private Square square;
+    private Integer posX;
+    private Integer posY;
     private Player player;
     private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.BISHOP;
@@ -38,7 +40,7 @@ public class Bishop implements IPiece {
     @Override
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveDiagonal.concretise(game, this.square, true, false, true));
+        allowedMoves.addAll(MoveDiagonal.concretise(game, this, true, false, true));
         return allowedMoves;
     }
 

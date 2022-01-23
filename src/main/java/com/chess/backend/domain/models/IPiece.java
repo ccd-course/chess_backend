@@ -45,11 +45,17 @@ public interface IPiece {
     @Override
     String toString();
 
-    Square getSquare();
+//    Square getSquare();
 
     Chessboard getChessboard();
 
-    void setSquare(Square square);
+    void setPosX(Integer posX);
+
+    Integer getPosX();
+
+    void setPosY(Integer posX);
+
+    Integer getPosY();
 
     void setPlayer(Player player);
 

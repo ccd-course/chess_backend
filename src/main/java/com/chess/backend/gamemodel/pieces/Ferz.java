@@ -13,7 +13,9 @@ import java.util.Set;
 
 @Data
 public class Ferz implements IPiece {
-    private Square square;
+    //    private Square square;
+    private Integer posX;
+    private Integer posY;
     private Player player;
     private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
     private PieceType type = PieceType.FERZ;
@@ -28,7 +30,7 @@ public class Ferz implements IPiece {
     @Override
     public HashSet<Move> getAllowedFullMoves(ChessGame game) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false, true));
+        allowedMoves.addAll(MoveOneDiagonal.concretise(game, this, true, false, true));
         return allowedMoves;
     }
 

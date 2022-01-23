@@ -23,13 +23,13 @@ public class MoveForward {
      * @param jump       Allow moves that pass occupied fields (knight)
      *                   Direction: Forward, no limit
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
-        return forward(game, fromSquare, attack, jump, peaceful, -1);
+    public static Set<Move> concretise(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful) {
+        return forward(game, piece, attack, jump, peaceful, -1);
     }
 
     /**
@@ -44,9 +44,13 @@ public class MoveForward {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> forward(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> forward(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
+
+        Position fromPosition = new Position(piece.getPosX(), piece.getPosY());
+        Square fromSquare = ChessboardService.getSquare(chessboard, fromPosition);
+
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0;

@@ -26,16 +26,16 @@ public class MoveKnight {
      * @param peaceful   Whether the piece may move to an empty field.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.LEFT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.RIGHT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.FORWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.BACKWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.FORWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.BACKWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.LEFT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.RIGHT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.FORWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.BACKWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.FORWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.BACKWARD));
 
         return allowedMoves;
     }
@@ -53,10 +53,13 @@ public class MoveKnight {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> knight(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful,
+    public static Set<Move> knight(ChessGame game, IPiece piece, boolean attack, boolean jump, boolean peaceful,
                                    int limit, Position.Direction direction1, Position.Direction direction2) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
+        Position fromPosition = new Position(piece.getPosX(), piece.getPosY());
+        Square fromSquare = ChessboardService.getSquare(chessboard, fromPosition);
+
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0; steps < limit; steps++) {
