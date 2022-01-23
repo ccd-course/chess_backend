@@ -10,6 +10,7 @@ public enum PieceType {
     BISHOP("Bishop", "B"),
     QUEEN("Queen", "Q"),
     KING("King", "K"),
+    CANNON("Cannon", "C"),
     FERZ("Ferz", "F"),
     WAZIR("Wazir", "W");
 

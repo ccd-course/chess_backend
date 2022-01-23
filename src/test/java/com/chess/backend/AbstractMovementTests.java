@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AbstractMovementTests {
 
@@ -42,16 +41,17 @@ public class AbstractMovementTests {
     }
 
     HashSet<Position> getPossibleMovePositions(PieceType pieceType) {
-        ArrayList<Square> squares = ChessboardService.searchSquaresByPiece(
-                game.getChessboard().getSquares(), pieceType, Color.WHITE, null);
-        //ChessboardService.move(game.chessboard, squares.get(0).getPosX(), squares.get(0).getPosY(), 2, 0);
         HashSet<Move> possibleMoves = game.getChessboard().getSquares()[2][0].getPiece().getAllowedFullMoves(game);
         System.out.println(possibleMoves);
 
         HashSet<Position> positions = new HashSet<>();
         for (Move move :
                 possibleMoves) {
-            positions.add(move.getToPos());
+            if (pieceType == PieceType.CANNON){
+                positions.add(move.getTakenPos());
+            } else {
+                positions.add(move.getToPos());
+            }
         }
         return positions;
     }
@@ -62,7 +62,7 @@ public class AbstractMovementTests {
         PieceType pieceType = PieceType.PAWN;
         IPiece piece = new Pawn(game.getPlayers().get(0), true);
         setUpChessboard(piece);
-        spawnPawnAsVictim(new Position(3, 23));
+        spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
 
         // One Left
@@ -78,23 +78,23 @@ public class AbstractMovementTests {
         // Multiple Backward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One Forward
-        assertTrue(possibleMovePositions.contains(new Position(2, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(2, 26)));
         // Two Forward
-        assertTrue(possibleMovePositions.contains(new Position(2, 22)));
+        assertTrue(possibleMovePositions.contains(new Position(2, 25)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 12)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One diagonal forward left (here is the other pawn as victim)
-        assertTrue(possibleMovePositions.contains(new Position(3, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 26)));
         // One diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(1, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
         // One diagonal backward left
         assertFalse(possibleMovePositions.contains(new Position(3, 1)));
         // One diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(1, 1)));
         // Multiple diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(0, 22)));
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
         // Multiple diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(0, 2)));
 
@@ -107,7 +107,7 @@ public class AbstractMovementTests {
 
         IPiece piece = new King(game.getPlayers().get(0), true);
         setUpChessboard(piece);
-        spawnPawnAsVictim(new Position(3, 23));
+        spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
 
         // One Left
@@ -123,21 +123,21 @@ public class AbstractMovementTests {
         // Multiple Backward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One Forward
-        assertTrue(possibleMovePositions.contains(new Position(2, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(2, 26)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 12)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One diagonal forward left
-        assertTrue(possibleMovePositions.contains(new Position(3, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 26)));
         // One diagonal forward right
-        assertTrue(possibleMovePositions.contains(new Position(1, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(1, 26)));
         // One diagonal backward left
         assertTrue(possibleMovePositions.contains(new Position(3, 1)));
         // One diagonal backward right
         assertTrue(possibleMovePositions.contains(new Position(1, 1)));
         // Multiple diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(0, 22)));
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
         // Multiple diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(0, 2)));
 
@@ -150,7 +150,7 @@ public class AbstractMovementTests {
 
         IPiece piece = new Queen(game.getPlayers().get(0), true);
         setUpChessboard(piece);
-        spawnPawnAsVictim(new Position(3, 23));
+        spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
 
         // One Left
@@ -166,27 +166,27 @@ public class AbstractMovementTests {
         // Multiple Backward
         assertTrue(possibleMovePositions.contains(new Position(2, 16)));
         // One Forward
-        assertTrue(possibleMovePositions.contains(new Position(2, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(2, 26)));
         // Multiple Forward
         assertTrue(possibleMovePositions.contains(new Position(2, 12)));
         // Multiple Forward
         assertTrue(possibleMovePositions.contains(new Position(2, 16)));
         // One diagonal forward left
-        assertTrue(possibleMovePositions.contains(new Position(3, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 26)));
         // One diagonal forward right
-        assertTrue(possibleMovePositions.contains(new Position(1, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(1, 26)));
         // One diagonal backward left
         assertTrue(possibleMovePositions.contains(new Position(3, 1)));
         // One diagonal backward right
         assertTrue(possibleMovePositions.contains(new Position(1, 1)));
         // Multiple diagonal forward right
-        assertTrue(possibleMovePositions.contains(new Position(0, 22)));
+        assertTrue(possibleMovePositions.contains(new Position(0, 25)));
         // Multiple diagonal backward right
         assertTrue(possibleMovePositions.contains(new Position(0, 2)));
         // Knight move FL
-        assertFalse(possibleMovePositions.contains(new Position(3, 22)));
+        assertFalse(possibleMovePositions.contains(new Position(3, 25)));
         // Knight move FR
-        assertFalse(possibleMovePositions.contains(new Position(1, 22)));
+        assertFalse(possibleMovePositions.contains(new Position(1, 25)));
         // Knight move BL
         assertFalse(possibleMovePositions.contains(new Position(3, 2)));
         // Knight move BR
@@ -201,7 +201,7 @@ public class AbstractMovementTests {
 
         IPiece piece = new Bishop(game.getPlayers().get(0), true);
         setUpChessboard(piece);
-        spawnPawnAsVictim(new Position(3, 23));
+        spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
 
         // One Left
@@ -217,21 +217,21 @@ public class AbstractMovementTests {
         // Multiple Backward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One Forward
-        assertFalse(possibleMovePositions.contains(new Position(2, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(2, 26)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 12)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One diagonal forward left
-        assertTrue(possibleMovePositions.contains(new Position(3, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 26)));
         // One diagonal forward right
-        assertTrue(possibleMovePositions.contains(new Position(1, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(1, 26)));
         // One diagonal backward left
         assertTrue(possibleMovePositions.contains(new Position(3, 1)));
         // One diagonal backward right
         assertTrue(possibleMovePositions.contains(new Position(1, 1)));
         // Multiple diagonal forward right
-        assertTrue(possibleMovePositions.contains(new Position(0, 22)));
+        assertTrue(possibleMovePositions.contains(new Position(0, 25)));
         // Multiple diagonal backward right
         assertTrue(possibleMovePositions.contains(new Position(0, 2)));
 
@@ -264,21 +264,21 @@ public class AbstractMovementTests {
         // Multiple Backward (behind captured pawn)
         assertFalse(possibleMovePositions.contains(new Position(2, 7)));
         // One Forward
-        assertTrue(possibleMovePositions.contains(new Position(2, 23)));
+        assertTrue(possibleMovePositions.contains(new Position(2, 26)));
         // Multiple Forward
         assertTrue(possibleMovePositions.contains(new Position(2, 20)));
         // Multiple Forward (between pawns)
         assertFalse(possibleMovePositions.contains(new Position(2, 15)));
         // One diagonal forward left
-        assertFalse(possibleMovePositions.contains(new Position(3, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(3, 26)));
         // One diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(1, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
         // One diagonal backward left
         assertFalse(possibleMovePositions.contains(new Position(3, 1)));
         // One diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(1, 1)));
         // Multiple diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(0, 22)));
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
         // Multiple diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(0, 2)));
 
@@ -307,27 +307,27 @@ public class AbstractMovementTests {
         // Multiple Backward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One Forward
-        assertFalse(possibleMovePositions.contains(new Position(2, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(2, 26)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 12)));
         // Multiple Forward
         assertFalse(possibleMovePositions.contains(new Position(2, 16)));
         // One diagonal forward left
-        assertFalse(possibleMovePositions.contains(new Position(3, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(3, 26)));
         // One diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(1, 23)));
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
         // One diagonal backward left
         assertFalse(possibleMovePositions.contains(new Position(3, 1)));
         // One diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(1, 1)));
         // Multiple diagonal forward right
-        assertFalse(possibleMovePositions.contains(new Position(0, 22)));
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
         // Multiple diagonal backward right
         assertFalse(possibleMovePositions.contains(new Position(0, 2)));
         // Knight move FL
-        assertTrue(possibleMovePositions.contains(new Position(3, 22)));
+        assertTrue(possibleMovePositions.contains(new Position(3, 25)));
         // Knight move FR
-        assertTrue(possibleMovePositions.contains(new Position(1, 22)));
+        assertTrue(possibleMovePositions.contains(new Position(1, 25)));
         // Knight move BL
         assertTrue(possibleMovePositions.contains(new Position(3, 2)));
         // Knight move BR
@@ -335,5 +335,157 @@ public class AbstractMovementTests {
 
     }
 
+    @Test
+    void testCannon() {
 
+        PieceType pieceType = PieceType.CANNON;
+
+        IPiece piece = new Cannon(game.getPlayers().get(0), true);
+        setUpChessboard(piece);
+        IPiece ownPiece1 = new Pawn(game.getPlayers().get(0), true);
+        IPiece ownPiece2 = new Pawn(game.getPlayers().get(0), true);
+        ChessboardService.setPiece(2, 1,
+                game.getChessboard().getSquares(),
+                ownPiece1);
+        ChessboardService.setPiece(3, 1,
+                game.getChessboard().getSquares(),
+                ownPiece2);
+        spawnPawnAsVictim(new Position(0, 25));
+        spawnPawnAsVictim(new Position(2, 21));
+        HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
+
+        // One Left
+        assertFalse(possibleMovePositions.contains(new Position(3, 0)));
+        // One Right
+        assertFalse(possibleMovePositions.contains(new Position(1, 0)));
+        // Multiple Right
+        assertFalse(possibleMovePositions.contains(new Position(0, 0)));
+        // One Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 1)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 2)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 26)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 12)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One diagonal forward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 26)));
+        // One diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
+        // One diagonal backward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 1)));
+        // One diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 1)));
+        // Multiple diagonal forward right
+        assertTrue(possibleMovePositions.contains(new Position(0, 25)));
+        // Multiple diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 2)));
+        // Knight move FL
+        assertFalse(possibleMovePositions.contains(new Position(3, 25)));
+        // Knight move FR
+        assertFalse(possibleMovePositions.contains(new Position(1, 25)));
+        // Knight move BL
+        assertFalse(possibleMovePositions.contains(new Position(3, 2)));
+        // Knight move BR
+        assertFalse(possibleMovePositions.contains(new Position(1, 2)));
+        // Cannon straight
+        assertTrue(possibleMovePositions.contains(new Position(2, 21)));
+        // Cannon diagonal
+        assertTrue(possibleMovePositions.contains(new Position(0, 25)));
+
+        // Cannon may not shoot if another player is in neighborhood
+        spawnPawnAsVictim(new Position(2, 26));
+        possibleMovePositions = getPossibleMovePositions(pieceType);
+        assertEquals(possibleMovePositions.size(), 0);
+    }
+
+    @Test
+    void testFerz() {
+
+        PieceType pieceType = PieceType.FERZ;
+
+        IPiece piece = new Ferz(game.getPlayers().get(0), true);
+        setUpChessboard(piece);
+        spawnPawnAsVictim(new Position(3, 26));
+        HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
+
+        // One Left
+        assertFalse(possibleMovePositions.contains(new Position(3, 0)));
+        // One Right
+        assertFalse(possibleMovePositions.contains(new Position(1, 0)));
+        // Multiple Right
+        assertFalse(possibleMovePositions.contains(new Position(0, 0)));
+        // One Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 1)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 2)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 26)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 12)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One diagonal forward left
+        assertTrue(possibleMovePositions.contains(new Position(3, 26)));
+        // One diagonal forward right
+        assertTrue(possibleMovePositions.contains(new Position(1, 26)));
+        // One diagonal backward left
+        assertTrue(possibleMovePositions.contains(new Position(3, 1)));
+        // One diagonal backward right
+        assertTrue(possibleMovePositions.contains(new Position(1, 1)));
+        // Multiple diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
+        // Multiple diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 2)));
+
+    }
+
+    @Test
+    void testWazir() {
+
+        PieceType pieceType = PieceType.WAZIR;
+
+        IPiece piece = new Wazir(game.getPlayers().get(0), true);
+        setUpChessboard(piece);
+        spawnPawnAsVictim(new Position(3, 26));
+        HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
+
+        // One Left
+        assertTrue(possibleMovePositions.contains(new Position(3, 0)));
+        // One Right
+        assertTrue(possibleMovePositions.contains(new Position(1, 0)));
+        // Multiple Right
+        assertFalse(possibleMovePositions.contains(new Position(0, 0)));
+        // One Backward
+        assertTrue(possibleMovePositions.contains(new Position(2, 1)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 2)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One Forward
+        assertTrue(possibleMovePositions.contains(new Position(2, 26)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 12)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One diagonal forward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 26)));
+        // One diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
+        // One diagonal backward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 1)));
+        // One diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 1)));
+        // Multiple diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
+        // Multiple diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 2)));
+
+    }
 }
