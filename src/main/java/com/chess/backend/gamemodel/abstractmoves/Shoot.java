@@ -141,7 +141,6 @@ public class Shoot {
             if(piece != null){
                 playerSet.add(piece.getPlayer());
                 neighbors.add(positionsList.indexOf(position));
-                continue;
             }
         }
         if (playerSet.size() < 2){
