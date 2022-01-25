@@ -18,26 +18,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class NewOnlineGameService  {
-    private final GameRepository gameRepository;
+    private ChessGameService gameService;
+    private GameRepository gameRepository;
+
     @Autowired
-    public NewOnlineGameService(GameRepository gameRepository ){
+    public NewOnlineGameService(ChessGameService gameService, GameRepository gameRepository ){
         this.gameRepository = gameRepository;
+        this.gameService = gameService;
     }
+
     public int getNewGameID(NewOnlineGameObject newOnlineGameObject) {
         String[] players = new String[newOnlineGameObject.getNumberOfPlayers()];
         players[0] = newOnlineGameObject.getPlayer();
-        ChessGameService gc = ChessGameService.getInstance();
-        ChessGame game = gc.createNewOnlineGame(players);
+        ChessGame game = this.gameService.createNewOnlineGame(players);
         int gameID = game.getId();
         this.gameRepository.createNewGame(gameID, game);
-        System.out.println("gameID: "+ gameID);
-        System.out.println(game);
-
         return gameID;
-//        if (gc.createNewGame(players.getAllPlayerNames())) {
-//            return gc.getGameID();
-//        } else {
-//            return -1;
-//        }
     }
 }

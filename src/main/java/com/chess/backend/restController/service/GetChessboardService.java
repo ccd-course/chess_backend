@@ -4,6 +4,7 @@ import com.chess.backend.gamemodel.Square;
 import com.chess.backend.restController.objects.ChessboardObject;
 import com.chess.backend.restController.objects.SquareObject;
 import com.chess.backend.services.ChessGameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +16,13 @@ import java.util.ArrayList;
  */
 @Service
 public class GetChessboardService {
+    private ChessGameService gameService;
+
+    @Autowired
+    public GetChessboardService(ChessGameService gameService ){
+        this.gameService = gameService;
+    }
+
     /**
      * This methods calls the {@link ChessGameService} to get the chessboard.
      *
@@ -22,8 +30,7 @@ public class GetChessboardService {
      * @return containing the chessboard.
      */
     public ChessboardObject getChessboard(int gameID) {
-        ChessGameService gc = ChessGameService.getInstance();
-        ArrayList<ArrayList<Square>> chessboard = gc.getBoard(gameID);
+        ArrayList<ArrayList<Square>> chessboard = this.gameService.getBoard(gameID);
 
         //[4][24]
         /*
