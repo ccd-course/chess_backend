@@ -12,12 +12,12 @@ import java.util.Set;
 
 @Data
 public class Wazir extends Piece {
-    private Integer posX;
-    private Integer posY;
-    private Player player;
-    private PieceType type = PieceType.WAZIR;
-    private boolean motioned;
-    private final boolean clockwise;
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type = PieceType.WAZIR;
+    private  boolean motioned;
+    private  final boolean clockwise;
 
     public Wazir(Player player, boolean clockwise) {
         this.player = player;

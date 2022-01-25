@@ -15,12 +15,12 @@ import java.util.Set;
  */
 @Data
 public class Rook extends Piece {
-    private Integer posX;
-    private Integer posY;
-    private Player player;
-    private PieceType type = PieceType.ROOK;
-    private boolean motioned;
-    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type = PieceType.ROOK;
+    private  boolean motioned;
+    private  final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
     public Rook(Player player, boolean clockwise) {

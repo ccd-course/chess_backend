@@ -16,10 +16,10 @@ import java.util.Set;
  */
 @Data
 public class Pawn extends Piece {
-    private Integer posX;
-    private Integer posY;
-    private Player player;
-    private PieceType type = PieceType.PAWN;
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type = PieceType.PAWN;
     private boolean motioned;
     private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
     private int rank = 2;

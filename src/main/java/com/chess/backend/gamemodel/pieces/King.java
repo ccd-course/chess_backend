@@ -15,12 +15,12 @@ import java.util.Set;
  */
 @Data
 public class King extends Piece {
-    private Integer posX;
-    private Integer posY;
-    private Player player;
-    private PieceType type = PieceType.KING;
-    private boolean motioned;
-    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type = PieceType.KING;
+    private  boolean motioned;
+    private  final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
     public King(Player player, boolean clockwise) {

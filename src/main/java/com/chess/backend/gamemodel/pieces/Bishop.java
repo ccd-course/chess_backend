@@ -16,12 +16,12 @@ import java.util.Set;
 @Data
 public class Bishop extends Piece {
 //    private Square square;
-    private Integer posX;
-    private Integer posY;
-    private Player player;
-    private PieceType type = PieceType.BISHOP;
-    private boolean motioned;
-    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+    private transient Integer posX;
+    private transient Integer posY;
+    private transient Player player;
+    private  PieceType type = PieceType.BISHOP;
+    private transient boolean motioned;
+    private transient final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
     public Bishop(Player player, boolean clockwise) {

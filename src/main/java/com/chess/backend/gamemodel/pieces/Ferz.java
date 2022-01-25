@@ -13,12 +13,12 @@ import java.util.Set;
 @Data
 public class Ferz extends Piece {
     //    private Square square;
-    private Integer posX;
-    private Integer posY;
-    private Player player;
-    private PieceType type = PieceType.FERZ;
-    private boolean motioned;
-    private final boolean clockwise;
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type = PieceType.FERZ;
+    private  boolean motioned;
+    private  final boolean clockwise;
 
     public Ferz(Player player, boolean clockwise) {
         this.player = player;
