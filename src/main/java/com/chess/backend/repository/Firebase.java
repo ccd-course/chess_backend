@@ -36,7 +36,7 @@ public class Firebase {
      *
      * @return
      */
-    Map<String, Object> getDocument(String collection, String docId, String id) {
+    Map<String, Object> getDocument(String collection, String id) {
         DocumentReference docRef = db.collection(collection).document(id);
         // future.get() blocks on response
         ApiFuture<DocumentSnapshot> future = docRef.get();
