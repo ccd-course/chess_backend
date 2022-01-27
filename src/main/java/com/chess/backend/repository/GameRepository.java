@@ -1,6 +1,7 @@
 package com.chess.backend.repository;
 
 import com.chess.backend.domain.models.IPiece;
+import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Square;
 import com.chess.backend.gamemodel.constants.PieceType;
@@ -14,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 
@@ -24,8 +26,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+
 @Service
-public class GameRepository {
+@Qualifier("GameRepositoryClass")
+public class GameRepository implements IGameRepository {
     private final Firebase firebase = new Firebase();
     private static final String collection = "game";
 

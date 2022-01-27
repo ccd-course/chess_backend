@@ -1,11 +1,14 @@
 package com.chess.backend.services;
 
 import com.chess.backend.domain.models.IGame;
+import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.domain.services.IGameService;
+import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.pieces.Piece;
 import com.chess.backend.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +22,10 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class ChessGameService {
     private final PlayerService playerService = new PlayerService();
-    private GameRepository gameRepository;
+    private IGameRepository gameRepository;
 
     @Autowired
-    public ChessGameService(GameRepository gameRepository ){
+    public ChessGameService(@Qualifier("GameRepositoryClass") IGameRepository gameRepository ){
         this.gameRepository = gameRepository;
     }
 
