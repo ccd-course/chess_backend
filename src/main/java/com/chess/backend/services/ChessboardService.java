@@ -105,9 +105,7 @@ public class ChessboardService {
         setPiece(3, figuresFirstColumn + 2, squares, new Wazir(player, true));
 
         //cannon
-        Player dummyCanonPlayer = new Player();
-        dummyCanonPlayer.setName("The canon");
-        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(dummyCanonPlayer, true));
+        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(player, true));
     }
 
     /**
@@ -310,5 +308,19 @@ public class ChessboardService {
     private static void promotePawn(Chessboard chessboard, Piece piece){
         chessboard.getSquares().get(piece.getPosX()).get(piece.getPosY()).removePiece();
         setPiece(piece.getPosX(), piece.getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
+    }
+
+
+    /**
+     * Sets one common player for all pieces of a given pieceType (e.g. cannon)
+     * @param chessboard The chessboard context
+     * @param pieceType PieceType on which the common player should be applied
+     * @param player Player that should be applied on all pieces of given pieceType.
+     */
+    public static void setCommonPiecePlayer(Chessboard chessboard, PieceType pieceType, Player player){
+        for (Square square :
+                searchSquaresByPiece(chessboard.getSquares(), pieceType, null, null)) {
+            square.getPiece().setPlayer(player);
+        }
     }
 }
