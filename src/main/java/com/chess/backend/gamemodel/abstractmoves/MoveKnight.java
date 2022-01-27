@@ -1,6 +1,7 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.gamemodel.*;
+import com.chess.backend.gamemodel.pieces.Piece;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
@@ -19,22 +20,22 @@ public class MoveKnight {
      * Direction: Knight-like, one step
      *
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param peaceful   Whether the piece may move to an empty field.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+    public static Set<Move> concretise(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.LEFT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.RIGHT));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.FORWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.BACKWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.FORWARD));
-        allowedMoves.addAll(knight(game, fromSquare, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.BACKWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.LEFT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.FORWARD, Position.Direction.RIGHT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.LEFT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.BACKWARD, Position.Direction.RIGHT));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.FORWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.LEFT, Position.Direction.BACKWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.FORWARD));
+        allowedMoves.addAll(knight(game, piece, attack, jump, peaceful, 3, Position.Direction.RIGHT, Position.Direction.BACKWARD));
 
         return allowedMoves;
     }
@@ -44,7 +45,7 @@ public class MoveKnight {
      * Direction: Knight-Forward-Right, limit can be set
      *
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param limit      The maximum of steps.
@@ -52,10 +53,13 @@ public class MoveKnight {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> knight(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful,
+    public static Set<Move> knight(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful,
                                    int limit, Position.Direction direction1, Position.Direction direction2) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
         Chessboard chessboard = game.getChessboard();
+        Position fromPosition = new Position(piece.getPosX(), piece.getPosY());
+        Square fromSquare = ChessboardService.getSquare(chessboard, fromPosition);
+
         Position toPosition = new Position(fromSquare.getPosX(), fromSquare.getPosY());
 
         for (int steps = 0; steps < limit; steps++) {
@@ -73,10 +77,10 @@ public class MoveKnight {
                 if (attack && toSquare.getPiece().getColor() != fromSquare.getPiece().getColor() && steps == limit - 1) {
                     takenPiece = toSquare.getPiece();
                     allowedMoves.add(
-                            new Move(fromSquare, toSquare,
-                                    fromSquare.getPiece(), takenPiece,
-                                    null, false, null
-                            ));
+                            new Move(fromSquare, toSquare, toSquare,
+                                    fromSquare.getPiece(),
+                                    takenPiece, null, false,
+                                    null));
                     break;
                 } else if (jump) {
                     continue;
@@ -85,10 +89,10 @@ public class MoveKnight {
                 }
             } else if (peaceful && steps == limit - 1) {
                 allowedMoves.add(
-                        new Move(fromSquare, toSquare,
-                                fromSquare.getPiece(), takenPiece,
-                                null, false, null
-                        ));
+                        new Move(fromSquare, toSquare, null,
+                                fromSquare.getPiece(),
+                                null, null, false,
+                                null));
             }
         }
         return allowedMoves;

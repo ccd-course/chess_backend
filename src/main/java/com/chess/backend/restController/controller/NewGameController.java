@@ -2,6 +2,7 @@ package com.chess.backend.restController.controller;
 
 import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.restController.objects.NewPlayersObject;
+import com.chess.backend.restController.service.NewChessGameService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

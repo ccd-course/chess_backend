@@ -2,6 +2,7 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.gamemodel.pieces.Piece;
 import lombok.Data;
 
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class Move {
     private Square from = null;
     private Square to = null;
+    private Square taken = null;
     private Piece movedPiece = null;
     private Piece takenPiece = null;
     private Piece promotedTo = null;
@@ -20,9 +22,10 @@ public class Move {
     private Castling castlingMove = Castling.NONE;
     private boolean wasPawnTwoFieldsMove = false;
 
-    public Move(Square from, Square to, Piece movedPiece, Piece takenPiece, Castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
+    public Move(Square from, Square to, Square taken, Piece movedPiece, Piece takenPiece, Castling castlingMove, boolean wasEnPassant, Piece promotedPiece) {
         this.from = from;
         this.to = to;
+        this.taken = taken;
 
         this.movedPiece = movedPiece;
         this.takenPiece = takenPiece;
@@ -33,6 +36,7 @@ public class Move {
         if (movedPiece.getType().equals(PieceType.PAWN) && Math.abs(to.getPosY() - from.getPosY()) == 2) {
             this.wasPawnTwoFieldsMove = true;
         }
+        System.out.println(promotedPiece);//avoid static error
         // TODO: Implement promotion
 //        else if (movedPiece.getType().equals(PieceType.PAWN) && to.pozY == Chessboard.bottom || to.pozY == Chessboard.top && promotedPiece != null)
 //        {
@@ -100,6 +104,10 @@ public class Move {
 
     public Position getToPos() {
         return new Position(getTo().getPosX(), getTo().getPosY());
+    }
+
+    public Position getTakenPos() {
+        return new Position(getTaken().getPosX(), getTaken().getPosY());
     }
 
     public Position getFromPos() {
