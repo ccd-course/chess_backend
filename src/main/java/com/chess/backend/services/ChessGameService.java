@@ -194,7 +194,6 @@ public class ChessGameService {
             // the game is over
             // the active player has lost
             // the next player in the move order who can capture the players king wins
-            // TODO: set the events and variables
             List<Event> events = game.getEvents();
             events.add(Event.CHECKMATED);
             game.setEvents(events);
@@ -204,7 +203,6 @@ public class ChessGameService {
             if(!ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
                 // the game ends in a draw
                 // no player has won or lost
-                // TODO: set the events
                 List<Event> events = game.getEvents();
                 events.add(Event.DRAW);
                 game.setEvents(events);
@@ -215,7 +213,6 @@ public class ChessGameService {
                     // the game ends because the active player ca capture an opponent king
                     // the active player wins
                     // the captured players loose
-                    // TODO
                     List<Event> events = game.getEvents();
                     events.add(Event.CHECKMATED);
                     game.setEvents(events);
