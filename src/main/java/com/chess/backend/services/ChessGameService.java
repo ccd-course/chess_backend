@@ -4,6 +4,7 @@ import com.chess.backend.domain.models.IGame;
 import com.chess.backend.domain.services.IGameService;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.domain.models.IPiece;
+import com.chess.backend.gamemodel.constants.PieceType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class ChessGameService implements IGameService {
 
         Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
         game.setChessboard(newGameChessboard);
+        ChessboardService.setCommonPiecePlayer(game.getChessboard(), PieceType.CANNON, game.getActivePlayer());
         return game;
     }
 
@@ -81,6 +83,7 @@ public class ChessGameService implements IGameService {
         //initialize the chessboard
         Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
         game.setChessboard(newGameChessboard);
+        ChessboardService.setCommonPiecePlayer(game.getChessboard(), PieceType.CANNON, game.getActivePlayer());
 
         return true;
     }
@@ -256,16 +259,16 @@ public class ChessGameService implements IGameService {
     /**
      * Method to switch active players after move
      */
-    private void switchActive(IGame game) {
+    public static void switchActive(ChessGame game) {
         List<Player> players = game.getPlayers();
         Player activePlayer = game.getActivePlayer();
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).equals(activePlayer)) {
                 if (i == (players.size() - 1)) {
-                    game.setActivePlayer(players.get(0));
+                    setActivePlayer(game, players.get(0));
                     break;
                 } else {
-                    game.setActivePlayer(players.get(i + 1));
+                    setActivePlayer(game, players.get(i + 1));
                     break;
                 }
             }
@@ -303,6 +306,11 @@ public class ChessGameService implements IGameService {
         } else {
             return false;
         }
+    }
+
+    public static void setActivePlayer (ChessGame chessGame, Player activePlayer){
+        chessGame.setActivePlayer(activePlayer);
+        ChessboardService.setCommonPiecePlayer(chessGame.getChessboard(), PieceType.CANNON, activePlayer);
     }
 
 }

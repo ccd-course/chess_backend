@@ -2,6 +2,7 @@ package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
+import com.chess.backend.services.ChessGameService;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;
@@ -141,7 +142,7 @@ public class Shoot {
                 neighbors.add(positionsList.indexOf(position));
             }
         }
-        if (playerSet.size() < 2){
+        if (playerSet.size() < 2 && playerSet.contains(ChessGameService.getInstance().getGame().getActivePlayer())){
             return neighbors;
         } else{
             return new ArrayList<Integer>();
