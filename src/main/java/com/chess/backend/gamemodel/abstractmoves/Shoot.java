@@ -1,11 +1,9 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.domain.models.IBoard;
 import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.services.ChessboardService;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

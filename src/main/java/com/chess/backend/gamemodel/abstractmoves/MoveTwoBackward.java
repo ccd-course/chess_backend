@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Move;
 import com.chess.backend.gamemodel.Square;

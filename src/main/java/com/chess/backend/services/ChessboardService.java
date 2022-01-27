@@ -500,10 +500,8 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     IPiece piece = square.getPiece();
 
-                    if(piece.getPlayer().getName() == player.getName()){
-                        if(getValidMovesForPiece(chessboard, piece, player).size() > 0){
-                            return true;
-                        }
+                    if(piece.getPlayer().getName() == player.getName() && getValidMovesForPiece(chessboard, piece, player).size() > 0){
+                        return true;
                     }
                 }
             }
