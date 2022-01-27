@@ -73,6 +73,7 @@ public class Firebase {
         catch(IOException e) {
             System.out.println("ERROR: invalid service account credentials. See README.");
             System.out.println(e.getMessage());
+            System.exit(1);
         }
 
 
