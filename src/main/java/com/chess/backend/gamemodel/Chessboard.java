@@ -33,9 +33,14 @@ import java.util.ArrayList;
  */
 @Data
 @IgnoreExtraProperties
-public class Chessboard implements IBoard {
+public class Chessboard implements IBoard, Cloneable {
     private int numberOfPlayers;
     private ArrayList<ArrayList<Square>>  squares;//squares of chessboard
     private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 }

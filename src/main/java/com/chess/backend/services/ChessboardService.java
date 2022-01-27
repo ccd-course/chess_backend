@@ -7,7 +7,6 @@ import com.chess.backend.gamemodel.pieces.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -594,5 +593,24 @@ public class ChessboardService {
         }
 
         return capturedPlayers;
+    }
+
+    /**
+     * Get all allowed moves of a given piece by a given owner.
+     * This can be used to simulate possible shoots of a canon, when another player is on turn.
+     * @param chessboard Chessboard which acts as base for the simulation
+     * @param piece Piece for which the moves should be gathered. This also defines what pieces get owned by the player in the simulation.
+     * @param player The player wo should own all pieces of the same type as the given piece
+     * @return ArrayList of all "reachable" squares.
+     */
+    public static ArrayList<Square> getAllowedMovesForPlayer(Chessboard chessboard, Piece piece, Player player){
+        try {
+            Chessboard dummyChessboard = (Chessboard) chessboard.clone();
+            ChessboardService.setCommonPiecePlayer(dummyChessboard, piece.getType(), player);
+            return piece.getAllowedMoves(dummyChessboard);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 }
