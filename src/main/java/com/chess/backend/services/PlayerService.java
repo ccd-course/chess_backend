@@ -3,9 +3,6 @@ package com.chess.backend.services;
 import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.constants.Color;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Servie to initalize the players object and
  */
@@ -15,10 +12,8 @@ public class PlayerService {
      * @param playerNames array of players names
      * @return Array of Player object
      */
-    public List<Player> initPlayers(String[] playerNames) {
-        List<Player> players = new ArrayList<>();
-
-//        Player[] players = new Player[playerNames.length];
+    public Player[] initPlayers(String[] playerNames) {
+        Player[] players = new Player[playerNames.length];
 
         for (int i = 0; i < playerNames.length; i++) {
             Player player = new Player();
@@ -27,7 +22,7 @@ public class PlayerService {
             player.setId(i);
             player.setColor(Color.values()[i]);
 
-            players.add(player);
+            players[i] = player;
         }
 
         return players;
@@ -39,6 +34,6 @@ public class PlayerService {
      * @return Player object in Y
      */
     public static int getBaseY(Player player) {
-        return player.getColor().getPosition() * 9;
+        return player.getColor().getPosition() * 8;
     }
 }

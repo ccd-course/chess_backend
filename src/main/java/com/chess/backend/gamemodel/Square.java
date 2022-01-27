@@ -22,7 +22,6 @@ package com.chess.backend.gamemodel;
 
 
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.Piece;
 
 /**
  * Represents a chessboard square.
@@ -49,18 +48,12 @@ public class Square {
     }
 
     public void setPiece(Piece piece) {
-        piece.setPosX(this.getPosX());
-        piece.setPosY(this.getPosY());
         this.piece = piece;
+        this.piece.setSquare(this);
     }
 
     public PieceType getPieceTypeOfPiece(){
-       if(this.piece!=null){
-           return this.piece.getType();
-       }
-       else{
-           return null;
-       }
+        return piece.getType();
     }
 
     /**
@@ -86,7 +79,6 @@ public class Square {
     public String toString() {
         return "Square{" +
                 "position=" + position +
-                "piece=" + piece +
                 '}';
     }
 
