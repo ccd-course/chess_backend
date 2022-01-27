@@ -8,6 +8,7 @@ import com.chess.backend.services.ChessboardService;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.chess.backend.gamemodel.abstractmoves.MoveBackward.backward;
@@ -21,9 +22,6 @@ import static com.chess.backend.gamemodel.abstractmoves.MoveRight.right;
  * Represents the implementation of a cannon shoot.
  */
 public class Shoot {
-
-    public Shoot() {
-    }
 
     /**
      * Generate concrete possible shoots from a given piece and game context.
@@ -53,7 +51,7 @@ public class Shoot {
      * @return HashSet of concrete moves
      */
     public static Set<Move> shoot(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
-        HashSet<Move> allowedMoves = new HashSet<Move>();
+        HashSet<Move> allowedMoves = new HashSet<>();
 
         for (int neighbor :
                 getNeighborPos(game.getChessboard(), fromSquare.getPos())) {
@@ -122,7 +120,7 @@ public class Shoot {
         return allowedMoves;
     }
 
-    public static ArrayList<Integer> getNeighborPos(Chessboard chessboard, Position fromPos){
+    public static List<Integer> getNeighborPos(Chessboard chessboard, Position fromPos){
         ArrayList<Position> positionsList = new ArrayList<>();
         positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.DIAGONAL_FL));
         positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.FORWARD));
@@ -146,7 +144,7 @@ public class Shoot {
         if (playerSet.size() < 2){
             return neighbors;
         } else{
-            return new ArrayList<Integer>();
+            return new ArrayList<>();
         }
     }
 

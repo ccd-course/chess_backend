@@ -337,21 +337,48 @@ public class AbstractMovementTests {
 
     @Test
     void testCannon() {
-
         PieceType pieceType = PieceType.CANNON;
+
+        /*
+        Part 1
+
+        P = Pawn
+        V = Victim
+
+        Y  X 0 1 2 3 4
+        ↓  ____________
+        1  | # P P P #
+        0  | # P C # V
+        26 | # # # # #
+        25 | V # # # V
+        24 | # # # # #
+        23 | # # # # #
+        22 | # # # # #
+        21 | # # V # #
+         */
 
         IPiece piece = new Cannon(game.getPlayers().get(0), true);
         setUpChessboard(piece);
         IPiece ownPiece1 = new Pawn(game.getPlayers().get(0), true);
         IPiece ownPiece2 = new Pawn(game.getPlayers().get(0), true);
+        IPiece ownPiece3 = new Pawn(game.getPlayers().get(0), true);
+        IPiece ownPiece4 = new Pawn(game.getPlayers().get(0), true);
         ChessboardService.setPiece(2, 1,
                 game.getChessboard().getSquares(),
                 ownPiece1);
         ChessboardService.setPiece(3, 1,
                 game.getChessboard().getSquares(),
                 ownPiece2);
+        ChessboardService.setPiece(1, 1,
+                game.getChessboard().getSquares(),
+                ownPiece3);
+        ChessboardService.setPiece(1, 0,
+                game.getChessboard().getSquares(),
+                ownPiece4);
         spawnPawnAsVictim(new Position(0, 25));
         spawnPawnAsVictim(new Position(2, 21));
+        spawnPawnAsVictim(new Position(4, 25));
+        spawnPawnAsVictim(new Position(4, 0));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
 
         // One Left
@@ -396,6 +423,92 @@ public class AbstractMovementTests {
         assertTrue(possibleMovePositions.contains(new Position(2, 21)));
         // Cannon diagonal
         assertTrue(possibleMovePositions.contains(new Position(0, 25)));
+        // Cannon diagonal
+        assertTrue(possibleMovePositions.contains(new Position(4, 25)));
+        // Cannon left
+        assertTrue(possibleMovePositions.contains(new Position(4, 0)));
+
+        /*
+        Part 2
+
+        P = Pawn
+        V = Victim
+
+        Y  X 0 1 2 3 4
+        ↓  ____________
+        3  | # # V # #
+        2  | V # # # V
+        1  | # # # # #
+        0  | V # C P #
+        26 | # P P P #
+        25 | # # # # #
+         */
+
+        setUpChessboard(piece);
+        ChessboardService.setPiece(2, 26,
+                game.getChessboard().getSquares(),
+                ownPiece1);
+        ChessboardService.setPiece(3, 26,
+                game.getChessboard().getSquares(),
+                ownPiece2);
+        ChessboardService.setPiece(1, 26,
+                game.getChessboard().getSquares(),
+                ownPiece3);
+        ChessboardService.setPiece(3, 0,
+                game.getChessboard().getSquares(),
+                ownPiece4);
+        spawnPawnAsVictim(new Position(4, 2));
+        spawnPawnAsVictim(new Position(2, 3));
+        spawnPawnAsVictim(new Position(0, 2));
+        spawnPawnAsVictim(new Position(0, 0));
+        possibleMovePositions = getPossibleMovePositions(pieceType);
+
+        // One Left
+        assertFalse(possibleMovePositions.contains(new Position(3, 0)));
+        // One Right
+        assertFalse(possibleMovePositions.contains(new Position(1, 0)));
+        // Multiple Right
+        assertTrue(possibleMovePositions.contains(new Position(0, 0)));
+        // One Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 1)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 2)));
+        // Multiple Backward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 26)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 12)));
+        // Multiple Forward
+        assertFalse(possibleMovePositions.contains(new Position(2, 16)));
+        // One diagonal forward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 26)));
+        // One diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 26)));
+        // One diagonal backward left
+        assertFalse(possibleMovePositions.contains(new Position(3, 1)));
+        // One diagonal backward right
+        assertFalse(possibleMovePositions.contains(new Position(1, 1)));
+        // Multiple diagonal forward right
+        assertFalse(possibleMovePositions.contains(new Position(0, 25)));
+        // Multiple diagonal backward right
+        assertTrue(possibleMovePositions.contains(new Position(0, 2)));
+        // Knight move FL
+        assertFalse(possibleMovePositions.contains(new Position(3, 25)));
+        // Knight move FR
+        assertFalse(possibleMovePositions.contains(new Position(1, 25)));
+        // Knight move BL
+        assertFalse(possibleMovePositions.contains(new Position(3, 2)));
+        // Knight move BR
+        assertFalse(possibleMovePositions.contains(new Position(1, 2)));
+        // Cannon straight
+        assertTrue(possibleMovePositions.contains(new Position(4, 2)));
+        // Cannon diagonal
+        assertTrue(possibleMovePositions.contains(new Position(2, 3)));
+        // Cannon diagonal
+        assertTrue(possibleMovePositions.contains(new Position(0, 2)));
+        // Cannon right
+        assertTrue(possibleMovePositions.contains(new Position(0, 0)));
 
         // Cannon may not shoot if another player is in neighborhood
         spawnPawnAsVictim(new Position(2, 26));
