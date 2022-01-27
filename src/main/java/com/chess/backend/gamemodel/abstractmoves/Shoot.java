@@ -3,6 +3,7 @@ package com.chess.backend.gamemodel.abstractmoves;
 import com.chess.backend.domain.models.IBoard;
 import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
+import com.chess.backend.services.ChessGameService;
 import com.chess.backend.services.ChessboardService;
 
 import java.lang.reflect.Array;
@@ -56,7 +57,7 @@ public class Shoot {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
         for (int neighbor :
-                getNeighborPos(game.getChessboard(), fromSquare.getPos())) {
+                getNeighborPos(game, fromSquare.getPos())) {
 
             switch (neighbor) {
                 /*
@@ -122,28 +123,28 @@ public class Shoot {
         return allowedMoves;
     }
 
-    public static ArrayList<Integer> getNeighborPos(Chessboard chessboard, Position fromPos){
+    public static ArrayList<Integer> getNeighborPos(ChessGame game, Position fromPos){
         ArrayList<Position> positionsList = new ArrayList<>();
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.DIAGONAL_FL));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.FORWARD));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.DIAGONAL_FR));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.RIGHT));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.DIAGONAL_BR));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.BACKWARD));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.DIAGONAL_BL));
-        positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.LEFT));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.DIAGONAL_FL));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.FORWARD));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.DIAGONAL_FR));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.RIGHT));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.DIAGONAL_BR));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.BACKWARD));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.DIAGONAL_BL));
+        positionsList.add(fromPos.getPosFromDir(game.getChessboard(), Position.Direction.LEFT));
         
         Set<Player> playerSet = new HashSet<>();
         ArrayList<Integer> neighbors = new ArrayList<>();
         for (Position position :
                 positionsList) {
-            IPiece piece = ChessboardService.getPieceByPosition(chessboard, position);
+            IPiece piece = ChessboardService.getPieceByPosition(game.getChessboard(), position);
             if(piece != null){
                 playerSet.add(piece.getPlayer());
                 neighbors.add(positionsList.indexOf(position));
             }
         }
-        if (playerSet.size() < 2){
+        if (playerSet.size() < 2 && playerSet.contains(game.getActivePlayer())){
             return neighbors;
         } else{
             return new ArrayList<Integer>();
