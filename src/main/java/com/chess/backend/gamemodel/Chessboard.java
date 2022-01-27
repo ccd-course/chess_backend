@@ -21,10 +21,7 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.domain.models.IBoard;
-import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
-
-import java.util.ArrayList;
 
 /**
  * Class to represent chessboard.
@@ -32,10 +29,14 @@ import java.util.ArrayList;
  * Chessboard is made from squares. It also contains a move history as well as the number of players.
  */
 @Data
-@IgnoreExtraProperties
 public class Chessboard implements IBoard {
     private int numberOfPlayers;
-    private ArrayList<ArrayList<Square>>  squares;//squares of chessboard
+    private Square[][] squares;//squares of chessboard
+    //    ----------------------------
+    //    For En passant:
+    //    |-> Pawn whose in last turn moved two square
+    private Piece twoSquareMovedPawn = null;
+    private Piece twoSquareMovedPawn2 = null;
     private boolean breakCastling = false; //if last move break castling
     private Moves moves_history;
 }

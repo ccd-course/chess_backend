@@ -40,4 +40,3 @@ The develop branches of [frontend](https://github.com/ccd-course/frontend_app) a
 ## Documentation
 - [Generated JavaDocs](https://ccd-course.github.io/chess_backend/index.html)
 - [API Documentation](https://backend.chess.valentinriess.com/docs.html)
-- [sequence diagram](https://svgshare.com/i/cky.svg)

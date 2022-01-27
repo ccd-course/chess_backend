@@ -3,12 +3,10 @@ package com.chess.backend.services;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Stateless Chessboard Service to initialize new Chessboard
@@ -20,31 +18,16 @@ public class ChessboardService {
     public ChessboardService() {
     }
 
-    private static ArrayList<ArrayList<Square>> initEmptySquares(Integer numberOfPlayers){
-        int boardWidth = 5;
-        ArrayList<ArrayList<Square>>squares = new ArrayList<>(boardWidth);
-        for(int i =0; i<boardWidth; i++){
-            int boardLength = numberOfPlayers * 9;
-            ArrayList<Square> emptySquares = new ArrayList<>(boardLength);
-            for (int squarePos = 0; squarePos < boardLength; squarePos++) {
-                emptySquares.add(new Square(i, squarePos, null));
-            }
-
-            squares.add(emptySquares);
-
-        }
-        return squares;
-    }
     /**
      * create new Chessboard from Players object
      *
      * @param players Array of Player object
      * @return Chessboard object
      */
-    public static Chessboard initNewGameBoard(List<Player> players) {
+    public static Chessboard initNewGameBoard(Player[] players) {
         Chessboard chessboard = new Chessboard();
-        chessboard.setNumberOfPlayers(players.size());
-        ArrayList<ArrayList<Square>> squares = initEmptySquares(chessboard.getNumberOfPlayers());
+        chessboard.setNumberOfPlayers(players.length);
+        Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
         initClean(squares);
 
         for (Player player :
@@ -62,7 +45,7 @@ public class ChessboardService {
      * @param squares 2D Array  of Square object
      * @param player  Player object
      */
-    private static void initPlayerPieces(ArrayList<ArrayList<Square>> squares, Player player) {
+    private static void initPlayerPieces(Square[][] squares, Player player) {
         initPlayerPawns(squares, player);
         initPlayerFigures(squares, player);
     }
@@ -73,11 +56,11 @@ public class ChessboardService {
      * @param squares 2D Array  of Square object
      * @param player  Player object
      */
-    private static void initPlayerPawns(ArrayList<ArrayList<Square>> squares, Player player) {
+    private static void initPlayerPawns(Square[][] squares, Player player) {
         int figuresFirstColumn = PlayerService.getBaseY(player);
-        for (int x = 0; x < squares.size(); x++) {
-            setPiece(x, figuresFirstColumn, squares, new Pawn(player, true));
-            setPiece(x, figuresFirstColumn + 3, squares, new Pawn(player, false));
+        for (int x = 0; x < squares.length; x++) {
+            setPiece(x, figuresFirstColumn, squares, new Piece(PieceType.PAWN, player, true));
+            setPiece(x, figuresFirstColumn + 3, squares, new Piece(PieceType.PAWN, player, false));
         }
     }
 
@@ -87,44 +70,34 @@ public class ChessboardService {
      * @param squares 2D Array  of Square object
      * @param player  Player object
      */
-    private static void initPlayerFigures(ArrayList<ArrayList<Square>> squares, Player player) {
+    private static void initPlayerFigures(Square[][] squares, Player player) {
         int figuresFirstColumn = PlayerService.getBaseY(player);
 
         // anticlockwise
-        setPiece(0, figuresFirstColumn + 1, squares, new Queen(player, false));
-        setPiece(1, figuresFirstColumn + 1, squares, new Bishop(player, false));
-        setPiece(2, figuresFirstColumn + 1, squares, new Knight(player, false));
-        setPiece(3, figuresFirstColumn + 1, squares, new Rook(player, false));
-        setPiece(4, figuresFirstColumn + 1, squares, new Ferz(player, false));
+        setPiece(0, figuresFirstColumn + 1, squares, new Piece(PieceType.QUEEN, player, false));
+        setPiece(1, figuresFirstColumn + 1, squares, new Piece(PieceType.BISHOP, player, false));
+        setPiece(2, figuresFirstColumn + 1, squares, new Piece(PieceType.KNIGHT, player, false));
+        setPiece(3, figuresFirstColumn + 1, squares, new Piece(PieceType.ROOK, player, false));
 
         // clockwise
-        setPiece(0, figuresFirstColumn + 2, squares, new King(player, true));
-        setPiece(1, figuresFirstColumn + 2, squares, new Bishop(player, true));
-        setPiece(2, figuresFirstColumn + 2, squares, new Knight(player, true));
-        setPiece(3, figuresFirstColumn + 2, squares, new Rook(player, true));
-        setPiece(3, figuresFirstColumn + 2, squares, new Wazir(player, true));
-
-        //cannon
-        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(player, true));
+        setPiece(0, figuresFirstColumn + 2, squares, new Piece(PieceType.KING, player, true));
+        setPiece(1, figuresFirstColumn + 2, squares, new Piece(PieceType.BISHOP, player, true));
+        setPiece(2, figuresFirstColumn + 2, squares, new Piece(PieceType.KNIGHT, player, true));
+        setPiece(3, figuresFirstColumn + 2, squares, new Piece(PieceType.ROOK, player, true));
     }
 
     /**
-     * private function that takes two positions, ie x,y and set piece in Square[x][y]
+     * private function that takes two positions, ie x,y and set piexe in Square[x][y]
      *
      * @param posX    position x
      * @param posY    position y
      * @param squares 2D array of Square object
      * @param piece   Piece object
      */
-    public static void setPiece(int posX, int posY, ArrayList<ArrayList<Square>> squares, Piece piece) {
-
-        Square square = squares.get(posX).get(posY);
-        piece.setPosY(posY);
-        piece.setPosX(posX);
-
+    public static void setPiece(int posX, int posY, Square[][] squares, Piece piece) {
+        Square square = squares[posX][posY];
         square.setPiece(piece);
-        squares.get(posX).set(posY, square);
-
+        squares[posX][posY] = square;
     }
 
     /**
@@ -136,13 +109,13 @@ public class ChessboardService {
      * @param player    Player object
      * @return ArrayList of Square object
      */
-    public static ArrayList<Square> searchSquaresByPiece(ArrayList<ArrayList<Square>> squares, PieceType pieceType, Color color, Player player) {
+    public static ArrayList<Square> searchSquaresByPiece(Square[][] squares, PieceType pieceType, Color color, Player player) {
         ArrayList<Square> result = new ArrayList<>();
 
         ArrayList<Square> inputSquares = new ArrayList<>();
-        for (ArrayList<Square> squareArray :
+        for (Square[] squareArray :
                 squares) {
-            inputSquares.addAll(squareArray);
+            inputSquares.addAll(Arrays.asList(squareArray));
         }
 
         for (Square square :
@@ -164,22 +137,22 @@ public class ChessboardService {
      * @param squares 2D Array of Square object
      * @return ArrayList of Square object
      */
-    public static ArrayList<Square> getOccupiedSquares(ArrayList<ArrayList<Square>> squares) {
+    public static ArrayList<Square> getOccupiedSquares(Square[][] squares) {
         return searchSquaresByPiece(squares, null, null, null);
     }
 
     // Annulus perimeter
-    public static int getMaxY(ArrayList<ArrayList<Square>> squares) { //TODO check
-        return squares.get(0).size() - 1;
+    public static int getMaxY(Square[][] squares) { //TODO check
+        return squares[0].length - 1;
     }
 
     // Annulus width
-    public static int getMaxX(ArrayList<ArrayList<Square>> squares) {
-        return squares.size() - 1;
+    public static int getMaxX(Square[][] squares) {
+        return squares.length - 1;
     }
 
     // Replaces Chessboard.bottom field
-    public static int getBottom(ArrayList<ArrayList<Square>>squares) {
+    public static int getBottom(Square[][] squares) {
         return 0;
     }
 
@@ -189,7 +162,7 @@ public class ChessboardService {
      * @param squares
      * @return get
      */
-    public static int getTop(ArrayList<ArrayList<Square>> squares) {
+    public static int getTop(Square[][] squares) {
         return getMaxY(squares);
     }
 
@@ -200,45 +173,21 @@ public class ChessboardService {
      * @param move       Move object
      */
     public static void move(Chessboard chessboard, Move move) {
-        Piece piece = move.getMovedPiece();
-
-        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece((Piece)piece);
-//                [move.getTo().getPosX()][move.getTo().getPosY()]
-//                .setPiece(piece);
-        chessboard.getSquares().get(move.getFrom().getPosX()).get(move.getFrom().getPosY()).removePiece();
-//                [move.getFrom().getPosX()][move.getFrom().getPosY()]
-//                .removePiece();
-
-        if(piece.getType() == PieceType.PAWN){
-            rankUpPawn((Pawn) piece, move.getFrom().getPosY(), move.getTo().getPosY(), getChessboardLength(chessboard));
-
-            if(checkPawnPromotion((Pawn) piece)){
-                promotePawn(chessboard, piece);
-            }
-        }
+        chessboard.getSquares()
+                [move.getTo().getPosX()][move.getTo().getPosY()]
+                .setPiece(move.getMovedPiece());
+        chessboard.getSquares()
+                [move.getFrom().getPosX()][move.getFrom().getPosY()]
+                .removePiece();
     }
 
-    public static Chessboard move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
-        Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
-
-        chessboard.getSquares().get(toX).get(toY).setPiece((Piece)piece);
-        chessboard.getSquares().get(fromX).get(fromY).removePiece();
-        if (piece.getType() != PieceType.CANNON) {
-            chessboard.getSquares()
-                    .get(toX).get(toY).setPiece((Piece)piece);
-            chessboard.getSquares().get(fromX).get(fromY).removePiece();
-        } else {
-            chessboard.getSquares().get(toX).get(toY).removePiece();
-        }
-        if(piece.getType() == PieceType.PAWN){
-            rankUpPawn((Pawn) piece, fromY, toY, getChessboardLength(chessboard));
-
-            if(checkPawnPromotion((Pawn) piece)){
-                promotePawn(chessboard, piece);
-            }
-        }
-        return chessboard;
-
+    public static void move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
+        chessboard.getSquares()
+                [toX][toY]
+                .setPiece(chessboard.getSquares()[fromX][fromY].getPiece());
+        chessboard.getSquares()
+                [fromX][fromY]
+                .removePiece();
     }
 
     /**
@@ -250,21 +199,19 @@ public class ChessboardService {
      * @return matched Square object
      */
     public static Square getSquare(Chessboard chessboard, Position position) {
-        return chessboard.getSquares().get(position.getX()).get(position.getY());
-//                [position.getX()][position.getY()];
+        return chessboard.getSquares()[position.getX()][position.getY()];
     }
 
     public static void initClean(Chessboard chessboard) {
-        ArrayList<ArrayList<Square>> squares = initEmptySquares(chessboard.getNumberOfPlayers());
+        Square[][] squares = new Square[4][chessboard.getNumberOfPlayers() * 8];
         initClean(squares);
         chessboard.setSquares(squares);
     }
 
-    public static void initClean(ArrayList<ArrayList<Square>>squares){
-        for (int y = 0; y < squares.get(0).size(); y++) {
-            for (int x = 0; x < squares.size(); x++) {
-                squares.get(x).set(y, new Square(x, y, null));
-//                squares[x][y] = new Square(x, y, null);
+    public static void initClean(Square[][] squares){
+        for (int y = 0; y < squares[0].length; y++) {
+            for (int x = 0; x < squares.length; x++) {
+                squares[x][y] = new Square(x, y, null);
             }
         }
     }
@@ -280,49 +227,6 @@ public class ChessboardService {
     }
 
     public static Piece getPieceByPosition(Chessboard chessboard, int x, int y){
-        return chessboard.getSquares().get(x).get(y).getPiece();
-    }
-
-    public static Piece getPieceByPosition(Chessboard chessboard, Position position){
-        return chessboard.getSquares().get(position.getX()).get(position.getY()).getPiece();
-    }
-
-    private static void rankUpPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
-        if((Math.abs(posFrom-posTo) == 1) || ((Math.abs(posTo-posFrom)-chessboardLength) == -1)){
-            pawn.setRank(pawn.getRank()+1);
-            System.out.println("Pawn Rank: " + pawn.getRank());
-        } else {
-            if((Math.abs(posFrom-posTo) == 2) || ((Math.abs(posTo-posFrom)-chessboardLength) == -2)){
-                pawn.setRank(pawn.getRank()+2);
-                System.out.println("Pawn Rank: " + pawn.getRank());
-            }
-        }
-    }
-
-    private static int getChessboardLength(final Chessboard chessboard) {
-        return chessboard.getSquares().get(0).size();
-    }
-
-    private static boolean checkPawnPromotion(Pawn pawn){
-        return pawn.getRank() == 8;
-    }
-
-    private static void promotePawn(Chessboard chessboard, Piece piece){
-        chessboard.getSquares().get(piece.getPosX()).get(piece.getPosY()).removePiece();
-        setPiece(piece.getPosX(), piece.getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
-    }
-
-
-    /**
-     * Sets one common player for all pieces of a given pieceType (e.g. cannon)
-     * @param chessboard The chessboard context
-     * @param pieceType PieceType on which the common player should be applied
-     * @param player Player that should be applied on all pieces of given pieceType.
-     */
-    public static void setCommonPiecePlayer(Chessboard chessboard, PieceType pieceType, Player player){
-        for (Square square :
-                searchSquaresByPiece(chessboard.getSquares(), pieceType, null, null)) {
-            square.getPiece().setPlayer(player);
-        }
+        return chessboard.getSquares()[x][y].getPiece();
     }
 }

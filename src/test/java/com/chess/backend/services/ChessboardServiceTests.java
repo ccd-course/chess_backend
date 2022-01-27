@@ -4,9 +4,6 @@ import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.constants.Color;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -18,7 +15,7 @@ public class ChessboardServiceTests {
         Player secondPlayer = new Player("Valentin",Color.BLACK, 1);
         Player thirdPlayer = new Player("Hannes", Color.RED, 2);
         Player[] players = {firstPlayer, secondPlayer, thirdPlayer};
-        Chessboard chessboard = ChessboardService.initNewGameBoard(Arrays.asList(players));
+        Chessboard chessboard = ChessboardService.initNewGameBoard(players);
         assertEquals(chessboard.getNumberOfPlayers(), 3);
 
     }
@@ -29,9 +26,9 @@ public class ChessboardServiceTests {
         Player secondPlayer = new Player("Valentin",Color.BLACK, 1);
         Player thirdPlayer = new Player("Hannes", Color.RED, 2);
         Player[] players = {firstPlayer, secondPlayer, thirdPlayer};
-        Chessboard chessboard = ChessboardService.initNewGameBoard(Arrays.asList(players));
-        assertEquals(chessboard.getSquares().size(), 5);
-        assertEquals(chessboard.getSquares().get(0).size(), 27);
+        Chessboard chessboard = ChessboardService.initNewGameBoard(players);
+        assertEquals(chessboard.getSquares().length, 4);
+        assertEquals(chessboard.getSquares()[0].length, 24);
 
     }
 }
