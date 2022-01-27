@@ -164,10 +164,12 @@ public class ChessGameService {
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
             ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
             this.switchActive(game);
-
             checkEndingConditions(game);
-
-                return getActivePlayerName(game);
+            List<Event> events = game.getEvents();
+            events.add(Event.NEW_MOVE);
+            game.setEvents(events);
+            this.gameRepository.createNewGame(game.getId(), game);
+            return getActivePlayerName(game);
         } else {
             return "";
         }
