@@ -91,9 +91,7 @@ public class ChessboardService {
         setPiece(3, figuresFirstColumn + 2, squares, new Wazir(player, true));
 
         //cannon
-        Player dummyCanonPlayer = new Player();
-        dummyCanonPlayer.setName("The canon");
-        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(dummyCanonPlayer, true));
+        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(player, true));
     }
 
     /**
