@@ -1,8 +1,8 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.domain.models.IBoard;
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
+import com.chess.backend.gamemodel.pieces.Piece;
 import com.chess.backend.services.ChessGameService;
 import com.chess.backend.services.ChessboardService;
 
@@ -31,14 +31,14 @@ public class Shoot {
      * Direction: Depends on neighbors, no limit
      *
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param peaceful   Whether peaceful moves are allowed (moves to an unoccupied square).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
-        return shoot(game, fromSquare, attack, jump, peaceful, -1);
+    public static Set<Move> concretise(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful) {
+        return shoot(game, piece, attack, jump, peaceful, -1);
     }
 
     /**
@@ -46,15 +46,18 @@ public class Shoot {
      * Direction: Depends on neighbors, limit can be set
      *
      * @param game       The game context.
-     * @param fromSquare The originating square.
+     * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param peaceful   Whether peaceful moves are allowed (moves to an unoccupied square).
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> shoot(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> shoot(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
+        Chessboard chessboard = game.getChessboard();
+        Position fromPosition = new Position(piece.getPosX(), piece.getPosY());
+        Square fromSquare = ChessboardService.getSquare(chessboard, fromPosition);
 
         for (int neighbor :
                 getNeighborPos(game, fromSquare.getPos())) {
@@ -68,50 +71,50 @@ public class Shoot {
                     # C #
                     # # D
                 */
-                case 0 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BR));
+                case 0 -> allowedMoves.addAll(diagonal(game, piece, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BR));
 
                 /*
                     # N #
                     # C #
                     # D #
                 */
-                case 1 -> allowedMoves.addAll(backward(game, fromSquare, attack, jump, peaceful, -1));
+                case 1 -> allowedMoves.addAll(backward(game, piece, attack, jump, peaceful, -1));
                 /*
                     # # N
                     # C #
                     D # #
                 */
-                case 2 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BL));
+                case 2 -> allowedMoves.addAll(diagonal(game, piece, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BL));
                 /*
                     # # #
                     D C N
                     # # #
                 */
-                case 3 -> allowedMoves.addAll(left(game, fromSquare, attack, jump, peaceful, -1));
+                case 3 -> allowedMoves.addAll(left(game, piece, attack, jump, peaceful, -1));
                 /*
                     D # #
                     # C #
                     # # N
                 */
-                case 4 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FL));
+                case 4 -> allowedMoves.addAll(diagonal(game, piece, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FL));
                 /*
                     # D #
                     # C #
                     # N #
                 */
-                case 5 -> allowedMoves.addAll(forward(game, fromSquare, attack, jump, peaceful, -1));
+                case 5 -> allowedMoves.addAll(forward(game, piece, attack, jump, peaceful, -1));
                 /*
                     # # D
                     # C #
                     N # #
                 */
-                case 6 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FR));
+                case 6 -> allowedMoves.addAll(diagonal(game, piece, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FR));
                 /*
                     # # #
                     N C D
                     # # #
                 */
-                case 7 -> allowedMoves.addAll(right(game, fromSquare, attack, jump, peaceful, -1));
+                case 7 -> allowedMoves.addAll(right(game, piece, attack, jump, peaceful, -1));
                 default -> {}
             }
         }
@@ -138,7 +141,7 @@ public class Shoot {
         ArrayList<Integer> neighbors = new ArrayList<>();
         for (Position position :
                 positionsList) {
-            IPiece piece = ChessboardService.getPieceByPosition(game.getChessboard(), position);
+            Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), position);
             if(piece != null){
                 playerSet.add(piece.getPlayer());
                 neighbors.add(positionsList.indexOf(position));

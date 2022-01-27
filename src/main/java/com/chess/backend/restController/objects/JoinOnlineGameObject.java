@@ -3,8 +3,8 @@ package com.chess.backend.restController.objects;
 import lombok.Data;
 
 @Data
-public class NewOnlineGameObject {
+public class JoinOnlineGameObject {
     private String player;
-    private Integer numberOfPlayers;
+    private Integer gameId;
 
 }
