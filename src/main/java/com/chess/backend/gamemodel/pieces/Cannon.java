@@ -1,7 +1,6 @@
 package com.chess.backend.gamemodel.pieces;
 
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.gamemodel.abstractmoves.MoveDiagonal;
 import com.chess.backend.gamemodel.abstractmoves.Shoot;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
@@ -33,25 +32,25 @@ public class Cannon extends Piece {
     /**
      * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */
     @Override
-    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
+    public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(Shoot.concretise(game, this, true, false, false));
+        allowedMoves.addAll(Shoot.concretise(chessboard, this, true, false, false));
         return allowedMoves;
     }
 
     /**
      * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return ArrayList of possible Squares to move to.
      */
     @Override
-    public ArrayList<Square> getAllowedMoves(ChessGame game) {
-        Set<Move> allowedFullMoves = getAllowedFullMoves(game);
+    public ArrayList<Square> getAllowedMoves(Chessboard chessboard) {
+        Set<Move> allowedFullMoves = getAllowedFullMoves(chessboard);
         ArrayList<Square> allowedMoves = new ArrayList<>();
 
         for (Move move :

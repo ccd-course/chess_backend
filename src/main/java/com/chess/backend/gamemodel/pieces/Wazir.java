@@ -25,18 +25,18 @@ public class Wazir extends Piece {
     }
 
     @Override
-    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
+    public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveOneForward.concretise(game, this, true, false, true));
-        allowedMoves.addAll(MoveOneBackward.concretise(game, this, true, false, true));
-        allowedMoves.addAll(MoveOneLeft.concretise(game, this, true, false, true));
-        allowedMoves.addAll(MoveOneRight.concretise(game, this, true, false, true));
+        allowedMoves.addAll(MoveOneForward.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneBackward.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneLeft.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneRight.concretise(chessboard, this, true, false, true));
         return allowedMoves;
     }
 
     @Override
-    public ArrayList<Square> getAllowedMoves(ChessGame game) {
-        Set<Move> allowedFullMoves = getAllowedFullMoves(game);
+    public ArrayList<Square> getAllowedMoves(Chessboard chessboard) {
+        Set<Move> allowedFullMoves = getAllowedFullMoves(chessboard);
         ArrayList<Square> allowedMoves = new ArrayList<>();
 
         for (Move move :

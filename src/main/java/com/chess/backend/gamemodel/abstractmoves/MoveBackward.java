@@ -19,21 +19,21 @@ public class MoveBackward {
      * Generate concrete possible moves from a given piece and game context.
      * Direction: Backward, no limit
      *
-     * @param game       The game context.
+     * @param chessboard The chessboard.
      * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful) {
-        return backward(game, piece, attack, jump, peaceful, -1);
+    public static Set<Move> concretise(Chessboard chessboard, Piece piece, boolean attack, boolean jump, boolean peaceful) {
+        return backward(chessboard, piece, attack, jump, peaceful, -1);
     }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
      * Direction: Backward, limit can be set
      *
-     * @param game       The game context.
+     * @param chessboard The chessboard.
      * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
@@ -41,9 +41,8 @@ public class MoveBackward {
      * @return HashSet of concrete moves
      */
     // TODO: Implement castling, enPassant and piece promotion
-    public static Set<Move> backward(ChessGame game, Piece piece, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> backward(Chessboard chessboard, Piece piece, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
-        Chessboard chessboard = game.getChessboard();
         Position fromPosition = new Position(piece.getPosX(), piece.getPosY());
         Square fromSquare = ChessboardService.getSquare(chessboard, fromPosition);
 

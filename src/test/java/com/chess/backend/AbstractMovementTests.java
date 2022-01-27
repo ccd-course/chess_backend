@@ -44,7 +44,7 @@
 //        ArrayList<Square> squares = ChessboardService.searchSquaresByPiece(
 //                game.getChessboard().getSquares(), pieceType, Color.WHITE, null);
 //        //ChessboardService.move(game.chessboard, squares.get(0).getPosX(), squares.get(0).getPosY(), 2, 0);
-//        HashSet<Move> possibleMoves = game.getChessboard().getSquares().get(2).get(0).getPiece().getAllowedFullMoves(game);
+//        HashSet<Move> possibleMoves = game.getChessboard().getSquares().get(2).get(0).getPiece().getAllowedFullMoves(game.getChessboard());
 ////||||||| 2414c43
 ////        ArrayList<Square> squares = ChessboardService.searchSquaresByPiece(
 ////                game.getChessboard().getSquares(), pieceType, Color.WHITE, null);

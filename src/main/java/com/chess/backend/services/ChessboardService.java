@@ -128,6 +128,22 @@ public class ChessboardService {
     }
 
     /**
+     * private function that takes two positions, ie x,y and set piece in Square[x][y]
+     *
+     * @param posX    position x
+     * @param posY    position y
+     * @param squares 2D array of Square object
+     */
+    public static void removePiece(int posX, int posY, ArrayList<ArrayList<Square>> squares) {
+
+        Square square = squares.get(posX).get(posY);
+
+        square.removePiece();
+        squares.get(posX).set(posY, square);
+
+    }
+
+    /**
      * filter squares according to piece type, color or player
      *
      * @param squares   2D Square Array
@@ -287,6 +303,14 @@ public class ChessboardService {
         return chessboard.getSquares().get(position.getX()).get(position.getY()).getPiece();
     }
 
+    /**
+     * Ranking up a pawn after a move.
+     *
+     * @param pawn The pawn to be ranked up.
+     * @param posFrom The position the pawn was moved from.
+     * @param posTo The position the pawn was moved to.
+     * @param chessboardLength The length of the chessboard (y-axis).
+     */
     private static void rankUpPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
         if((Math.abs(posFrom-posTo) == 1) || ((Math.abs(posTo-posFrom)-chessboardLength) == -1)){
             pawn.setRank(pawn.getRank()+1);
@@ -299,15 +323,50 @@ public class ChessboardService {
         }
     }
 
+    /**
+     * Ranking down a pawn after a move.
+     *
+     * @param pawn The pawn to be ranked down.
+     * @param posFrom The position the pawn was moved from.
+     * @param posTo The position the pawn was moved to.
+     * @param chessboardLength The length of the chessboard (y-axis).
+     */
+    private static void rankDownPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
+        if((Math.abs(posFrom-posTo) == 1) || ((Math.abs(posTo-posFrom)-chessboardLength) == -1)){
+            pawn.setRank(pawn.getRank()-1);
+        } else {
+            if((Math.abs(posFrom-posTo) == 2) || ((Math.abs(posTo-posFrom)-chessboardLength) == -2)){
+                pawn.setRank(pawn.getRank()-2);
+            }
+        }
+    }
+
+    /**
+     * Getting the length of a chessboard.
+     * @param chessboard The chessboard.
+     * @return Length of the chessboard.
+     */
     private static int getChessboardLength(final Chessboard chessboard) {
         return chessboard.getSquares().get(0).size();
     }
 
+    /**
+     * Check if a pawn has reached the maximum rank to be promoted.
+     *
+     * @param pawn The pawn that has to be checked.
+     * @return True if the pawn has reached the maximum rank and false if not.
+     */
     private static boolean checkPawnPromotion(Pawn pawn){
-        return pawn.getRank() == 8;
+        return pawn.getRank() == 9;
     }
 
-    private static void promotePawn(Chessboard chessboard, Piece piece){
+    /**
+     * Promote a piece to a queen.
+     *
+     * @param chessboard The chessboard.
+     * @param piece The piece that has to be promoted.
+     */
+    private static void promotePawn(Chessboard chessboard, Piece piece) {
         chessboard.getSquares().get(piece.getPosX()).get(piece.getPosY()).removePiece();
         setPiece(piece.getPosX(), piece.getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
     }
@@ -324,5 +383,216 @@ public class ChessboardService {
                 searchSquaresByPiece(chessboard.getSquares(), pieceType, null, null)) {
             square.getPiece().setPlayer(player);
         }
+    }
+
+    /**
+     * Gets all valid moves for a piece. Valid means that the move is possible for the piece and doesn't end up in a check for the piece owner.
+     *
+     * @param chessboard The chessboard.
+     * @param piece      The piece for which the moves are to be determined.
+     * @return A list of valid moves.
+     */
+    public static ArrayList<Square> getValidMovesForPiece(Chessboard chessboard, Piece piece, Player player){
+        ArrayList<Square> possibleMoves = piece.getAllowedMoves(chessboard);
+        ArrayList<Square> validMoves = new ArrayList<>();
+
+        for(Square square : possibleMoves){
+            Piece capturedPiece = square.getPiece();
+            Square fromSquare = ChessboardService.getSquare(chessboard, piece.getPosition());
+
+            if(!isCheck(simulateMove(chessboard, square, piece), player)){
+                validMoves.add(square);
+            }
+
+            revertMove(chessboard, capturedPiece, piece, square, fromSquare);
+        }
+
+        return validMoves;
+    }
+
+    /**
+     * Revert a simulated move, so that the chessboard before the simulation is restored.
+     *
+     * @param chessboard The simulated chessboard.
+     * @param capturedPiece A piece that was maybe captured during the move.
+     * @param piece The piece that was moved.
+     * @param to The position the piece was moved to.
+     * @param from The position the piece was moved from.
+     */
+    private static void revertMove(Chessboard chessboard, Piece capturedPiece, Piece piece, Square to, Square from){
+        if(piece.getType() == PieceType.CANNON){
+            setPiece(to.getPosX(), to.getPosY(), chessboard.getSquares(), capturedPiece);
+        } else {
+            setPiece(to.getPosX(), to.getPosY(), chessboard.getSquares(), piece);
+            removePiece(to.getPosX(), to.getPosY(), chessboard.getSquares());
+
+            //rank down a pawn
+            if(piece.getType() == PieceType.PAWN){
+                rankDownPawn((Pawn) piece, from.getPosY(), to.getPosY(), getChessboardLength(chessboard));
+            }
+
+            if(capturedPiece != null){
+                setPiece(to.getPosX(), to.getPosY(), chessboard.getSquares(), capturedPiece);            }
+        }
+    }
+
+    /**
+     * Simulates a move by executing it on a dummy chessboard.
+     *
+     * @param chessboard The chessboard.
+     * @param square     The move that is to be simulated.
+     * @param piece      The piece for which the move should be simulated.
+     * @return A chessboard with the simulated move.
+     */
+    private static Chessboard simulateMove(Chessboard chessboard, Square square, Piece piece){
+        if(piece != null){
+            move(chessboard, piece.getPosX(), piece.getPosY(), square.getPosX(), square.getPosY());
+            return chessboard;
+        } else {
+            return chessboard;
+        }
+    }
+
+    /**
+     * Checks if a king of a given player can be captured be an enemy piece.
+     *
+     * @param chessboard The chessboard.
+     * @param player     The player to be examined.
+     * @return True if the player's king can be captured and false if not.
+     */
+    public static boolean isCheck(Chessboard chessboard, Player player){
+        Square kingPosition = getKingPositionForPlayer(chessboard, player);
+        ArrayList<Square> enemyMoves = getAllEnemyMoves(chessboard, player);
+
+        for(Square square : enemyMoves){
+            if(square.getPosX() == kingPosition.getPosX() && square.getPosY() == kingPosition.getPosY()){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all the moves that the opponents can perform.
+     *
+     * @param chessboard The chessboard.
+     * @param player     The player for whom the opponent's moves are to be calculated.
+     * @return A list of all opponent moves.
+     */
+    private static ArrayList<Square> getAllEnemyMoves(Chessboard chessboard, Player player){
+        ArrayList<Square> enemyMoves = new ArrayList<>();
+
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(0).size(); j++){
+                Square square = chessboard.getSquares().get(i).get(j);
+
+                if(square != null && square.hasPiece()){
+                    Piece piece = square.getPiece();
+
+                    if(piece.getPlayer().getId() != player.getId()){
+                        for(Square enemySquare : square.getPiece().getAllowedMoves(chessboard)){
+                            enemyMoves.add(enemySquare);
+                        }
+                    }
+                }
+            }
+        }
+
+        return enemyMoves;
+    }
+
+    /**
+     * Get the position of the king for a given player.
+     *
+     * @param chessboard The chessboard.
+     * @param player     The player for whom the position of the king is to be determined.
+     * @return The field where the king of the player is standing.
+     */
+    private static Square getKingPositionForPlayer(Chessboard chessboard, Player player){
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(0).size(); j++){
+                Square square = chessboard.getSquares().get(i).get(j);
+
+                if(square != null && square.hasPiece()){
+                    Piece piece = square.getPiece();
+
+                    if(piece.getPlayer().getId() == player.getId() && piece.getType() == PieceType.KING){
+                        return square;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Check if a player can perform minimum one valid move.
+     *
+     * @param chessboard The chessboard.
+     * @param player The player who should be checked.
+     * @return True if the player has minimum one valid move and false if not.
+     */
+    public static boolean hasPlayerValidMoves(Chessboard chessboard, Player player){
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(0).size(); j++){
+                Square square = chessboard.getSquares().get(i).get(j);
+
+                if(square != null && square.hasPiece()){
+                    Piece piece = square.getPiece();
+
+                    if(piece.getPlayer().getName() == player.getName() && getValidMovesForPiece(chessboard, piece, player).size() > 0){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all players whose kings can be captured by a given player.
+     *
+     * @param chessboard The chessboard.
+     * @param player The given player.
+     * @return A list of players whose kings can be captured by the player.
+     */
+    public static ArrayList<Player> getCaptureKingPlayers(Chessboard chessboard, Player player){
+        ArrayList<Piece> enemyKings = new ArrayList<>();
+        ArrayList<Square> playerMoves = new ArrayList<>();
+
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(0).size(); j++){
+                Square square = chessboard.getSquares().get(i).get(j);
+
+                if(square != null && square.hasPiece()){
+                    Piece piece = square.getPiece();
+
+                    if(piece.getPlayer().getColor() == player.getColor()){
+
+                        for(Square move : getValidMovesForPiece(chessboard, piece, player)){
+                            playerMoves.add(move);
+                        }
+                    } else {
+                        if(piece.getPlayer().getColor() != player.getColor() && piece.getType() == PieceType.KING){
+                            enemyKings.add(piece);
+                        }
+                    }
+                }
+            }
+        }
+
+        ArrayList<Player> capturedPlayers = new ArrayList<>();
+        for(Square square : playerMoves){
+            for(Piece piece : enemyKings){
+                if(square.getPosX() == piece.getPosX() && square.getPosY() == piece.getPosY()){
+                    capturedPlayers.add(piece.getPlayer());
+                }
+            }
+        }
+
+        return capturedPlayers;
     }
 }
