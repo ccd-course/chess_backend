@@ -48,14 +48,14 @@ public class GetChessboardService {
          */
 
         //[24][4]
-        SquareObject[][] board = new SquareObject[chessboard.get(0).size()][chessboard.size()];
+        SquareObject[][] board = new SquareObject[chessboard.size()][chessboard.get(0).size()];
 
         for(int i = 0; i < chessboard.size(); i++){
             for(int j = 0; j < chessboard.get(i).size(); j++){
                 if(chessboard.get(i).get(j).hasPiece()){
-                    board[j][i] = new SquareObject(chessboard.get(i).get(j).getPiece().getType().getLabel(), chessboard.get(i).get(j).getPiece().getPlayer().getName());
+                    board[i][j] = new SquareObject(chessboard.get(i).get(j).getPiece().getType().getLabel(), chessboard.get(i).get(j).getPiece().getPlayer().getName());
                 } else {
-                    board[j][i] = null;
+                    board[i][j] = null;
                 }
             }
         }
