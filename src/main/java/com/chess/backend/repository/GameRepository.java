@@ -4,8 +4,7 @@ import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Square;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.Pawn;
-import com.chess.backend.gamemodel.pieces.Piece;
+import com.chess.backend.gamemodel.pieces.*;
 import com.chess.backend.restController.objects.ChessboardObject;
 import com.chess.backend.restController.objects.SquareObject;
 
@@ -18,8 +17,10 @@ import com.google.gson.reflect.TypeToken;
 import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -39,28 +40,64 @@ public class GameRepository {
 
         Map<String, Object> gameHashMap = this.firebase.getDocument(collection, String.valueOf(gameId));
         String gameJson = (String) gameHashMap.get("value");
-        ChessGame newGame=  new Gson().fromJson(gameJson, ChessGame.class);
-        ArrayList<ArrayList<Square>> squares = newGame.getChessboard().getSquares();
-        for (ArrayList<Square> squareArrayList : squares) {
-            for (Square square : squareArrayList) {
-                Piece piece = square.getPiece();
-                String pieceJson = new Gson().toJson(piece);
-                if (piece != null) {
-                    if (piece.getType() == PieceType.PAWN) {
-                        //new Pawn()
-                        Pawn pawn=  new Gson().fromJson(gameJson, Pawn.class);
-                        piece = pawn;
-                        System.out.println("TEST pawn Type " + pawn.getType());
-//                        new Pawn(square.getPiece().getPlayer(), piece.isClockwise());
+        try{
+            HashMap result =
+                    new ObjectMapper().readValue(gameJson, HashMap.class);
+            HashMap chessboard = (HashMap) result.get("chessboard");
+            ArrayList<ArrayList<LinkedHashMap>> squares = (ArrayList<ArrayList<LinkedHashMap>>) chessboard.get("squares");
+            ChessGame newGame=  new Gson().fromJson(gameJson, ChessGame.class);
+            System.out.println("GAMME:: " + newGame);
+            for(int i =0; i< squares.size(); i++){
+                for( int j =0; j < squares.get(i).size(); j++){
+                    System.out.println("SQUARE::" + squares.get(i).get(j));
+                    LinkedHashMap square = squares.get(i).get(j);
+                    LinkedHashMap piece = (LinkedHashMap) square.get("piece");
+
+                    if (piece != null) {
+                        String pieceJson = new Gson().toJson(piece);
+                        Class pieceClass = null;
+                        if (piece.get("type").toString().equals(PieceType.PAWN.getLabel().toUpperCase())) {
+                            pieceClass = Pawn.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.ROOK.getLabel().toUpperCase())) {
+                            pieceClass = Rook.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.KNIGHT.getLabel().toUpperCase())) {
+                            pieceClass = Knight.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.BISHOP.getLabel().toUpperCase())) {
+                            pieceClass = Bishop.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.QUEEN.getLabel().toUpperCase())) {
+                            pieceClass = Queen.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.KING.getLabel().toUpperCase())) {
+                            pieceClass = King.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.CANNON.getLabel().toUpperCase())) {
+                            pieceClass = Cannon.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.FERZ.getLabel().toUpperCase())) {
+                            pieceClass = Ferz.class;
+                        }
+                        else if (piece.get("type").toString().equals(PieceType.WAZIR.getLabel().toUpperCase())) {
+                            pieceClass = Wazir.class;
+                        }
+                        Piece pawn=  new Gson().fromJson(pieceJson, (Type) pieceClass);
+                        System.out.println();
+                        newGame.getChessboard().getSquares().get(i).get(j).setPiece(pawn);
                     }
-                    square.setPiece(piece);
                 }
             }
+            System.out.println("newGame:" + newGame);
+            return newGame;
         }
+        catch (JsonProcessingException e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
 
-        System.out.println("newGame:" + newGame);
-        return newGame;
-
+        }
+        return null;
     }
 
     public void createNewGame(Integer gameId, ChessGame game)  {
