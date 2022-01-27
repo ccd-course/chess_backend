@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -15,13 +14,14 @@ import java.util.Set;
  * Represents a piece.
  */
 @Data
-public class Bishop implements IPiece {
-    private Square square;
-    private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
-    private PieceType type = PieceType.BISHOP;
-    private boolean motioned;
-    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+public class Bishop extends Piece {
+//    private Square square;
+    private transient Integer posX;
+    private transient Integer posY;
+    private transient Player player;
+    private  PieceType type = PieceType.BISHOP;
+    private transient boolean motioned;
+    private transient final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
     public Bishop(Player player, boolean clockwise) {
@@ -38,7 +38,7 @@ public class Bishop implements IPiece {
     @Override
     public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveDiagonal.concretise(chessboard, this.square, true, false, true));
+        allowedMoves.addAll(MoveDiagonal.concretise(chessboard, this, true, false, true));
         return allowedMoves;
     }
 
@@ -110,7 +110,6 @@ public class Bishop implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +
