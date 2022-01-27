@@ -23,6 +23,10 @@ import static com.chess.backend.gamemodel.abstractmoves.MoveRight.right;
  */
 public class Shoot {
 
+    private Shoot(){
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Generate concrete possible shoots from a given piece and game context.
      * Direction: Depends on neighbors, no limit
@@ -109,7 +113,6 @@ public class Shoot {
                     # # #
                 */
                 case 7 -> allowedMoves.addAll(right(game, fromSquare, attack, jump, peaceful, -1));
-                default -> {}
             }
         }
 
