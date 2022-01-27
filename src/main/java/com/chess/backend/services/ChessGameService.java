@@ -139,7 +139,7 @@ public class ChessGameService {
      */
     public int[][] getPossibleMoves(ChessGame game, int[] piecePosition) {
             Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
-            ArrayList<Square> moveList = piece.getAllowedMoves(game);
+            ArrayList<Square> moveList = ChessboardService.getValidMovesForPiece(game.getChessboard(), piece, game.getActivePlayer());
             int[][] moves = new int[moveList.size()][2];
 
             for (int i = 0; i < moveList.size(); i++) {
@@ -164,16 +164,87 @@ public class ChessGameService {
             ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
             this.switchActive(game);
 
-            return getActivePlayerName(game);
+            checkEndingConditions(game);
+
+                return getActivePlayerName(game);
         } else {
             return "";
         }
 
     }
+
+    /**
+     * Get the name of the active player.
+     * @return The name of the active player.
+     */
     public String getActivePlayerName(ChessGame game){
         return game.getActivePlayer().getName();
     }
 
+    /**
+     * Checks if an ending condition to end the game is fulfilled.
+     * @param game The game context.
+     */
+    private void checkEndingConditions(IGame game){
+        // the players king can be captured and the player has no valid move
+        if(ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
+            // the game is over
+            // the active player has lost
+            // the next player in the move order who can capture the players king wins
+            // TODO: set the events and variables
+            ArrayList<Player> loosers = new ArrayList<>();
+            loosers.add(game.getActivePlayer());
+            Player winner = determineWinnerByMoveOrder(game, loosers.get(0));
+        } else {
+            // the players king can not be captured, but the player has no valid move
+            if(!ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
+                // the game ends in a draw
+                // no player has won or lost
+                // TODO: set the events
+                Player winner = null;
+                ArrayList<Player> loosers = new ArrayList<>();
+            } else {
+                // the player can capture an opponent king
+                ArrayList<Player> capturedPlayers = ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getActivePlayer());
+                if(capturedPlayers.size() > 0){
+                    // the game ends because the active player ca capture an opponent king
+                    // the active player wins
+                    // the captured players loose
+                    // TODO
+                    Player winner = game.getActivePlayer();
+                    ArrayList<Player> loosers = capturedPlayers;
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines the winner if a player is checkmate.
+     *
+     * @param game   The game context.
+     * @param looser The player who is checkmate.
+     * @return The winning player (the next player in the move order who can capture the king of the looser).
+     */
+    private Player determineWinnerByMoveOrder(IGame game, Player looser){
+        List<Player> playerOrder = game.getPlayers();
+
+        while(playerOrder.get(0) != looser){
+            playerOrder.add(playerOrder.get(0));
+            playerOrder.remove(0);
+        }
+
+        playerOrder.remove(0);
+
+        for(Player player : playerOrder){
+            for(Player capturedPlayer : ChessboardService.getCaptureKingPlayers(game.getChessboard(), player)){
+                if(capturedPlayer.getColor() == looser.getColor()){
+                    return player;
+                }
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Method to switch active players after move

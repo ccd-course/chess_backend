@@ -31,20 +31,20 @@ public class Piece  {
     /**
      * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
      *
-     * @param game Game context
+     * @param chessboard Chessboard
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */
-    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
+    public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         return null;
     }
 
     /**
      * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
      *
-     * @param game Game context
+     * @param chessboard Chessboard
      * @return ArrayList of possible Squares to move to.
      */
-    public ArrayList<Square> getAllowedMoves(ChessGame game) {
+    public ArrayList<Square> getAllowedMoves(Chessboard chessboard) {
         return null;
     }
 
@@ -82,6 +82,10 @@ public class Piece  {
 
     public boolean isClockwise() {
         return clockwise;
+    }
+
+    public Position getPosition(){
+        return new Position(posX, posY);
     }
 
     public String toString() {
