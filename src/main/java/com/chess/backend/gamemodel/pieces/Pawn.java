@@ -33,24 +33,24 @@ public class Pawn implements IPiece {
     /**
      * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */
     @Override
-    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
+    public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         HashSet<Move> allowedMoves = new HashSet<>();
         if (clockwise) {
-            allowedMoves.addAll(MoveOneForward.concretise(game, this.square, false, false, true));
+            allowedMoves.addAll(MoveOneForward.concretise(chessboard, this.square, false, false, true));
             if (square.getPosY() == PlayerService.getBaseY(player)) {
-                allowedMoves.addAll(MoveTwoForward.concretise(game, this.square, false, false, true));
+                allowedMoves.addAll(MoveTwoForward.concretise(chessboard, this.square, false, false, true));
             }
-            allowedMoves.addAll(MovePawnCaptureForward.concretise(game, this.square, true, false, false));
+            allowedMoves.addAll(MovePawnCaptureForward.concretise(chessboard, this.square, true, false, false));
         } else {
-            allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, false, false, true));
+            allowedMoves.addAll(MoveOneBackward.concretise(chessboard, this.square, false, false, true));
             if (square.getPosY() == PlayerService.getBaseY(player) + 3) {
-                allowedMoves.addAll(MoveTwoBackward.concretise(game, this.square, false, false, true));
+                allowedMoves.addAll(MoveTwoBackward.concretise(chessboard, this.square, false, false, true));
             }
-            allowedMoves.addAll(MovePawnCaptureBackward.concretise(game, this.square, true, false, false));
+            allowedMoves.addAll(MovePawnCaptureBackward.concretise(chessboard, this.square, true, false, false));
         }
         return allowedMoves;
     }
@@ -58,12 +58,12 @@ public class Pawn implements IPiece {
     /**
      * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return ArrayList of possible Squares to move to.
      */
     @Override
-    public ArrayList<Square> getAllowedMoves(ChessGame game) {
-        Set<Move> allowedFullMoves = getAllowedFullMoves(game);
+    public ArrayList<Square> getAllowedMoves(Chessboard chessboard) {
+        Set<Move> allowedFullMoves = getAllowedFullMoves(chessboard);
         ArrayList<Square> allowedMoves = new ArrayList<>();
 
         for (Move move :
@@ -87,6 +87,10 @@ public class Pawn implements IPiece {
     @Override
     public void setType(PieceType type) {
         this.type = type;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     @Override

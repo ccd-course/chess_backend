@@ -29,22 +29,22 @@ public class Shoot {
      * Generate concrete possible shoots from a given piece and game context.
      * Direction: Depends on neighbors, no limit
      *
-     * @param game       The game context.
+     * @param chessboard The chessboard.
      * @param fromSquare The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
      * @param peaceful   Whether peaceful moves are allowed (moves to an unoccupied square).
      * @return HashSet of concrete moves
      */
-    public static Set<Move> concretise(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
-        return shoot(game, fromSquare, attack, jump, peaceful, -1);
+    public static Set<Move> concretise(Chessboard chessboard, Square fromSquare, boolean attack, boolean jump, boolean peaceful) {
+        return shoot(chessboard, fromSquare, attack, jump, peaceful, -1);
     }
 
     /**
      * Generate concrete possible moves from a given piece and game context.
      * Direction: Depends on neighbors, limit can be set
      *
-     * @param game       The game context.
+     * @param chessboard The chessboard.
      * @param fromSquare The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
@@ -52,11 +52,11 @@ public class Shoot {
      * @param limit      The maximum of steps.
      * @return HashSet of concrete moves
      */
-    public static Set<Move> shoot(ChessGame game, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
+    public static Set<Move> shoot(Chessboard chessboard, Square fromSquare, boolean attack, boolean jump, boolean peaceful, int limit) {
         HashSet<Move> allowedMoves = new HashSet<Move>();
 
         for (int neighbor :
-                getNeighborPos(game.getChessboard(), fromSquare.getPos())) {
+                getNeighborPos(chessboard, fromSquare.getPos())) {
 
             switch (neighbor) {
                 /*
@@ -67,50 +67,50 @@ public class Shoot {
                     # C #
                     # # D
                 */
-                case 0 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BR));
+                case 0 -> allowedMoves.addAll(diagonal(chessboard, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BR));
 
                 /*
                     # N #
                     # C #
                     # D #
                 */
-                case 1 -> allowedMoves.addAll(backward(game, fromSquare, attack, jump, peaceful, -1));
+                case 1 -> allowedMoves.addAll(backward(chessboard, fromSquare, attack, jump, peaceful, -1));
                 /*
                     # # N
                     # C #
                     D # #
                 */
-                case 2 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BL));
+                case 2 -> allowedMoves.addAll(diagonal(chessboard, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_BL));
                 /*
                     # # #
                     D C N
                     # # #
                 */
-                case 3 -> allowedMoves.addAll(left(game, fromSquare, attack, jump, peaceful, -1));
+                case 3 -> allowedMoves.addAll(left(chessboard, fromSquare, attack, jump, peaceful, -1));
                 /*
                     D # #
                     # C #
                     # # N
                 */
-                case 4 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FL));
+                case 4 -> allowedMoves.addAll(diagonal(chessboard, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FL));
                 /*
                     # D #
                     # C #
                     # N #
                 */
-                case 5 -> allowedMoves.addAll(forward(game, fromSquare, attack, jump, peaceful, -1));
+                case 5 -> allowedMoves.addAll(forward(chessboard, fromSquare, attack, jump, peaceful, -1));
                 /*
                     # # D
                     # C #
                     N # #
                 */
-                case 6 -> allowedMoves.addAll(diagonal(game, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FR));
+                case 6 -> allowedMoves.addAll(diagonal(chessboard, fromSquare, attack, jump, peaceful, limit, Position.Direction.DIAGONAL_FR));
                 /*
                     # # #
                     N C D
                     # # #
                 */
-                case 7 -> allowedMoves.addAll(right(game, fromSquare, attack, jump, peaceful, -1));
+                case 7 -> allowedMoves.addAll(right(chessboard, fromSquare, attack, jump, peaceful, -1));
                 default -> {}
             }
         }

@@ -26,15 +26,15 @@ public class Ferz implements IPiece {
     }
 
     @Override
-    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
+    public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false, true));
+        allowedMoves.addAll(MoveOneDiagonal.concretise(chessboard, this.square, true, false, true));
         return allowedMoves;
     }
 
     @Override
-    public ArrayList<Square> getAllowedMoves(ChessGame game) {
-        Set<Move> allowedFullMoves = getAllowedFullMoves(game);
+    public ArrayList<Square> getAllowedMoves(Chessboard chessboard) {
+        Set<Move> allowedFullMoves = getAllowedFullMoves(chessboard);
         ArrayList<Square> allowedMoves = new ArrayList<>();
 
         for (Move move :

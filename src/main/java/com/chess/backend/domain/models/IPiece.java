@@ -11,18 +11,18 @@ public interface IPiece {
     /**
      * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */
-    HashSet<Move> getAllowedFullMoves(ChessGame game);
+    HashSet<Move> getAllowedFullMoves(Chessboard chessboard);
 
     /**
      * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return ArrayList of possible Squares to move to.
      */
-    ArrayList<Square> getAllowedMoves(ChessGame game);
+    ArrayList<Square> getAllowedMoves(Chessboard chessboard);
 
     boolean getMainDirection();
 

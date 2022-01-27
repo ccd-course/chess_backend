@@ -41,7 +41,7 @@ public class AbstractMovementTests {
     }
 
     HashSet<Position> getPossibleMovePositions(PieceType pieceType) {
-        HashSet<Move> possibleMoves = game.getChessboard().getSquares()[2][0].getPiece().getAllowedFullMoves(game);
+        HashSet<Move> possibleMoves = game.getChessboard().getSquares()[2][0].getPiece().getAllowedFullMoves(game.getChessboard());
         System.out.println(possibleMoves);
 
         HashSet<Position> positions = new HashSet<>();
