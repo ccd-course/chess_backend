@@ -127,7 +127,7 @@ public class GameRepository implements IGameRepository {
 //        try{
 //            HashMap result = new ObjectMapper().readValue(gameJson, HashMap.class);
 //            System.out.println("RESULT "+ result);
-//        this.firebase.addDocument(collection, String.valueOf(gameId),data);
+        this.firebase.addDocument(collection, String.valueOf(gameId),data);
 
 //        }
 //        catch (JsonProcessingException e){

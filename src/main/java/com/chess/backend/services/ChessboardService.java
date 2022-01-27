@@ -218,7 +218,7 @@ public class ChessboardService {
         }
     }
 
-    public static void move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
+    public static Chessboard move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
         Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
 
         chessboard.getSquares().get(toX).get(toY).setPiece((Piece)piece);
@@ -237,6 +237,8 @@ public class ChessboardService {
                 promotePawn(chessboard, piece);
             }
         }
+        return chessboard;
+
     }
 
     /**
