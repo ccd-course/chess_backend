@@ -51,6 +51,7 @@ public class JoinOnlineGameController {
             if(player.getName()==null){
                 player.setName(joinOnlineGameObject.getPlayer());
                 players.set(i, player);
+                break;
             }
         }
         game.setPlayers(players);
