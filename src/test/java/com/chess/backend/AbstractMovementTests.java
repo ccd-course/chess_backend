@@ -291,7 +291,7 @@ public class AbstractMovementTests {
 
         IPiece piece = new Knight(game.getPlayers().get(0), true);
         setUpChessboard(piece);
-        spawnPawnAsVictim(new Position(3, 21));
+        spawnPawnAsVictim(new Position(1, 25));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
 
         // One Left
