@@ -1,6 +1,5 @@
 package com.chess.backend.gamemodel.pieces;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.abstractmoves.*;
 import com.chess.backend.gamemodel.constants.Color;
@@ -15,13 +14,13 @@ import java.util.Set;
  * Represents a piece.
  */
 @Data
-public class King implements IPiece {
-    private Square square;
-    private Player player;
-    private Chessboard chessboard; // <-- this relations isn't in class diagram, but it's necessary :/
-    private PieceType type = PieceType.KING;
-    private boolean motioned;
-    private final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+public class King extends Piece {
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type = PieceType.KING;
+    private  boolean motioned;
+    private  final boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
 
 
     public King(Player player, boolean clockwise) {
@@ -32,29 +31,29 @@ public class King implements IPiece {
     /**
      * Returns all allowed moves of the piece. The moves for each pieceType are composed of several abstract moves.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return A HashSet of all allowed moves of the piece in this individual game context.
      */
     @Override
-    public HashSet<Move> getAllowedFullMoves(ChessGame game) {
+    public HashSet<Move> getAllowedFullMoves(Chessboard chessboard) {
         HashSet<Move> allowedMoves = new HashSet<>();
-        allowedMoves.addAll(MoveOneForward.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneBackward.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneLeft.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneRight.concretise(game, this.square, true, false, true));
-        allowedMoves.addAll(MoveOneDiagonal.concretise(game, this.square, true, false, true));
+        allowedMoves.addAll(MoveOneForward.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneBackward.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneLeft.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneRight.concretise(chessboard, this, true, false, true));
+        allowedMoves.addAll(MoveOneDiagonal.concretise(chessboard, this, true, false, true));
         return allowedMoves;
     }
 
     /**
      * Converts AllowedFullMoves to an array of Squares representing only the destination of the move.
      *
-     * @param game Game context
+     * @param chessboard The chessboard.
      * @return ArrayList of possible Squares to move to.
      */
     @Override
-    public ArrayList<Square> getAllowedMoves(ChessGame game) {
-        Set<Move> allowedFullMoves = getAllowedFullMoves(game);
+    public ArrayList<Square> getAllowedMoves(Chessboard chessboard) {
+        Set<Move> allowedFullMoves = getAllowedFullMoves(chessboard);
         ArrayList<Square> allowedMoves = new ArrayList<>();
 
         for (Move move :
@@ -114,7 +113,6 @@ public class King implements IPiece {
     public String toString() {
         return "Piece{" +
                 "type=" + type +
-                ", chessboard=" + chessboard +
                 ", player=" + player +
                 ", motioned=" + motioned +
                 ", clockwise=" + clockwise +

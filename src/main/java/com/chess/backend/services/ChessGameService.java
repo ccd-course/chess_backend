@@ -1,11 +1,19 @@
 package com.chess.backend.services;
 
 import com.chess.backend.domain.models.IGame;
+import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.domain.services.IGameService;
+import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.domain.models.IPiece;
+import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.gamemodel.pieces.Piece;
+import com.chess.backend.repository.GameRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,46 +22,45 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Game service to initialize new Game and do operations on it
  */
-@Component
-public class ChessGameService implements IGameService {
+@Service
+public class ChessGameService {
     private final PlayerService playerService = new PlayerService();
+    private IGameRepository gameRepository;
 
-    private static final ChessGameService CHESS_GAME_SERVICE = new ChessGameService();
+    @Autowired
+    public ChessGameService(@Qualifier("GameRepositoryClass") IGameRepository gameRepository ){
+        this.gameRepository = gameRepository;
+    }
 
-    private ChessGame game;
+//    private static final ChessGameService CHESS_GAME_SERVICE = new ChessGameService();
+
 
     /**
      * generate new ID for a game object
      *
      * @return id
      */
-    @Override
     public Integer getNewGameID() {
         return ThreadLocalRandom.current().nextInt(1, 1000 + 1);
     }
 
+
     /**
-     * get current game service instance
      *
-     * @return GameService instance
+     * @param playerNames
+     * @return
      */
-    public static ChessGameService getInstance() {
-        return CHESS_GAME_SERVICE;
-    }
-
-    public ChessGameService() {
-    }
-
     public ChessGame createNewOnlineGame(String[] playerNames) {
-        game = new ChessGame();
+        ChessGame game = new ChessGame();
 
         //getting and setting the gameID
         game.setId(this.getNewGameID());
-
+        System.out.println("PLAYERS: "+ playerNames[0]);
         //initialize the players
         List<Player> players = playerService.initPlayers(playerNames);
         game.setPlayers(players);
         game.setActivePlayer(players.get(0));
+        game.setEvents(new ArrayList<>());
 
         //initialize the chessboard
 
@@ -67,10 +74,10 @@ public class ChessGameService implements IGameService {
          * create new Game
          *
          * @param playerNames players names
-         * @return boolean that's true if game is created
+         * @return ChessGame
          */
-    public boolean createNewGame(String[] playerNames) {
-        game = new ChessGame();
+    public ChessGame createNewGame(String[] playerNames) {
+        ChessGame game = new ChessGame();
 
         //getting and setting the gameID
         game.setId(this.getNewGameID());
@@ -79,34 +86,28 @@ public class ChessGameService implements IGameService {
         List<Player> players = playerService.initPlayers(playerNames);
         game.setPlayers(players);
         game.setActivePlayer(players.get(0));
+        game.setEvents(new ArrayList<>());
 
         //initialize the chessboard
         Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
         game.setChessboard(newGameChessboard);
         ChessboardService.setCommonPiecePlayer(game.getChessboard(), PieceType.CANNON, game.getActivePlayer());
 
-        return true;
-    }
-
-    @Override
-    public ChessGame getGame() {
         return game;
     }
 
-    @Override
-    public int getGameID() {
-        return game.getId();
+
+    public ChessGame getGame(Integer gameId) {
+        return gameRepository.getGame(gameId);
+
     }
 
-    public Square[][] getBoard(int gameID) {
-        if (verifyGameID(gameID)) {
-            return getAllSquaresFromChessboard();
-        } else {
-            return null;
-        }
+    public ArrayList<ArrayList<Square>> getBoard(int gameID) {
+        ChessGame game = this.getGame(gameID);
+        return getAllSquaresFromChessboard(game);
     }
-    public Square[][] getAllSquaresFromChessboard(){
-        return this.game.getChessboard().getSquares();
+    public ArrayList<ArrayList<Square>> getAllSquaresFromChessboard(ChessGame game){
+        return game.getChessboard().getSquares();
     }
 
     /**
@@ -117,10 +118,9 @@ public class ChessGameService implements IGameService {
      * @param newPiecePosition      [x,y] position
      * @return true if valid
      */
-    @Override
     public boolean validateMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
-        int[][] possibleMoves = getPossibleMoves(gameID, previousPiecePosition);
-
+        ChessGame game = this.getGame(gameID);
+        int[][] possibleMoves = getPossibleMoves(game, previousPiecePosition);
         for (int[] possibleMove : possibleMoves) {
             if ((possibleMove[0] == newPiecePosition[0]) && (possibleMove[1] == newPiecePosition[1])) {
                 return true;
@@ -131,19 +131,16 @@ public class ChessGameService implements IGameService {
     }
 
     /**
-     * returns possible moves for a piece position
-     * return value looks like that
-     * [[x,y], [2,2], [2,3], [3,3]]
-     *
-     * @param gameID        game id
-     * @param piecePosition position of a piece
-     * @return 2D array of possible positions [x,y]
+     *      returns possible moves for a piece position
+     *      return value looks like that
+     *      [[x,y], [2,2], [2,3], [3,3]]
+     * @param game
+     * @param piecePosition
+     * @return
      */
-    @Override
-    public int[][] getPossibleMoves(int gameID, int[] piecePosition) {
-        if (verifyGameID(gameID)) {
-            IPiece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
-            ArrayList<Square> moveList = piece.getAllowedMoves(game);
+    public int[][] getPossibleMoves(ChessGame game, int[] piecePosition) {
+            Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
+            ArrayList<Square> moveList = ChessboardService.getValidMovesForPiece(game.getChessboard(), piece, game.getActivePlayer());
             int[][] moves = new int[moveList.size()][2];
 
             for (int i = 0; i < moveList.size(); i++) {
@@ -152,9 +149,6 @@ public class ChessGameService implements IGameService {
             }
 
             return moves;
-        } else {
-            return new int[][]{};
-        }
     }
 
     /**
@@ -165,25 +159,97 @@ public class ChessGameService implements IGameService {
      * @param newPiecePosition      [x,y] position
      * @return if verified game id and valid move return the Activate player name otherwise return empty string
      */
-    @Override
     public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
-        if (verifyGameID(gameID)) {
-            if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
-                ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
-                this.switchActive(game);
-
-                return getActivePlayerName();
-            } else {
-                return "";
-            }
+        ChessGame game = this.getGame(gameID);
+        if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
+            ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
+            this.switchActive(game);
+            checkEndingConditions(game);
+            List<Event> events = game.getEvents();
+            events.add(Event.NEW_MOVE);
+            game.setEvents(events);
+            this.gameRepository.createNewGame(game.getId(), game);
+            return getActivePlayerName(game);
         } else {
             return "";
         }
-    }
-    public String getActivePlayerName(){
-        return this.game.getActivePlayer().getName();
+
     }
 
+    /**
+     * Get the name of the active player.
+     * @return The name of the active player.
+     */
+    public String getActivePlayerName(ChessGame game){
+        return game.getActivePlayer().getName();
+    }
+
+    /**
+     * Checks if an ending condition to end the game is fulfilled.
+     * @param game The game context.
+     */
+    private void checkEndingConditions(ChessGame game){
+        // the players king can be captured and the player has no valid move
+        if(ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
+            // the game is over
+            // the active player has lost
+            // the next player in the move order who can capture the players king wins
+            List<Event> events = game.getEvents();
+            events.add(Event.CHECKMATED);
+            game.setEvents(events);
+            game.setWinner(determineWinnerByMoveOrder(game, game.getActivePlayer()));
+        } else {
+            // the players king can not be captured, but the player has no valid move
+            if(!ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
+                // the game ends in a draw
+                // no player has won or lost
+                List<Event> events = game.getEvents();
+                events.add(Event.DRAW);
+                game.setEvents(events);
+            } else {
+                // the player can capture an opponent king
+                ArrayList<Player> capturedPlayers = ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getActivePlayer());
+                if(capturedPlayers.size() > 0){
+                    // the game ends because the active player ca capture an opponent king
+                    // the active player wins
+                    // the captured players loose
+                    List<Event> events = game.getEvents();
+                    events.add(Event.CHECKMATED);
+                    game.setEvents(events);
+                    game.setWinner(game.getActivePlayer());
+                    //ArrayList<Player> loosers = capturedPlayers;
+                }
+            }
+        }
+    }
+
+    /**
+     * Determines the winner if a player is checkmate.
+     *
+     * @param game   The game context.
+     * @param looser The player who is checkmate.
+     * @return The winning player (the next player in the move order who can capture the king of the looser).
+     */
+    private Player determineWinnerByMoveOrder(IGame game, Player looser){
+        List<Player> playerOrder = game.getPlayers();
+
+        while(playerOrder.get(0) != looser){
+            playerOrder.add(playerOrder.get(0));
+            playerOrder.remove(0);
+        }
+
+        playerOrder.remove(0);
+
+        for(Player player : playerOrder){
+            for(Player capturedPlayer : ChessboardService.getCaptureKingPlayers(game.getChessboard(), player)){
+                if(capturedPlayer.getColor() == looser.getColor()){
+                    return player;
+                }
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Method to switch active players after move
@@ -210,32 +276,11 @@ public class ChessGameService implements IGameService {
      * @param gameID game id
      * @return player name
      */
-    @Override
     public String getPlayerTurn(int gameID) {
-        if (verifyGameID(gameID)) {
-            return getActivePlayerName();
-        } else {
-            return "";
-        }
+        ChessGame game = this.getGame(gameID);
+        return getActivePlayerName(game);
     }
 
-    /**
-     * End game function
-     *
-     * @param gameID game id
-     * @return true if game is valid and ended successfully
-     */
-    @Override
-    public boolean endGame(int gameID) {
-        if (verifyGameID(gameID)) {
-            game = null;
-            System.gc();
-
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public static void setActivePlayer (ChessGame chessGame, Player activePlayer){
         chessGame.setActivePlayer(activePlayer);
