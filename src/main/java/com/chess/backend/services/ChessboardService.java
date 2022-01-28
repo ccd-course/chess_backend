@@ -633,7 +633,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getName().equals(player.getColor())){
+                    if(piece.getPlayer().getName().equals(player.getName())){
 
                         playerMoves.addAll(getValidMovesForPiece(chessboard, piece, player));
                     } else {
