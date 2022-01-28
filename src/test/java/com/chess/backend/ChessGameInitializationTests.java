@@ -21,7 +21,7 @@ public class ChessGameInitializationTests {
      * Helper method to create a ChessGame test object
      * @return ChessGame
      */
-    public ChessGame createNewTestGame() {
+    public static ChessGame createNewTestGame() {
         String[] players = {"Test Player 1", "Test Player 2", "Test Player 3"};
         NewPlayerObject[] newPlayerObjects = new NewPlayerObject[players.length];
         for (int i = 0; i < players.length; i++) {
