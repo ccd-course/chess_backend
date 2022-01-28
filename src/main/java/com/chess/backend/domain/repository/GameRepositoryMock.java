@@ -10,7 +10,7 @@ public class GameRepositoryMock implements IGameRepository {
 
     @Override
     public ChessGame getGame(Integer gameId) {
-        games.get(gameId);
+        return games.get(gameId);
     }
 
     @Override
