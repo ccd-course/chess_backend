@@ -10,6 +10,7 @@ import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.gamemodel.pieces.Piece;
 import com.chess.backend.repository.GameRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
