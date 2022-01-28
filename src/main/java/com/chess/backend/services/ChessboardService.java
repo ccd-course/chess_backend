@@ -605,7 +605,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getName().equals(player.getName()) && getValidMovesForPiece(chessboard, piece, player).size() > 0){
+                    if(piece.getPlayer().getName().equals(player.getName()) && !getValidMovesForPiece(chessboard, piece, player).isEmpty()){
                         return true;
                     }
                 }
