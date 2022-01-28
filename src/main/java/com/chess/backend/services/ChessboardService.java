@@ -492,7 +492,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getId() != player.getId()){
+                    if(!piece.getPlayer().getName().equals(player.getName())){
                         enemyMoves.addAll(square.getPiece().getAllowedMoves(chessboard));
                     }
                 }
@@ -555,7 +555,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()) {
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getName() != player.getName() && !enemys.contains(piece.getPlayer())){
+                    if(!piece.getPlayer().getName().equals(player.getName()) && !enemys.contains(piece.getPlayer())){
                         enemys.add(piece.getPlayer());
                     }
                 }
@@ -580,7 +580,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getId() == player.getId() && piece.getType() == PieceType.KING){
+                    if(piece.getPlayer().getName().equals(player.getName()) && piece.getType() == PieceType.KING){
                         return square;
                     }
                 }
@@ -605,7 +605,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getName() == player.getName() && getValidMovesForPiece(chessboard, piece, player).size() > 0){
+                    if(piece.getPlayer().getName().equals(player.getName()) && getValidMovesForPiece(chessboard, piece, player).size() > 0){
                         return true;
                     }
                 }
@@ -633,11 +633,11 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(piece.getPlayer().getColor() == player.getColor()){
+                    if(piece.getPlayer().getName().equals(player.getColor())){
 
                         playerMoves.addAll(getValidMovesForPiece(chessboard, piece, player));
                     } else {
-                        if(piece.getPlayer().getColor() != player.getColor() && piece.getType() == PieceType.KING){
+                        if(piece.getType() == PieceType.KING){
                             enemyKings.add(piece);
                         }
                     }
