@@ -483,23 +483,86 @@ public class ChessboardService {
     private static ArrayList<Square> getAllEnemyMoves(Chessboard chessboard, Player player){
         ArrayList<Square> enemyMoves = new ArrayList<>();
 
+        //iterate over chessboard
         for(int i = 0; i < chessboard.getSquares().size(); i++){
             for(int j = 0; j < chessboard.getSquares().get(0).size(); j++){
                 Square square = chessboard.getSquares().get(i).get(j);
 
+                //check if square has a piece
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
                     if(piece.getPlayer().getId() != player.getId()){
-                        for(Square enemySquare : square.getPiece().getAllowedMoves(chessboard)){
-                            enemyMoves.add(enemySquare);
-                        }
+                        enemyMoves.addAll(square.getPiece().getAllowedMoves(chessboard));
                     }
                 }
             }
         }
 
+        enemyMoves.addAll(getAllEnemyCanonMoves(chessboard, player));
         return enemyMoves;
+    }
+
+    /**
+     * Calculate all the possible moves the opponents can perform with the canons for a given player.
+     *
+     * @param chessboard The chessboard.
+     * @param player The given player.
+     * @return A list of all possible canon moves the opponents can perform.
+     */
+    private static ArrayList<Square> getAllEnemyCanonMoves(Chessboard chessboard, Player player){
+        ArrayList<Piece> canons = new ArrayList<>();
+
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(0).size(); j++) {
+                Square square = chessboard.getSquares().get(i).get(j);
+
+                if(square != null && square.hasPiece() && square.getPiece().getType() == PieceType.CANNON) {
+                    canons.add(square.getPiece());
+                }
+            }
+        }
+
+        ArrayList<Player> enemys = getAllEnemyPlayers(chessboard, player);
+        ArrayList<Square> canonMoves = new ArrayList<>();
+
+        for(Player enemy : enemys){
+            setCommonPiecePlayer(chessboard, PieceType.CANNON, enemy);
+
+            for(Piece canon : canons){
+                canonMoves.addAll(canon.getAllowedMoves(chessboard));
+            }
+        }
+
+        setCommonPiecePlayer(chessboard, PieceType.CANNON, player);
+        return canonMoves;
+    }
+
+    /**
+     * Getting all the opponent players for a given player.
+     *
+     * @param chessboard The chessboard.
+     * @param player The given player.
+     * @return A list with all the opponent players.
+     */
+    private static ArrayList<Player> getAllEnemyPlayers(Chessboard chessboard, Player player){
+        ArrayList<Player> enemys = new ArrayList<>();
+
+        for(int i = 0; i < chessboard.getSquares().size(); i++) {
+            for (int j = 0; j < chessboard.getSquares().get(0).size(); j++) {
+                Square square = chessboard.getSquares().get(i).get(j);
+
+                if(square != null && square.hasPiece()) {
+                    Piece piece = square.getPiece();
+
+                    if(piece.getPlayer().getName() != player.getName() && !enemys.contains(piece.getPlayer())){
+                        enemys.add(piece.getPlayer());
+                    }
+                }
+            }
+        }
+
+        return enemys;
     }
 
     /**
@@ -572,9 +635,7 @@ public class ChessboardService {
 
                     if(piece.getPlayer().getColor() == player.getColor()){
 
-                        for(Square move : getValidMovesForPiece(chessboard, piece, player)){
-                            playerMoves.add(move);
-                        }
+                        playerMoves.addAll(getValidMovesForPiece(chessboard, piece, player));
                     } else {
                         if(piece.getPlayer().getColor() != player.getColor() && piece.getType() == PieceType.KING){
                             enemyKings.add(piece);
