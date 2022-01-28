@@ -3,6 +3,7 @@ package com.chess.backend.restController.service;
 import com.chess.backend.domain.controllers.objects.INewPlayersObject;
 import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.ChessGame;
+import com.chess.backend.repository.GameRepository;
 import com.chess.backend.restController.controller.NewGameController;
 import com.chess.backend.services.ChessGameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,13 @@ import org.springframework.stereotype.Service;
 @Qualifier("NewChessGameService")
 public class NewChessGameService implements INewGameService {
     private ChessGameService gameService;
+    private GameRepository gameRepository;
 
     @Autowired
-    public NewChessGameService(ChessGameService gameService ){
+    public NewChessGameService(ChessGameService gameService, GameRepository gameRepository ){
+        this.gameRepository = gameRepository;
         this.gameService = gameService;
     }
-
     /**
      * This method tells the {@link ChessGameService} to create a new game and gets the id of the new game.
      *
@@ -31,6 +33,8 @@ public class NewChessGameService implements INewGameService {
     @Override
     public int getNewGameID(INewPlayersObject players) {
         ChessGame game = this.gameService.createNewGame(players.getAllPlayerNames());
+        int gameID = game.getId();
+        this.gameRepository.createNewGame(gameID, game);
         return game.getId();
     }
 }
