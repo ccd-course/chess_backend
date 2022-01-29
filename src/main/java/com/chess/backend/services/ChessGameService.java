@@ -196,9 +196,10 @@ public class ChessGameService {
             // the active player has lost
             // the next player in the move order who can capture the players king wins
             List<EventObject> events = game.getEvents();
-            events.add(new EventObject(Event.CHECKMATED));
+            Player winner = determineWinnerByMoveOrder(game, game.getActivePlayer());
+            events.add(new EventObject(Event.CHECKMATED,  new EventMetadata(winner.getId())));
             game.setEvents(events);
-            game.setWinner(determineWinnerByMoveOrder(game, game.getActivePlayer()));
+            game.setWinner(winner);
         } else {
             // the players king can not be captured, but the player has no valid move
             if(!ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
@@ -215,7 +216,7 @@ public class ChessGameService {
                     // the active player wins
                     // the captured players loose
                     List<EventObject> events = game.getEvents();
-                    events.add(new EventObject(Event.CHECKMATED));
+                    events.add(new EventObject(Event.CHECKMATED, new EventMetadata(game.getActivePlayer().getId())));
                     game.setEvents(events);
                     game.setWinner(game.getActivePlayer());
                     //ArrayList<Player> loosers = capturedPlayers;

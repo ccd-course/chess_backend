@@ -58,7 +58,7 @@ public class GameRepository implements IGameRepository {
         String gameJson = new Gson().toJson(game);
         Map<String, Object> data = new HashMap<>();
         data.put("value", gameJson);
-        data.put("events", game.getEvents());
+        data.put("events", new Gson().toJson(game.getEvents()));
         data.put("type", game.getType());
         String chessboardJson = new Gson().toJson(transformChessboard(game.getChessboard()));
         data.put("chessboard", chessboardJson);
