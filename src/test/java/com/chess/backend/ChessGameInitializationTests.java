@@ -1,7 +1,7 @@
 package com.chess.backend;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.chess.backend.domain.repository.GameRepositoryMock;
+import com.chess.backend.repository.GameRepositoryMock;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Square;

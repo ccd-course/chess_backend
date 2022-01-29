@@ -1,6 +1,9 @@
 package com.chess.backend.domain.models;
 
-import com.chess.backend.gamemodel.*;
+import com.chess.backend.gamemodel.Chessboard;
+import com.chess.backend.gamemodel.Move;
+import com.chess.backend.gamemodel.Player;
+import com.chess.backend.gamemodel.Square;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
 

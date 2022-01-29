@@ -5,7 +5,6 @@ import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.Piece;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

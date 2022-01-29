@@ -1,6 +1,5 @@
 package com.chess.backend.restController.objects;
 
-import com.chess.backend.domain.controllers.objects.INewPlayerObject;
 import com.chess.backend.domain.controllers.objects.INewPlayersObject;
 import com.chess.backend.restController.controller.NewGameController;
 import io.swagger.v3.oas.annotations.Hidden;

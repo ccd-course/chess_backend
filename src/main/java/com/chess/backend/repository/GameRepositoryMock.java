@@ -1,9 +1,9 @@
-package com.chess.backend.domain.repository;
+package com.chess.backend.repository;
 
+import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class GameRepositoryMock implements IGameRepository {
     private final HashMap<Integer, ChessGame> games = new HashMap<>();
