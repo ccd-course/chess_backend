@@ -3,6 +3,7 @@ package com.chess.backend.repository;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Chessboard;
+import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.restController.objects.SquareObject;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ public class GameRepository implements IGameRepository {
         for(int i = 0; i < chessboard.getSquares().size(); i++){
             for(int j = 0; j < chessboard.getSquares().get(i).size(); j++){
                 if(chessboard.getSquares().get(i).get(j).hasPiece()){
-                    board[j][i] = new SquareObject(chessboard.getSquares().get(i).get(j).getPiece().getType().getLabel(), chessboard.getSquares().get(i).get(j).getPiece().getPlayer().getId());
+                    Piece piece = chessboard.getSquares().get(i).get(j).getPiece();
+                    board[j][i] = new SquareObject(piece.getType().getLabel(), piece.getPlayer().getId(), piece.getPlayer().getName());
                 } else {
                     board[j][i] = null;
                 }

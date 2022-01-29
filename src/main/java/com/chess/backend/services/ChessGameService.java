@@ -163,8 +163,11 @@ public class ChessGameService {
                     new int[]{previousPiecePosition[1],previousPiecePosition[0]},
                     new int[]{newPiecePosition[1],newPiecePosition[0]});
             EventObject eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
+            EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId());
+            EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
             List<EventObject> events = game.getEvents();
             events.add(eventObject);
+            events.add(switchPlayerEvent);
             game.setEvents(events);
             this.gameRepository.createNewGame(game.getId(), game);
             return getActivePlayerName(game);

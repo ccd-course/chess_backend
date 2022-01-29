@@ -18,8 +18,11 @@ public class SquareObject {
      */
     private int playerId;
 
-    public SquareObject(String pieceID, int playerName) {
+    private String playerName;
+
+    public SquareObject(String pieceID, int playerId, String playerName) {
         this.pieceID = pieceID;
-        this.playerId = playerName;
+        this.playerId = playerId;
+        this.playerName = playerName;
     }
 }
