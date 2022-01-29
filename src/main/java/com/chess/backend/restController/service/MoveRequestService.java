@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MoveRequestService {
-    private ChessGameService gameService;
+    private final ChessGameService gameService;
 
     @Autowired
     public MoveRequestService(ChessGameService gameService ){

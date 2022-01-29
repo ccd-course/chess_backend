@@ -1,6 +1,5 @@
 package com.chess.backend.restController.service;
 
-import com.chess.backend.repository.GameRepository;
 import com.chess.backend.services.ChessGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EndGameService {
-    private ChessGameService gameService;
+    private final ChessGameService gameService;
 
     @Autowired
     public EndGameService(ChessGameService gameService ){

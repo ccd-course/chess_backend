@@ -2,17 +2,11 @@ package com.chess.backend.services;
 
 import com.chess.backend.domain.models.IGame;
 import com.chess.backend.domain.repository.IGameRepository;
-import com.chess.backend.domain.services.IGameService;
-import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.Piece;
-import com.chess.backend.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class ChessGameService {
     private final PlayerService playerService = new PlayerService();
-    private IGameRepository gameRepository;
+    private final IGameRepository gameRepository;
 
     @Autowired
     public ChessGameService(@Qualifier("GameRepositoryClass") IGameRepository gameRepository ){
@@ -163,7 +157,7 @@ public class ChessGameService {
         ChessGame game = this.getGame(gameID);
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
             ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
-            this.switchActive(game);
+            switchActive(game);
             checkEndingConditions(game);
             List<Event> events = game.getEvents();
             events.add(Event.NEW_MOVE);

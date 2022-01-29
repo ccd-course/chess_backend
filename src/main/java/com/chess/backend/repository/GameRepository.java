@@ -1,30 +1,21 @@
 package com.chess.backend.repository;
 
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.Square;
-import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.*;
-import com.chess.backend.restController.objects.ChessboardObject;
+import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.restController.objects.SquareObject;
 
+import com.chess.backend.gamemodel.Piece;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.TypeAdapterFactory;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import com.google.gson.Gson;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 @Service
@@ -59,35 +50,7 @@ public class GameRepository implements IGameRepository {
 
                     if (piece != null) {
                         String pieceJson = new Gson().toJson(piece);
-                        Class pieceClass = null;
-                        if (piece.get("type").toString().equals(PieceType.PAWN.getLabel().toUpperCase())) {
-                            pieceClass = Pawn.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.ROOK.getLabel().toUpperCase())) {
-                            pieceClass = Rook.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.KNIGHT.getLabel().toUpperCase())) {
-                            pieceClass = Knight.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.BISHOP.getLabel().toUpperCase())) {
-                            pieceClass = Bishop.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.QUEEN.getLabel().toUpperCase())) {
-                            pieceClass = Queen.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.KING.getLabel().toUpperCase())) {
-                            pieceClass = King.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.CANNON.getLabel().toUpperCase())) {
-                            pieceClass = Cannon.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.FERZ.getLabel().toUpperCase())) {
-                            pieceClass = Ferz.class;
-                        }
-                        else if (piece.get("type").toString().equals(PieceType.WAZIR.getLabel().toUpperCase())) {
-                            pieceClass = Wazir.class;
-                        }
-                        Piece pawn=  new Gson().fromJson(pieceJson, (Type) pieceClass);
+                        Piece pawn = new Gson().fromJson(pieceJson, Piece.class);
                         System.out.println();
                         newGame.getChessboard().getSquares().get(i).get(j).setPiece(pawn);
                     }
@@ -104,12 +67,36 @@ public class GameRepository implements IGameRepository {
         return null;
     }
 
+    /**
+     * Transforms the chessboard to a simplified version and switches the axis.
+     * @param chessboard The chessboard.
+     * @return The transformed and simplified chessboard.
+     */
+    private SquareObject[][] transformChessboard(Chessboard chessboard){
+        SquareObject[][] board = new SquareObject[chessboard.getSquares().get(0).size()][chessboard.getSquares().size()];
+
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(i).size(); j++){
+                if(chessboard.getSquares().get(i).get(j).hasPiece()){
+                    board[j][i] = new SquareObject(chessboard.getSquares().get(i).get(j).getPiece().getType().getLabel(), chessboard.getSquares().get(i).get(j).getPiece().getPlayer().getName());
+                } else {
+                    board[j][i] = null;
+                }
+            }
+        }
+
+        return board;
+    }
+
     public void createNewGame(Integer gameId, ChessGame game)  {
 
         String gameJson = new Gson().toJson(game);
         System.out.println("JSON:" +gameJson);
         Map<String, Object> data = new HashMap<>();
         data.put("value", gameJson);
+
+        String chessboardJson = new Gson().toJson(transformChessboard(game.getChessboard()));
+        data.put("chessboard", chessboardJson);
 
 //        try{
 //            HashMap<String,Object> result =

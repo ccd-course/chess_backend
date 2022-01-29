@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 @Service
 public class GetChessboardService {
-    private ChessGameService gameService;
+    private final ChessGameService gameService;
 
     @Autowired
     public GetChessboardService(ChessGameService gameService ){

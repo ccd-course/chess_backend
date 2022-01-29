@@ -2,8 +2,7 @@ package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Move;
-import com.chess.backend.gamemodel.Square;
-import com.chess.backend.gamemodel.pieces.Piece;
+import com.chess.backend.gamemodel.Piece;
 
 import java.util.Set;
 
@@ -23,6 +22,7 @@ public class MoveOneForward {
      * @param piece The originating square.
      * @param attack     Whether the piece may move to an occupied square. This would result in an attack with a captured piece.
      * @param jump       Whether the piece may jump over other pieces (e.g. the knight).
+     * @param peaceful   Whether the piece may move to an empty field.
      * @return HashSet of concrete moves
      */
     public static Set<Move> concretise(Chessboard chessboard, Piece piece, boolean attack, boolean jump, boolean peaceful) {
