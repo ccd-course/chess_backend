@@ -5,6 +5,7 @@ import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.restController.objects.SquareObject;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,10 @@ import java.util.Map;
 @Service
 @Qualifier("GameRepositoryClass")
 public class GameRepository implements IGameRepository {
-    private final Firebase firebase = new Firebase();
+
+    @Autowired
+    private Firebase firebase;
+
     private static final String collection = "game";
 
     public ChessGame getGame(Integer gameId){
