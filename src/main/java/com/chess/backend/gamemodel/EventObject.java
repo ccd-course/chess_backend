@@ -1,9 +1,10 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Event;
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
 
-
+@IgnoreExtraProperties
 @Data
 public class EventObject {
     Event type;

@@ -63,7 +63,7 @@ public class JoinOnlineGameController {
                      squares) {
                     for (Square square: row){
                         Piece piece = square.getPiece();
-                        if(piece !=null){
+                        if(piece !=null && piece.getPlayer().getId() ==playerID){
                             piece.getPlayer().setName(player.getName());
                         }
                     }
