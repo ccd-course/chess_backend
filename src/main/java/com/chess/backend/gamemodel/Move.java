@@ -2,7 +2,6 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.Piece;
 import lombok.Data;
 
 import java.util.Objects;
@@ -91,15 +90,7 @@ public class Move {
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                getFrom(),
-                getTo(),
-                getMovedPiece(),
-                getTakenPiece(),
-                promotedTo,
-                wasEnPassant,
-                getCastlingMove(),
-                wasPawnTwoFieldsMove);
+        return Objects.hash(getFrom(), getTo(), getTaken(), getMovedPiece(), getTakenPiece(), getPromotedTo(), isWasEnPassant(), getCastlingMove(), isWasPawnTwoFieldsMove());
     }
 
     public Position getToPos() {

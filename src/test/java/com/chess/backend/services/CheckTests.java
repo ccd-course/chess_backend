@@ -2,7 +2,8 @@ package com.chess.backend.services;
 
 import com.chess.backend.ChessGameInitializationTests;
 import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.pieces.*;
+import com.chess.backend.gamemodel.Piece;
+import com.chess.backend.gamemodel.constants.PieceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,17 +12,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CheckTests {
 
     ChessGame game;
-    King wKing;
-    Queen bQueen;
-    Queen rQueen;
+    Piece wKing;
+    Piece bQueen;
+    Piece rQueen;
 
     @BeforeEach
     void setUp(){
         game = ChessGameInitializationTests.createNewTestGame();
 
-        wKing = new King(game.getPlayers().get(0), true);
-        bQueen = new Queen(game.getPlayers().get(1), true);
-        rQueen = new Queen(game.getPlayers().get(2), true);
+        wKing = new Piece(PieceType.KING, game.getPlayers().get(0), true);
+        bQueen = new Piece(PieceType.QUEEN, game.getPlayers().get(1), true);
+        rQueen = new Piece(PieceType.QUEEN, game.getPlayers().get(2), true);
     }
 
     void setUpValidMoveBoard(Piece piece){
@@ -45,11 +46,11 @@ public class CheckTests {
         // test with initial chessboard
         assertTrue(ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer()));
 
-        Queen wQueen = new Queen(game.getPlayers().get(0), true);
-        Rook wRook = new Rook(game.getPlayers().get(0), true);
-        Bishop wBishop = new Bishop(game.getPlayers().get(0), true);
-        Knight wKnight = new Knight(game.getPlayers().get(0), true);
-        Pawn wPawn = new Pawn(game.getPlayers().get(0), true);
+        Piece wQueen = new Piece(PieceType.QUEEN, game.getPlayers().get(0), true);
+        Piece wRook = new Piece(PieceType.ROOK, game.getPlayers().get(0), true);
+        Piece wBishop = new Piece(PieceType.BISHOP, game.getPlayers().get(0), true);
+        Piece wKnight = new Piece(PieceType.KNIGHT, game.getPlayers().get(0), true);
+        Piece wPawn = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
 
         // test King valid move
         ChessboardService.initClean(game.getChessboard());
@@ -111,8 +112,8 @@ public class CheckTests {
 
     @Test
     void testGetCaptureKingPlayers(){
-        King bKing = new King(game.getPlayers().get(1), true);
-        King rKing = new King(game.getPlayers().get(2), true);
+        Piece bKing = new Piece(PieceType.KING, game.getPlayers().get(1), true);
+        Piece rKing = new Piece(PieceType.KING, game.getPlayers().get(2), true);
 
         ChessboardService.initClean(game.getChessboard());
         ChessboardService.setPiece(0, 1, game.getChessboard().getSquares(), wKing);
@@ -122,7 +123,7 @@ public class CheckTests {
         ChessboardService.setPiece(2, 2, game.getChessboard().getSquares(), rQueen);
 
         assertEquals(1, ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getPlayers().get(1)).size());
-        assertSame("Test PLayer 1", ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getPlayers().get(1)).get(0).getName());
+        assertSame("Test Player 1", ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getPlayers().get(1)).get(0).getName());
 
         assertEquals(0, ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getPlayers().get(2)).size());
     }

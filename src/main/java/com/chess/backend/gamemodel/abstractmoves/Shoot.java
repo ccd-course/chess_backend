@@ -1,10 +1,7 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.domain.models.IBoard;
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.gamemodel.pieces.Piece;
-import com.chess.backend.services.ChessGameService;
+import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;

@@ -2,7 +2,6 @@ package com.chess.backend;
 
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.*;
 import com.chess.backend.services.ChessboardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ public class AbstractMovementTests {
     void spawnPawnAsVictim(Position position) {
         ChessboardService.setPiece(position.getX(), position.getY(),
                 game.getChessboard().getSquares(),
-                new Pawn(game.getPlayers().get(1), true));
+                new Piece(PieceType.PAWN, game.getPlayers().get(1), true));
     }
 
     HashSet<Position> getPossibleMovePositions(PieceType pieceType) {
@@ -53,7 +52,7 @@ public class AbstractMovementTests {
     void testPawn() {
 
         PieceType pieceType = PieceType.PAWN;
-        Piece piece = new Pawn(game.getPlayers().get(0), true);
+        Piece piece = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
@@ -98,7 +97,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.KING;
 
-        Piece piece = new King(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
@@ -141,7 +140,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.QUEEN;
 
-        Piece piece = new Queen(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
@@ -192,7 +191,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.BISHOP;
 
-        Piece piece = new Bishop(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
@@ -235,7 +234,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.ROOK;
 
-        Piece piece = new Rook(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(2, 5));
         spawnPawnAsVictim(new Position(2, 13));
@@ -282,7 +281,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.KNIGHT;
 
-        Piece piece = new Knight(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(1, 25));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
@@ -350,12 +349,12 @@ public class AbstractMovementTests {
         21 | # # V # #
          */
 
-        Piece piece = new Cannon(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
-        Piece ownPiece1 = new Pawn(game.getPlayers().get(0), true);
-        Piece ownPiece2 = new Pawn(game.getPlayers().get(0), true);
-        Piece ownPiece3 = new Pawn(game.getPlayers().get(0), true);
-        Piece ownPiece4 = new Pawn(game.getPlayers().get(0), true);
+        Piece ownPiece1 = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
+        Piece ownPiece2 = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
+        Piece ownPiece3 = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
+        Piece ownPiece4 = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
         ChessboardService.setPiece(2, 1,
                 game.getChessboard().getSquares(),
                 ownPiece1);
@@ -514,7 +513,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.FERZ;
 
-        Piece piece = new Ferz(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);
@@ -557,7 +556,7 @@ public class AbstractMovementTests {
 
         PieceType pieceType = PieceType.WAZIR;
 
-        Piece piece = new Wazir(game.getPlayers().get(0), true);
+        Piece piece = new Piece(pieceType, game.getPlayers().get(0), true);
         setUpChessboard(piece);
         spawnPawnAsVictim(new Position(3, 26));
         HashSet<Position> possibleMovePositions = getPossibleMovePositions(pieceType);

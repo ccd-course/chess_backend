@@ -22,7 +22,6 @@ package com.chess.backend.gamemodel;
 
 
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.Piece;
 
 /**
  * Represents a chessboard square.
