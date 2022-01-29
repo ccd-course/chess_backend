@@ -16,10 +16,10 @@ public class SquareObject {
     /**
      * the name of the player who owns the chess piece
      */
-    private String playerName;
+    private int playerId;
 
-    public SquareObject(String pieceID, String playerName) {
+    public SquareObject(String pieceID, int playerName) {
         this.pieceID = pieceID;
-        this.playerName = playerName;
+        this.playerId = playerName;
     }
 }

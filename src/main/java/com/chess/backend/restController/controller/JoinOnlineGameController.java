@@ -1,9 +1,7 @@
 package com.chess.backend.restController.controller;
 
 
-import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.EventObject;
-import com.chess.backend.gamemodel.Player;
+import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.repository.GameRepository;
 import com.chess.backend.restController.objects.JoinOnlineGameObject;
@@ -59,6 +57,17 @@ public class JoinOnlineGameController {
                 player.setName(joinOnlineGameObject.getPlayer());
                 players.set(i, player);
                 events.add(new EventObject(Event.NEW_PLAYER_JOIN) );
+                int playerID = player.getId();
+                ArrayList<ArrayList<Square>> squares = game.getChessboard().getSquares();
+                for (ArrayList<Square> row:
+                     squares) {
+                    for (Square square: row){
+                        Piece piece = square.getPiece();
+                        if(piece !=null){
+                            piece.getPlayer().setName(player.getName());
+                        }
+                    }
+                }
                 break;
             }
         }
