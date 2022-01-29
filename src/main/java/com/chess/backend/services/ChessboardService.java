@@ -103,8 +103,8 @@ public class ChessboardService {
         setPiece(4, figuresFirstColumn + 2, squares, new Piece(PieceType.WAZIR,player, true));
 
         //cannon
-        setPiece(2, figuresFirstColumn + 6, squares, new Piece(PieceType.CANNON, player, true));
-        setPiece(4, figuresFirstColumn + 7, squares, new Piece(PieceType.CANNON, player, true));
+        setPiece(1, figuresFirstColumn + 6, squares, new Piece(PieceType.CANNON, player, true));
+        setPiece(3, figuresFirstColumn + 7, squares, new Piece(PieceType.CANNON, player, true));
     }
 
     /**
