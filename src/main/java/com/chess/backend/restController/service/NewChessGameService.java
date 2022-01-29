@@ -38,8 +38,8 @@ public class NewChessGameService implements INewGameService {
      */
     @Override
     public int getNewGameID(NewGameObject newGameObject) {
-        List<String> players = Arrays.stream(newGameObject.getPlayers()).map(NewPlayerObject::getPlayerName).collect(Collectors.toList());;
-        ChessGame game = this.gameService.createNewGame((String[]) players.toArray());
+        String[] players = Arrays.stream(newGameObject.getPlayers()).map(NewPlayerObject::getPlayerName).toArray(String[]::new);
+        ChessGame game = this.gameService.createNewGame(players);
         int gameID = game.getId();
         this.gameRepository.createNewGame(gameID, game);
         return game.getId();
