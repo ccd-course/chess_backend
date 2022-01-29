@@ -5,6 +5,9 @@ import com.chess.backend.gamemodel.ChessGame;
 
 import java.util.HashMap;
 
+/**
+ * A GameRepository mocking class for testing.
+ */
 public class GameRepositoryMock implements IGameRepository {
     private final HashMap<Integer, ChessGame> games = new HashMap<>();
 

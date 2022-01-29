@@ -6,6 +6,9 @@ import com.chess.backend.gamemodel.Player;
 
 import java.util.List;
 
+/**
+ * Interface of Game class
+ */
 public interface IGame {
     Chessboard getChessboard();
 

@@ -5,6 +5,9 @@ import com.chess.backend.gamemodel.Square;
 
 import java.util.ArrayList;
 
+/**
+ * Interface of Board class
+ */
 public interface IBoard {
     int getNumberOfPlayers();
 

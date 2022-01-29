@@ -114,40 +114,12 @@ public class Piece  {
         return allowedMoves;
     }
 
-    public boolean getMainDirection() {
-        return this.clockwise;
-    }
-
-    public PieceType getType() {
-        return type;
-    }
-
-    public void setType(PieceType type) {
-        this.type = type;
-    }
-
     public Color getColor() {
         return this.player.getColor();
     }
 
     public String getSymbol() {
         return this.getType().getSymbol();
-    }
-
-    public boolean isMotioned() {
-        return motioned;
-    }
-
-    public void setMotioned(boolean motioned) {
-        this.motioned = motioned;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public boolean isClockwise() {
-        return clockwise;
     }
 
     public Position getPosition(){
