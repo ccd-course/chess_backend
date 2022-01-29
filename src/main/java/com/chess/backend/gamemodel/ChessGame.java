@@ -21,7 +21,7 @@ public class ChessGame implements IGame {
     private Player activePlayer;
     private int id;
     private List<Player> players;
-    private List<Event> events;
+    private List<EventObject> events;
     private Player winner;
 
 }
