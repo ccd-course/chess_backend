@@ -1,6 +1,7 @@
 package com.chess.backend.restController.service;
 
 import com.chess.backend.gamemodel.ChessGame;
+import com.chess.backend.gamemodel.constants.GameMode;
 import com.chess.backend.repository.GameRepository;
 import com.chess.backend.restController.objects.NewGameObject;
 import com.chess.backend.services.ChessGameService;
@@ -28,6 +29,7 @@ public class NewOnlineGameService  {
         gamePlayers[0] = newOnlineGameObject.getPlayers()[0].getPlayerName();
 //        List<String> sentPlayers = Arrays.stream(newOnlineGameObject.getPlayers()).map(player -> player.getPlayerName()).collect(Collectors.toList());
         ChessGame game = this.gameService.createNewOnlineGame(gamePlayers);
+        game.setType(GameMode.ONLINE);
         int gameID = game.getId();
         this.gameRepository.createNewGame(gameID, game);
         return gameID;

@@ -2,6 +2,7 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.domain.models.IGame;
 import com.chess.backend.gamemodel.constants.Event;
+import com.chess.backend.gamemodel.constants.GameMode;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
 
@@ -21,7 +22,8 @@ public class ChessGame implements IGame {
     private Player activePlayer;
     private int id;
     private List<Player> players;
-    private List<Event> events;
+    private List<EventObject> events;
     private Player winner;
+    private GameMode type;
 
 }

@@ -1,8 +1,7 @@
 package com.chess.backend.restController.controller;
 
 
-import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.Player;
+import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.repository.GameRepository;
 import com.chess.backend.restController.objects.JoinOnlineGameObject;
@@ -50,14 +49,25 @@ public class JoinOnlineGameController {
         if(game.getEvents() == null) {
             game.setEvents(new ArrayList<>());
         }
-        List<Event> events = game.getEvents();
+        List<EventObject> events = game.getEvents();
 
         for(int i =0; i< players.size(); i++){
             Player player = players.get(i);
             if(player.getName()==null){
                 player.setName(joinOnlineGameObject.getPlayer());
                 players.set(i, player);
-                events.add(Event.NEW_PLAYER_JOIN);
+                events.add(new EventObject(Event.NEW_PLAYER_JOIN) );
+                int playerID = player.getId();
+                ArrayList<ArrayList<Square>> squares = game.getChessboard().getSquares();
+                for (ArrayList<Square> row:
+                     squares) {
+                    for (Square square: row){
+                        Piece piece = square.getPiece();
+                        if(piece !=null){
+                            piece.getPlayer().setName(player.getName());
+                        }
+                    }
+                }
                 break;
             }
         }
@@ -66,7 +76,7 @@ public class JoinOnlineGameController {
                 .filter(player -> player.getName() == null)
                 .collect(Collectors.toList());
         if(toJoinPlayers.size() == 0){
-            events.add(Event.GAME_STARTED);
+            events.add(new EventObject(Event.GAME_STARTED));
         }
         game.setEvents(events);
         this.gameRepository.createNewGame(game.getId(), game);
