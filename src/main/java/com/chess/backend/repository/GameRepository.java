@@ -2,6 +2,9 @@ package com.chess.backend.repository;
 
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
+import com.chess.backend.gamemodel.Chessboard;
+import com.chess.backend.restController.objects.SquareObject;
+
 import com.chess.backend.gamemodel.Piece;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,12 +67,36 @@ public class GameRepository implements IGameRepository {
         return null;
     }
 
+    /**
+     * Transforms the chessboard to a simplified version and switches the axis.
+     * @param chessboard The chessboard.
+     * @return The transformed and simplified chessboard.
+     */
+    private SquareObject[][] transformChessboard(Chessboard chessboard){
+        SquareObject[][] board = new SquareObject[chessboard.getSquares().get(0).size()][chessboard.getSquares().size()];
+
+        for(int i = 0; i < chessboard.getSquares().size(); i++){
+            for(int j = 0; j < chessboard.getSquares().get(i).size(); j++){
+                if(chessboard.getSquares().get(i).get(j).hasPiece()){
+                    board[j][i] = new SquareObject(chessboard.getSquares().get(i).get(j).getPiece().getType().getLabel(), chessboard.getSquares().get(i).get(j).getPiece().getPlayer().getName());
+                } else {
+                    board[j][i] = null;
+                }
+            }
+        }
+
+        return board;
+    }
+
     public void createNewGame(Integer gameId, ChessGame game)  {
 
         String gameJson = new Gson().toJson(game);
         System.out.println("JSON:" +gameJson);
         Map<String, Object> data = new HashMap<>();
         data.put("value", gameJson);
+
+        String chessboardJson = new Gson().toJson(transformChessboard(game.getChessboard()));
+        data.put("chessboard", chessboardJson);
 
 //        try{
 //            HashMap<String,Object> result =
