@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EndGameService {
-    private ChessGameService gameService;
+    private final ChessGameService gameService;
 
     @Autowired
     public EndGameService(ChessGameService gameService ){

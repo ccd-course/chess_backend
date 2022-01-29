@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Qualifier("NewChessGameService")
 public class NewChessGameService implements INewGameService {
-    private ChessGameService gameService;
-    private IGameRepository gameRepository;
+    private final ChessGameService gameService;
+    private final IGameRepository gameRepository;
 
     @Autowired
     public NewChessGameService(ChessGameService gameService, IGameRepository gameRepository ){

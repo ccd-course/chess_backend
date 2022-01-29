@@ -216,7 +216,7 @@ public class ChessboardService {
     public static void move(Chessboard chessboard, Move move) {
         Piece piece = move.getMovedPiece();
 
-        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece((Piece)piece);
+        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece(piece);
 //                [move.getTo().getPosX()][move.getTo().getPosY()]
 //                .setPiece(piece);
         chessboard.getSquares().get(move.getFrom().getPosX()).get(move.getFrom().getPosY()).removePiece();

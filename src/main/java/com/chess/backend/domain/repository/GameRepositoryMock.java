@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class GameRepositoryMock implements IGameRepository {
-    private HashMap<Integer, ChessGame> games = new HashMap<>();
+    private final HashMap<Integer, ChessGame> games = new HashMap<>();
 
     @Override
     public ChessGame getGame(Integer gameId) {

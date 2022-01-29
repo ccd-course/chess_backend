@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class ChessGameService {
     private final PlayerService playerService = new PlayerService();
-    private IGameRepository gameRepository;
+    private final IGameRepository gameRepository;
 
     @Autowired
     public ChessGameService(@Qualifier("GameRepositoryClass") IGameRepository gameRepository ){
@@ -158,7 +158,7 @@ public class ChessGameService {
         ChessGame game = this.getGame(gameID);
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
             ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
-            this.switchActive(game);
+            switchActive(game);
             checkEndingConditions(game);
             List<Event> events = game.getEvents();
             events.add(Event.NEW_MOVE);

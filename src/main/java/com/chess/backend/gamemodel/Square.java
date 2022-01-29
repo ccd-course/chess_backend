@@ -90,10 +90,6 @@ public class Square {
     }
 
     public boolean hasPiece(){
-        if(getPiece() == null){
-            return false;
-        } else {
-            return true;
-        }
+        return getPiece() != null;
     }
 }

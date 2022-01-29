@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class NewOnlineGameService  {
-    private ChessGameService gameService;
-    private GameRepository gameRepository;
+    private final ChessGameService gameService;
+    private final GameRepository gameRepository;
 
     @Autowired
     public NewOnlineGameService(ChessGameService gameService, GameRepository gameRepository ){
