@@ -20,7 +20,7 @@ public class ChessGameServiceTests {
     @Test
     void testActivePlayerSwitchCannon(){
 
-        assertEquals(3,
+        assertEquals(6,
                 ChessboardService.searchSquaresByPiece(
                 game.getChessboard().getSquares(),
                 PieceType.CANNON,
@@ -33,7 +33,7 @@ public class ChessGameServiceTests {
 
         ChessGameService.switchActive(game);
 
-        assertEquals(3,
+        assertEquals(6,
                 ChessboardService.searchSquaresByPiece(
                 game.getChessboard().getSquares(),
                 PieceType.CANNON,

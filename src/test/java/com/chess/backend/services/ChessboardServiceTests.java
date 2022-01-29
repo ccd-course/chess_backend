@@ -31,7 +31,7 @@ public class ChessboardServiceTests {
         Player[] players = {firstPlayer, secondPlayer, thirdPlayer};
         Chessboard chessboard = ChessboardService.initNewGameBoard(Arrays.asList(players));
         assertEquals(chessboard.getSquares().size(), 5);
-        assertEquals(chessboard.getSquares().get(0).size(), 27);
+        assertEquals(chessboard.getSquares().get(0).size(), 30);
 
     }
 }
