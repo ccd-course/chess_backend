@@ -16,13 +16,13 @@ import java.util.Set;
  */
 @Data
 public class Piece  {
-    private transient Integer posX;
-    private transient Integer posY;
-    private transient Player player;
-    private transient PieceType type;
-    private transient boolean motioned;
-    private transient boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
-    private transient int rank;
+    private  Integer posX;
+    private  Integer posY;
+    private  Player player;
+    private  PieceType type;
+    private  boolean motioned;
+    private  boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
+    private  int rank;
 
     public Piece(PieceType pieceType, Player player, boolean clockwise) {
         this.type = pieceType;
