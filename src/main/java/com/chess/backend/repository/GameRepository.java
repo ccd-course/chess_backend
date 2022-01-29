@@ -9,6 +9,7 @@ import com.chess.backend.gamemodel.Piece;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,10 @@ import java.util.Map;
 @Service
 @Qualifier("GameRepositoryClass")
 public class GameRepository implements IGameRepository {
-    private final Firebase firebase = new Firebase();
+
+    @Autowired
+    private Firebase firebase;
+
     private static final String collection = "game";
 
     public ChessGame getGame(Integer gameId){

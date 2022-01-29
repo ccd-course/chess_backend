@@ -1,8 +1,11 @@
 package com.chess.backend.repository;
 
+import com.chess.backend.BackendApplication;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -10,8 +13,11 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class Firebase {
-    private Firestore db;
+
+    FirebaseConnector firebaseConnector;
+    Firestore db;
 
     /**
      * Add  documents with fields.
@@ -53,29 +59,10 @@ public class Firebase {
 
 
     }
-    public Firebase() {
+    @Autowired
+    public Firebase(FirebaseConnector firebaseConnector) {
 
-
-        try{
-
-                String firebaseJsonKeys = System.getenv("FIREBASE_JSON_KEYS");
-//                System.out.println("firebaseJsonKeys: "+ firebaseJsonKeys);
-                InputStream is = new ByteArrayInputStream(firebaseJsonKeys.getBytes());
-
-                FirestoreOptions firestoreOptions =
-                        FirestoreOptions.getDefaultInstance().toBuilder()
-                                .setCredentials(GoogleCredentials.fromStream(is))
-                                .build();
-                db = firestoreOptions.getService();
-
-
-        }
-        catch(IOException e) {
-            System.out.println("ERROR: invalid service account credentials. See README.");
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
-
-
+        this.firebaseConnector = firebaseConnector;
+        this.db = firebaseConnector.db;
     }
 }
