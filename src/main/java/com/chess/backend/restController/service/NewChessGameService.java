@@ -3,6 +3,7 @@ package com.chess.backend.restController.service;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.ChessGame;
+import com.chess.backend.gamemodel.constants.GameMode;
 import com.chess.backend.restController.controller.NewGameController;
 import com.chess.backend.restController.objects.NewGameObject;
 import com.chess.backend.restController.objects.NewPlayerObject;
@@ -40,6 +41,7 @@ public class NewChessGameService implements INewGameService {
         String[] players = Arrays.stream(newGameObject.getPlayers()).map(NewPlayerObject::getPlayerName).toArray(String[]::new);
         ChessGame game = this.gameService.createNewGame(players);
         int gameID = game.getId();
+        game.setType(GameMode.OFFLINE);
         this.gameRepository.createNewGame(gameID, game);
         return game.getId();
     }
