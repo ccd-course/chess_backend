@@ -37,7 +37,7 @@ public class GameRepository implements IGameRepository {
         for(int i = 0; i < chessboard.getSquares().size(); i++){
             for(int j = 0; j < chessboard.getSquares().get(i).size(); j++){
                 if(chessboard.getSquares().get(i).get(j).hasPiece()){
-                    board[j][i] = new SquareObject(chessboard.getSquares().get(i).get(j).getPiece().getType().getLabel(), chessboard.getSquares().get(i).get(j).getPiece().getPlayer().getName());
+                    board[j][i] = new SquareObject(chessboard.getSquares().get(i).get(j).getPiece().getType().getLabel(), chessboard.getSquares().get(i).get(j).getPiece().getPlayer().getId());
                 } else {
                     board[j][i] = null;
                 }
@@ -53,6 +53,7 @@ public class GameRepository implements IGameRepository {
         Map<String, Object> data = new HashMap<>();
         data.put("value", gameJson);
         data.put("events", game.getEvents());
+        data.put("type", game.getType());
         String chessboardJson = new Gson().toJson(transformChessboard(game.getChessboard()));
         data.put("chessboard", chessboardJson);
         this.firebase.addDocument(collection, String.valueOf(gameId),data);
