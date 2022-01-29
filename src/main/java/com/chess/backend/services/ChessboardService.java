@@ -22,7 +22,7 @@ public class ChessboardService {
         int boardWidth = 5;
         ArrayList<ArrayList<Square>>squares = new ArrayList<>(boardWidth);
         for(int i =0; i<boardWidth; i++){
-            int boardLength = numberOfPlayers * 9;
+            int boardLength = numberOfPlayers * 10;
             ArrayList<Square> emptySquares = new ArrayList<>(boardLength);
             for (int squarePos = 0; squarePos < boardLength; squarePos++) {
                 emptySquares.add(new Square(i, squarePos, null));
@@ -103,7 +103,8 @@ public class ChessboardService {
         setPiece(4, figuresFirstColumn + 2, squares, new Piece(PieceType.WAZIR,player, true));
 
         //cannon
-        setPiece(2, figuresFirstColumn + 6, squares, new Piece(PieceType.CANNON, player, true));
+        setPiece(1, figuresFirstColumn + 6, squares, new Piece(PieceType.CANNON, player, true));
+        setPiece(3, figuresFirstColumn + 7, squares, new Piece(PieceType.CANNON, player, true));
     }
 
     /**
@@ -355,7 +356,7 @@ public class ChessboardService {
      * @return True if the pawn has reached the maximum rank and false if not.
      */
     private static boolean checkPawnPromotion(Piece pawn){
-        return pawn.getRank() == 9;
+        return pawn.getRank() == 10;
     }
 
     /**
