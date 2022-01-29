@@ -1,5 +1,5 @@
 package com.chess.backend.gamemodel;
-import com.chess.backend.domain.models.IBoard;
+
 import com.chess.backend.domain.models.IGame;
 import com.chess.backend.gamemodel.constants.Event;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;

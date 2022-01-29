@@ -1,14 +1,11 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
-import com.chess.backend.domain.models.IBoard;
-import com.chess.backend.domain.models.IPiece;
 import com.chess.backend.gamemodel.*;
-import com.chess.backend.gamemodel.pieces.Piece;
-import com.chess.backend.services.ChessGameService;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.chess.backend.gamemodel.abstractmoves.MoveBackward.backward;
@@ -23,7 +20,8 @@ import static com.chess.backend.gamemodel.abstractmoves.MoveRight.right;
  */
 public class Shoot {
 
-    public Shoot() {
+    private Shoot(){
+        throw new IllegalStateException("Utility class");
     }
 
     /**
@@ -54,7 +52,7 @@ public class Shoot {
      * @return HashSet of concrete moves
      */
     public static Set<Move> shoot(Chessboard chessboard, Piece piece, boolean attack, boolean jump, boolean peaceful, int limit) {
-        HashSet<Move> allowedMoves = new HashSet<Move>();
+        HashSet<Move> allowedMoves = new HashSet<>();
         Position fromPosition = new Position(piece.getPosX(), piece.getPosY());
         Square fromSquare = ChessboardService.getSquare(chessboard, fromPosition);
 
@@ -114,7 +112,6 @@ public class Shoot {
                     # # #
                 */
                 case 7 -> allowedMoves.addAll(right(chessboard, piece, attack, jump, peaceful, -1));
-                default -> {}
             }
         }
 
@@ -125,7 +122,7 @@ public class Shoot {
         return allowedMoves;
     }
 
-    public static ArrayList<Integer> getNeighborPos(Chessboard chessboard, Position fromPos, Player activePlayer){
+    public static List<Integer> getNeighborPos(Chessboard chessboard, Position fromPos, Player activePlayer){
         ArrayList<Position> positionsList = new ArrayList<>();
         positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.DIAGONAL_FL));
         positionsList.add(fromPos.getPosFromDir(chessboard, Position.Direction.FORWARD));
@@ -149,7 +146,7 @@ public class Shoot {
         if (playerSet.size() < 2 && playerSet.contains(activePlayer)){
             return neighbors;
         } else{
-            return new ArrayList<Integer>();
+            return new ArrayList<>();
         }
     }
 

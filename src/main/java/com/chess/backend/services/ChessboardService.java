@@ -3,11 +3,9 @@ package com.chess.backend.services;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Color;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -76,8 +74,8 @@ public class ChessboardService {
     private static void initPlayerPawns(ArrayList<ArrayList<Square>> squares, Player player) {
         int figuresFirstColumn = PlayerService.getBaseY(player);
         for (int x = 0; x < squares.size(); x++) {
-            setPiece(x, figuresFirstColumn, squares, new Pawn(player, true));
-            setPiece(x, figuresFirstColumn + 3, squares, new Pawn(player, false));
+            setPiece(x, figuresFirstColumn, squares, new Piece(PieceType.PAWN, player, true));
+            setPiece(x, figuresFirstColumn + 3, squares, new Piece(PieceType.PAWN, player, false));
         }
     }
 
@@ -91,21 +89,21 @@ public class ChessboardService {
         int figuresFirstColumn = PlayerService.getBaseY(player);
 
         // anticlockwise
-        setPiece(0, figuresFirstColumn + 1, squares, new Queen(player, false));
-        setPiece(1, figuresFirstColumn + 1, squares, new Bishop(player, false));
-        setPiece(2, figuresFirstColumn + 1, squares, new Knight(player, false));
-        setPiece(3, figuresFirstColumn + 1, squares, new Rook(player, false));
-        setPiece(4, figuresFirstColumn + 1, squares, new Ferz(player, false));
+        setPiece(0, figuresFirstColumn + 1, squares, new Piece(PieceType.QUEEN, player, false));
+        setPiece(1, figuresFirstColumn + 1, squares, new Piece(PieceType.BISHOP, player, false));
+        setPiece(2, figuresFirstColumn + 1, squares, new Piece(PieceType.KNIGHT, player, false));
+        setPiece(3, figuresFirstColumn + 1, squares, new Piece(PieceType.ROOK, player, false));
+        setPiece(4, figuresFirstColumn + 1, squares, new Piece(PieceType.FERZ, player, false));
 
         // clockwise
-        setPiece(0, figuresFirstColumn + 2, squares, new King(player, true));
-        setPiece(1, figuresFirstColumn + 2, squares, new Bishop(player, true));
-        setPiece(2, figuresFirstColumn + 2, squares, new Knight(player, true));
-        setPiece(3, figuresFirstColumn + 2, squares, new Rook(player, true));
-        setPiece(3, figuresFirstColumn + 2, squares, new Wazir(player, true));
+        setPiece(0, figuresFirstColumn + 2, squares, new Piece(PieceType.KING, player, true));
+        setPiece(1, figuresFirstColumn + 2, squares, new Piece(PieceType.BISHOP, player, true));
+        setPiece(2, figuresFirstColumn + 2, squares, new Piece(PieceType.KNIGHT, player, true));
+        setPiece(3, figuresFirstColumn + 2, squares, new Piece(PieceType.ROOK, player, true));
+        setPiece(3, figuresFirstColumn + 2, squares, new Piece(PieceType.FERZ,player, true));
 
         //cannon
-        setPiece(2, figuresFirstColumn + 6, squares, new Cannon(player, true));
+        setPiece(2, figuresFirstColumn + 6, squares, new Piece(PieceType.CANNON, player, true));
     }
 
     /**
@@ -218,7 +216,7 @@ public class ChessboardService {
     public static void move(Chessboard chessboard, Move move) {
         Piece piece = move.getMovedPiece();
 
-        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece((Piece)piece);
+        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece(piece);
 //                [move.getTo().getPosX()][move.getTo().getPosY()]
 //                .setPiece(piece);
         chessboard.getSquares().get(move.getFrom().getPosX()).get(move.getFrom().getPosY()).removePiece();
@@ -226,9 +224,9 @@ public class ChessboardService {
 //                .removePiece();
 
         if(piece.getType() == PieceType.PAWN){
-            rankUpPawn((Pawn) piece, move.getFrom().getPosY(), move.getTo().getPosY(), getChessboardLength(chessboard));
+            rankUpPawn(piece, move.getFrom().getPosY(), move.getTo().getPosY(), getChessboardLength(chessboard));
 
-            if(checkPawnPromotion((Pawn) piece)){
+            if(checkPawnPromotion(piece)){
                 promotePawn(chessboard, piece);
             }
         }
@@ -237,19 +235,19 @@ public class ChessboardService {
     public static Chessboard move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
         Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
 
-        chessboard.getSquares().get(toX).get(toY).setPiece((Piece)piece);
+        chessboard.getSquares().get(toX).get(toY).setPiece(piece);
         chessboard.getSquares().get(fromX).get(fromY).removePiece();
         if (piece.getType() != PieceType.CANNON) {
             chessboard.getSquares()
-                    .get(toX).get(toY).setPiece((Piece)piece);
+                    .get(toX).get(toY).setPiece(piece);
             chessboard.getSquares().get(fromX).get(fromY).removePiece();
         } else {
             chessboard.getSquares().get(toX).get(toY).removePiece();
         }
         if(piece.getType() == PieceType.PAWN){
-            rankUpPawn((Pawn) piece, fromY, toY, getChessboardLength(chessboard));
+            rankUpPawn(piece, fromY, toY, getChessboardLength(chessboard));
 
-            if(checkPawnPromotion((Pawn) piece)){
+            if(checkPawnPromotion(piece)){
                 promotePawn(chessboard, piece);
             }
         }
@@ -311,7 +309,7 @@ public class ChessboardService {
      * @param posTo The position the pawn was moved to.
      * @param chessboardLength The length of the chessboard (y-axis).
      */
-    private static void rankUpPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
+    private static void rankUpPawn(Piece pawn, int posFrom, int posTo, int chessboardLength){
         if((Math.abs(posFrom-posTo) == 1) || ((Math.abs(posTo-posFrom)-chessboardLength) == -1)){
             pawn.setRank(pawn.getRank()+1);
             System.out.println("Pawn Rank: " + pawn.getRank());
@@ -331,7 +329,7 @@ public class ChessboardService {
      * @param posTo The position the pawn was moved to.
      * @param chessboardLength The length of the chessboard (y-axis).
      */
-    private static void rankDownPawn(Pawn pawn, int posFrom, int posTo, int chessboardLength){
+    private static void rankDownPawn(Piece pawn, int posFrom, int posTo, int chessboardLength){
         if((Math.abs(posFrom-posTo) == 1) || ((Math.abs(posTo-posFrom)-chessboardLength) == -1)){
             pawn.setRank(pawn.getRank()-1);
         } else {
@@ -356,7 +354,7 @@ public class ChessboardService {
      * @param pawn The pawn that has to be checked.
      * @return True if the pawn has reached the maximum rank and false if not.
      */
-    private static boolean checkPawnPromotion(Pawn pawn){
+    private static boolean checkPawnPromotion(Piece pawn){
         return pawn.getRank() == 9;
     }
 
@@ -368,7 +366,7 @@ public class ChessboardService {
      */
     private static void promotePawn(Chessboard chessboard, Piece piece) {
         chessboard.getSquares().get(piece.getPosX()).get(piece.getPosY()).removePiece();
-        setPiece(piece.getPosX(), piece.getPosY(), chessboard.getSquares(), new Queen(piece.getPlayer(), piece.isClockwise()));
+        setPiece(piece.getPosX(), piece.getPosY(), chessboard.getSquares(), new Piece(PieceType.QUEEN, piece.getPlayer(), piece.isClockwise()));
     }
 
 
@@ -423,12 +421,12 @@ public class ChessboardService {
         if(piece.getType() == PieceType.CANNON){
             setPiece(to.getPosX(), to.getPosY(), chessboard.getSquares(), capturedPiece);
         } else {
-            setPiece(to.getPosX(), to.getPosY(), chessboard.getSquares(), piece);
+            setPiece(from.getPosX(), from.getPosY(), chessboard.getSquares(), piece);
             removePiece(to.getPosX(), to.getPosY(), chessboard.getSquares());
 
             //rank down a pawn
             if(piece.getType() == PieceType.PAWN){
-                rankDownPawn((Pawn) piece, from.getPosY(), to.getPosY(), getChessboardLength(chessboard));
+                rankDownPawn(piece, from.getPosY(), to.getPosY(), getChessboardLength(chessboard));
             }
 
             if(capturedPiece != null){

@@ -35,7 +35,6 @@ public class Player implements Serializable {
     private String name;
     private Color color;
     private int id;
-    private boolean goDown;
 
     public Player() {
     }
@@ -47,27 +46,12 @@ public class Player implements Serializable {
 
     public Player(String name, Color color) {
         this.name = name;
-//        this.color = color;
-//        this.goDown = false;
     }
 
     public Player(String name, Color color, Integer id) {
         this.name = name;
         this.color = color;
         this.id = id;
-//        this.goDown = false;
     }
 
-    /**
-     * Method getting the players name
-     *
-     * @return name of player
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

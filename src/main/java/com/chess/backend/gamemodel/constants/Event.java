@@ -1,5 +1,8 @@
 package com.chess.backend.gamemodel.constants;
 
+/**
+ * Represents different event types for the firebase database.
+ */
 public enum Event {
     NEW_PLAYER_JOIN("NEW_PLAYER_JOIN"),
     GAME_STARTED("GAME_STARTED"),

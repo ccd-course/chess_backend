@@ -1,9 +1,9 @@
 package com.chess.backend.restController.service;
 
 import com.chess.backend.domain.controllers.objects.INewPlayersObject;
+import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.repository.GameRepository;
 import com.chess.backend.restController.controller.NewGameController;
 import com.chess.backend.services.ChessGameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Qualifier("NewChessGameService")
 public class NewChessGameService implements INewGameService {
-    private ChessGameService gameService;
-    private GameRepository gameRepository;
+    private final ChessGameService gameService;
+    private final IGameRepository gameRepository;
 
     @Autowired
-    public NewChessGameService(ChessGameService gameService, GameRepository gameRepository ){
+    public NewChessGameService(ChessGameService gameService, IGameRepository gameRepository ){
         this.gameRepository = gameRepository;
         this.gameService = gameService;
     }

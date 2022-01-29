@@ -2,7 +2,6 @@ package com.chess.backend.gamemodel;
 
 import com.chess.backend.gamemodel.constants.Castling;
 import com.chess.backend.gamemodel.constants.PieceType;
-import com.chess.backend.gamemodel.pieces.Piece;
 import lombok.Data;
 
 import java.util.Objects;
@@ -36,28 +35,6 @@ public class Move {
         if (movedPiece.getType().equals(PieceType.PAWN) && Math.abs(to.getPosY() - from.getPosY()) == 2) {
             this.wasPawnTwoFieldsMove = true;
         }
-        System.out.println(promotedPiece);//avoid static error
-        // TODO: Implement promotion
-//        else if (movedPiece.getType().equals(PieceType.PAWN) && to.pozY == Chessboard.bottom || to.pozY == Chessboard.top && promotedPiece != null)
-//        {
-//            this.promotedTo = promotedPiece;
-//        }
-    }
-
-    public boolean wasEnPassant() {
-        return this.wasEnPassant;
-    }
-
-    public boolean wasPawnTwoFieldsMove() {
-        return this.wasPawnTwoFieldsMove;
-    }
-
-    public Castling getCastlingMove() {
-        return this.castlingMove;
-    }
-
-    public Piece getPromotedPiece() {
-        return this.promotedTo;
     }
 
     @Override
@@ -91,15 +68,7 @@ public class Move {
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                getFrom(),
-                getTo(),
-                getMovedPiece(),
-                getTakenPiece(),
-                promotedTo,
-                wasEnPassant,
-                getCastlingMove(),
-                wasPawnTwoFieldsMove);
+        return Objects.hash(getFrom(), getTo(), getTaken(), getMovedPiece(), getTakenPiece(), getPromotedTo(), isWasEnPassant(), getCastlingMove(), isWasPawnTwoFieldsMove());
     }
 
     public Position getToPos() {
