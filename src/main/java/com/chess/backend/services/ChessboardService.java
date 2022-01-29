@@ -100,7 +100,7 @@ public class ChessboardService {
         setPiece(1, figuresFirstColumn + 2, squares, new Piece(PieceType.BISHOP, player, true));
         setPiece(2, figuresFirstColumn + 2, squares, new Piece(PieceType.KNIGHT, player, true));
         setPiece(3, figuresFirstColumn + 2, squares, new Piece(PieceType.ROOK, player, true));
-        setPiece(3, figuresFirstColumn + 2, squares, new Piece(PieceType.FERZ,player, true));
+        setPiece(4, figuresFirstColumn + 2, squares, new Piece(PieceType.WAZIR,player, true));
 
         //cannon
         setPiece(2, figuresFirstColumn + 6, squares, new Piece(PieceType.CANNON, player, true));
