@@ -6,6 +6,7 @@ import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Square;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.restController.objects.NewGameObject;
 import com.chess.backend.restController.objects.NewPlayerObject;
 import com.chess.backend.restController.objects.NewPlayersObject;
 import com.chess.backend.restController.service.NewChessGameService;
@@ -29,12 +30,14 @@ public class ChessGameInitializationTests {
             newPlayerObject.setPlayerName(players[i]);
             newPlayerObjects[i] = newPlayerObject;
         }
-        NewPlayersObject newPlayersObject = new NewPlayersObject();
-        newPlayersObject.setPlayers(newPlayerObjects);
+        NewGameObject gameObject = new NewGameObject();
+//        NewPlayersObject newPlayersObject = new NewPlayersObject();
+//        newPlayersObject.setPlayers(newPlayerObjects);
         IGameRepository gameRepository = new GameRepositoryMock();
         ChessGameService chessGameService = new ChessGameService(gameRepository);
         NewChessGameService newChessGameService = new NewChessGameService(chessGameService, gameRepository);
-        int gameID = newChessGameService.getNewGameID(newPlayersObject);
+        gameObject.setPlayers(newPlayerObjects);
+        int gameID = newChessGameService.getNewGameID(gameObject);
         return chessGameService.getGame(gameID);
     }
 
