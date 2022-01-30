@@ -8,9 +8,11 @@ public class EventMetadata{
     int[] end;
     int playerId;
     String playerName;
-    public EventMetadata(int [] start, int[] end){
+    public EventMetadata(int [] start, int[] end, int playerId, String playerName){
         this.start = start;
         this.end = end;
+        this.playerId = playerId;
+        this.playerName = playerName;
     }
     public EventMetadata(int playerId, String playerName){
         this.playerId = playerId;

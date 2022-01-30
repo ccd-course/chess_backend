@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Game service to initialize new Game and do operations on it
+ * Game service to initialize new Game and do operations on it.
  */
 @Service
 public class ChessGameService {
@@ -32,7 +32,7 @@ public class ChessGameService {
 
 
     /**
-     * generate new ID for a game object
+     * Cenerate new ID for a game object
      *
      * @return id
      */
@@ -67,10 +67,10 @@ public class ChessGameService {
     }
 
         /**
-         * create new Game
+         * Method to create a new game.
          *
-         * @param playerNames players names
-         * @return ChessGame
+         * @param playerNames An array of player names.
+         * @return A new created chessgame.
          */
     public ChessGame createNewGame(String[] playerNames) {
         ChessGame game = new ChessGame();
@@ -92,12 +92,22 @@ public class ChessGameService {
         return game;
     }
 
-
+    /**
+     * Getting the game for a given game id.
+     *
+     * @param gameId The game id.
+     * @return The matching chess game to the game id.
+     */
     public ChessGame getGame(Integer gameId) {
         return gameRepository.getGame(gameId);
 
     }
 
+    /**
+     *
+     * @param gameID
+     * @return
+     */
     public ArrayList<ArrayList<Square>> getBoard(int gameID) {
         ChessGame game = this.getGame(gameID);
         return getAllSquaresFromChessboard(game);
@@ -159,12 +169,12 @@ public class ChessGameService {
         ChessGame game = this.getGame(gameID);
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
             ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
-            switchActive(game);
-            List<EventObject> endingConditionEvents  = checkEndingConditions(game);
             EventMetadata eventMetaData = new EventMetadata(
                     new int[]{previousPiecePosition[1],previousPiecePosition[0]},
-                    new int[]{newPiecePosition[1],newPiecePosition[0]});
+                    new int[]{newPiecePosition[1],newPiecePosition[0]}, game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
+            switchActive(game);
+            List<EventObject> endingConditionEvents  = checkEndingConditions(game);
             EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
             List<EventObject> events = new ArrayList<>();
