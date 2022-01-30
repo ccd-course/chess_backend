@@ -22,7 +22,7 @@ public class Piece  {
     private  PieceType type;
     private  boolean motioned;
     private  boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
-    private  int rank;
+    private  int rank = 2;
 
     public Piece(PieceType pieceType, Player player, boolean clockwise) {
         this.type = pieceType;
@@ -108,7 +108,11 @@ public class Piece  {
 
         for (Move move :
                 allowedFullMoves) {
-            allowedMoves.add(move.getTo());
+            if (move.getMovedPiece().getType() == PieceType.CANNON) {
+                    allowedMoves.add(move.getTaken());
+            } else {
+                allowedMoves.add(move.getTo());
+            }
         }
 
         return allowedMoves;

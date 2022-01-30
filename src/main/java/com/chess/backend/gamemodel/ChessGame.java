@@ -1,8 +1,8 @@
 package com.chess.backend.gamemodel;
 
 import com.chess.backend.domain.models.IGame;
-import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.GameMode;
+import com.chess.backend.repository.metadata.EventObject;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
 

@@ -3,7 +3,7 @@ package com.chess.backend.restController.service;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.domain.services.INewGameService;
 import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.EventObject;
+import com.chess.backend.repository.metadata.EventObject;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.GameMode;
 import com.chess.backend.restController.controller.NewGameController;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,10 +46,10 @@ public class NewChessGameService implements INewGameService {
         ChessGame game = this.gameService.createNewGame(players);
         int gameID = game.getId();
         game.setType(GameMode.OFFLINE);
-        List<EventObject> events = game.getEvents();
+        List<EventObject> events = new ArrayList<>();
         events.add(new EventObject(Event.GAME_STARTED));
         game.setEvents(events);
-        this.gameRepository.createNewGame(gameID, game);
+        this.gameRepository.createNewGame(gameID, game, events);
         return game.getId();
     }
 }
