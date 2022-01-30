@@ -108,7 +108,11 @@ public class Piece  {
 
         for (Move move :
                 allowedFullMoves) {
-            allowedMoves.add(move.getTo());
+            if (move.getMovedPiece().getType() == PieceType.CANNON) {
+                    allowedMoves.add(move.getTaken());
+            } else {
+                allowedMoves.add(move.getTo());
+            }
         }
 
         return allowedMoves;

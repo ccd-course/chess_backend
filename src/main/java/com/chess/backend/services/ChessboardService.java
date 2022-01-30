@@ -218,11 +218,7 @@ public class ChessboardService {
         Piece piece = move.getMovedPiece();
 
         chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece(piece);
-//                [move.getTo().getPosX()][move.getTo().getPosY()]
-//                .setPiece(piece);
         chessboard.getSquares().get(move.getFrom().getPosX()).get(move.getFrom().getPosY()).removePiece();
-//                [move.getFrom().getPosX()][move.getFrom().getPosY()]
-//                .removePiece();
 
         if(piece.getType() == PieceType.PAWN){
             rankUpPawn(piece, move.getFrom().getPosY(), move.getTo().getPosY(), getChessboardLength(chessboard));
@@ -236,8 +232,6 @@ public class ChessboardService {
     public static Chessboard move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
         Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
 
-        chessboard.getSquares().get(toX).get(toY).setPiece(piece);
-        chessboard.getSquares().get(fromX).get(fromY).removePiece();
         if (piece.getType() != PieceType.CANNON) {
             chessboard.getSquares()
                     .get(toX).get(toY).setPiece(piece);
@@ -279,7 +273,6 @@ public class ChessboardService {
         for (int y = 0; y < squares.get(0).size(); y++) {
             for (int x = 0; x < squares.size(); x++) {
                 squares.get(x).set(y, new Square(x, y, null));
-//                squares[x][y] = new Square(x, y, null);
             }
         }
     }
@@ -393,6 +386,7 @@ public class ChessboardService {
      */
     public static ArrayList<Square> getValidMovesForPiece(Chessboard chessboard, Piece piece, Player player){
         ArrayList<Square> possibleMoves = piece.getAllowedMoves(chessboard);
+
         ArrayList<Square> validMoves = new ArrayList<>();
 
         for(Square square : possibleMoves){
@@ -491,7 +485,7 @@ public class ChessboardService {
                 if(square != null && square.hasPiece()){
                     Piece piece = square.getPiece();
 
-                    if(!piece.getPlayer().getName().equals(player.getName())){
+                    if(!piece.getPlayer().getName().equals(player.getName()) && piece.getType() != PieceType.CANNON){
                         enemyMoves.addAll(square.getPiece().getAllowedMoves(chessboard));
                     }
                 }

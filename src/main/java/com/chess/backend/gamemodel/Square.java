@@ -38,6 +38,10 @@ public class Square {
     }
 
     public void setPiece(Piece piece) {
+        if (piece.getType() == PieceType.CANNON) {
+            int a = 0;
+        }
+
         piece.setPosX(this.getPosX());
         piece.setPosY(this.getPosY());
         this.piece = piece;

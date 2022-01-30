@@ -1,6 +1,7 @@
 package com.chess.backend.gamemodel.abstractmoves;
 
 import com.chess.backend.gamemodel.*;
+import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.services.ChessboardService;
 
 import java.util.HashSet;
