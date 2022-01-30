@@ -50,7 +50,6 @@ public class AbstractMovementTests {
 
     @Test
     void testPawn() {
-
         PieceType pieceType = PieceType.PAWN;
         Piece piece = new Piece(PieceType.PAWN, game.getPlayers().get(0), true);
         setUpChessboard(piece);

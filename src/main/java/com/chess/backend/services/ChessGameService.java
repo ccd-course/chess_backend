@@ -158,18 +158,18 @@ public class ChessGameService {
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
             ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
             switchActive(game);
-            checkEndingConditions(game);
+            List<EventObject> endingConditionEvents  = checkEndingConditions(game);
             EventMetadata eventMetaData = new EventMetadata(
                     new int[]{previousPiecePosition[1],previousPiecePosition[0]},
                     new int[]{newPiecePosition[1],newPiecePosition[0]});
             EventObject eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
             EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId());
             EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
-            List<EventObject> events = game.getEvents();
+            List<EventObject> events = new ArrayList<>();
             events.add(eventObject);
             events.add(switchPlayerEvent);
-            game.setEvents(events);
-            this.gameRepository.createNewGame(game.getId(), game);
+            events.addAll(endingConditionEvents);
+            this.gameRepository.updateGame(game.getId(), game, events);
             return getActivePlayerName(game);
         } else {
             return "";
@@ -189,25 +189,23 @@ public class ChessGameService {
      * Checks if an ending condition to end the game is fulfilled.
      * @param game The game context.
      */
-    private void checkEndingConditions(ChessGame game){
+    private List<EventObject> checkEndingConditions(ChessGame game){
         // the players king can be captured and the player has no valid move
+        List<EventObject> events = new ArrayList<>();
+
         if(ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
             // the game is over
             // the active player has lost
             // the next player in the move order who can capture the players king wins
-            List<EventObject> events = game.getEvents();
             Player winner = determineWinnerByMoveOrder(game, game.getActivePlayer());
             events.add(new EventObject(Event.CHECKMATED,  new EventMetadata(winner.getId())));
-            game.setEvents(events);
             game.setWinner(winner);
         } else {
             // the players king can not be captured, but the player has no valid move
             if(!ChessboardService.isCheck(game.getChessboard(), game.getActivePlayer()) && !ChessboardService.hasPlayerValidMoves(game.getChessboard(), game.getActivePlayer())){
                 // the game ends in a draw
                 // no player has won or lost
-                List<EventObject> events = game.getEvents();
                 events.add(new EventObject(Event.DRAW));
-                game.setEvents(events);
             } else {
                 // the player can capture an opponent king
                 ArrayList<Player> capturedPlayers = ChessboardService.getCaptureKingPlayers(game.getChessboard(), game.getActivePlayer());
@@ -215,14 +213,13 @@ public class ChessGameService {
                     // the game ends because the active player ca capture an opponent king
                     // the active player wins
                     // the captured players loose
-                    List<EventObject> events = game.getEvents();
                     events.add(new EventObject(Event.CHECKMATED, new EventMetadata(game.getActivePlayer().getId())));
-                    game.setEvents(events);
                     game.setWinner(game.getActivePlayer());
                     //ArrayList<Player> loosers = capturedPlayers;
                 }
             }
         }
+        return events;
     }
 
     /**

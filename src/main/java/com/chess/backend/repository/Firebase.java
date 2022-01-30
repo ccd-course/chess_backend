@@ -19,6 +19,21 @@ public class Firebase {
     FirebaseConnector firebaseConnector;
     Firestore db;
 
+    void updateDocument(String collection, String docId, Map<String, Object> value)  {
+        DocumentReference docRef = db.collection(collection).document(docId);
+        try{
+            ApiFuture<WriteResult> result = docRef.update(value);
+            System.out.println("Update time : " + result.get().getUpdateTime());
+        }
+        catch (ExecutionException | InterruptedException e){
+            System.out.println("ERROR: "+ docId);
+            e.fillInStackTrace();
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
+    }
+
     /**
      * Add  documents with fields.
      *
