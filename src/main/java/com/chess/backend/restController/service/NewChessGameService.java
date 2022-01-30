@@ -48,6 +48,7 @@ public class NewChessGameService implements INewGameService {
         game.setType(GameMode.OFFLINE);
         List<EventObject> events = new ArrayList<>();
         events.add(new EventObject(Event.GAME_STARTED));
+        game.setEvents(events);
         this.gameRepository.createNewGame(gameID, game, events);
         return game.getId();
     }
