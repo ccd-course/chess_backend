@@ -15,7 +15,7 @@ public class PlayerService {
      * @param playerNames array of players names
      * @return Array of Player object
      */
-    public List<Player> initPlayers(String[] playerNames) {
+    public static List<Player> initPlayers(String[] playerNames) {
         List<Player> players = new ArrayList<>();
 
 //        Player[] players = new Player[playerNames.length];

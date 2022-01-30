@@ -20,7 +20,6 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 @Service
 public class ChessGameService {
-    private final PlayerService playerService = new PlayerService();
     private final IGameRepository gameRepository;
 
     @Autowired
@@ -32,54 +31,28 @@ public class ChessGameService {
 
 
     /**
-     * Cenerate new ID for a game object
+     * Generate new ID for a game object
      *
      * @return id
      */
-    public Integer getNewGameID() {
+    public static Integer getNewGameID() {
         return ThreadLocalRandom.current().nextInt(1, 1000 + 1);
     }
 
-
     /**
+     * create new Game
      *
-     * @param playerNames
-     * @return
+     * @param playerNames players names
+     * @return ChessGame
      */
-    public ChessGame createNewOnlineGame(String[] playerNames) {
+    public static ChessGame createNewGame(String[] playerNames) {
         ChessGame game = new ChessGame();
 
         //getting and setting the gameID
-        game.setId(this.getNewGameID());
-        System.out.println("PLAYERS: "+ playerNames[0]);
-        //initialize the players
-        List<Player> players = playerService.initPlayers(playerNames);
-        game.setPlayers(players);
-        game.setActivePlayer(players.get(0));
-        game.setEvents(new ArrayList<>());
-
-        //initialize the chessboard
-
-        Chessboard newGameChessboard = ChessboardService.initNewGameBoard(game.getPlayers());
-        game.setChessboard(newGameChessboard);
-        ChessboardService.setCommonPiecePlayer(game.getChessboard(), PieceType.CANNON, game.getActivePlayer());
-        return game;
-    }
-
-        /**
-         * Method to create a new game.
-         *
-         * @param playerNames An array of player names.
-         * @return A new created chessgame.
-         */
-    public ChessGame createNewGame(String[] playerNames) {
-        ChessGame game = new ChessGame();
-
-        //getting and setting the gameID
-        game.setId(this.getNewGameID());
+        game.setId(getNewGameID());
 
         //initialize the players
-        List<Player> players = playerService.initPlayers(playerNames);
+        List<Player> players = PlayerService.initPlayers(playerNames);
         game.setPlayers(players);
         game.setActivePlayer(players.get(0));
         game.setEvents(new ArrayList<>());
@@ -92,27 +65,37 @@ public class ChessGameService {
         return game;
     }
 
+
     /**
-     * Getting the game for a given game id.
+     * Returns a game object by gameID
      *
-     * @param gameId The game id.
-     * @return The matching chess game to the game id.
+     * @param gameID The gameID key under which the game object is stored in the gameRepository
+     * @return ChessGame
      */
-    public ChessGame getGame(Integer gameId) {
-        return gameRepository.getGame(gameId);
+    public ChessGame getGame(Integer gameID) {
+        return gameRepository.getGame(gameID);
 
     }
 
+
     /**
+     * Returns the ChessBoard by gameID
      *
-     * @param gameID
-     * @return
+     * @param gameID The gameID key under which the game object is stored in the gameRepository
+     * @return ChessBoard nested ArrayList
      */
     public ArrayList<ArrayList<Square>> getBoard(int gameID) {
         ChessGame game = this.getGame(gameID);
         return getAllSquaresFromChessboard(game);
     }
-    public ArrayList<ArrayList<Square>> getAllSquaresFromChessboard(ChessGame game){
+
+    /**
+     * Returns the ChessBoard of a game object
+     *
+     * @param game A game object
+     * @return ChessBoard nested ArrayList
+     */
+    public static ArrayList<ArrayList<Square>> getAllSquaresFromChessboard(ChessGame game){
         return game.getChessboard().getSquares();
     }
 
@@ -140,9 +123,9 @@ public class ChessGameService {
      *      returns possible moves for a piece position
      *      return value looks like that
      *      [[x,y], [2,2], [2,3], [3,3]]
-     * @param game
-     * @param piecePosition
-     * @return
+     * @param game A game object
+     * @param piecePosition Integer array representing a position
+     * @return Two-dimensional integer array of moves.
      */
     public int[][] getPossibleMoves(ChessGame game, int[] piecePosition) {
             Piece piece = ChessboardService.getPieceByPosition(game.getChessboard(), piecePosition[0], piecePosition[1]);
@@ -189,7 +172,7 @@ public class ChessGameService {
      * Get the name of the active player.
      * @return The name of the active player.
      */
-    public String getActivePlayerName(ChessGame game){
+    public static String getActivePlayerName(ChessGame game){
         return game.getActivePlayer().getName();
     }
 
@@ -262,6 +245,7 @@ public class ChessGameService {
 
     /**
      * Method to switch active players after move
+     * @param game Game object
      */
     public static void switchActive(ChessGame game) {
         List<Player> players = game.getPlayers();
@@ -291,6 +275,12 @@ public class ChessGameService {
     }
 
 
+    /**
+     * Helper method to set the active player and update all cannon pieces.
+     *
+     * @param chessGame Game object
+     * @param activePlayer New active player
+     */
     public static void setActivePlayer (ChessGame chessGame, Player activePlayer){
         chessGame.setActivePlayer(activePlayer);
         ChessboardService.setCommonPiecePlayer(chessGame.getChessboard(), PieceType.CANNON, activePlayer);

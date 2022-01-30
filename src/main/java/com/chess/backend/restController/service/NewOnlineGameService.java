@@ -28,7 +28,7 @@ public class NewOnlineGameService  {
         String[] gamePlayers = new String[newOnlineGameObject.getNumberOfPlayers()];
         gamePlayers[0] = newOnlineGameObject.getPlayers()[0].getPlayerName();
 //        List<String> sentPlayers = Arrays.stream(newOnlineGameObject.getPlayers()).map(player -> player.getPlayerName()).collect(Collectors.toList());
-        ChessGame game = this.gameService.createNewOnlineGame(gamePlayers);
+        ChessGame game = this.gameService.createNewGame(gamePlayers);
         game.setType(GameMode.ONLINE);
         int gameID = game.getId();
         this.gameRepository.createNewGame(gameID, game);
