@@ -1,17 +1,17 @@
 package com.chess.backend.domain.models;
 
 import com.chess.backend.gamemodel.Moves;
-import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.gamemodel.Square;
 
+import java.util.ArrayList;
+
+/**
+ * Interface of Board class
+ */
 public interface IBoard {
     int getNumberOfPlayers();
 
-    Square[][] getSquares();
-
-    Piece getTwoSquareMovedPawn();
-
-    Piece getTwoSquareMovedPawn2();
+    ArrayList<ArrayList<Square>>  getSquares();
 
     boolean isBreakCastling();
 
@@ -19,11 +19,8 @@ public interface IBoard {
 
     void setNumberOfPlayers(int numberOfPlayers);
 
-    void setSquares(Square[][] squares);
+    void setSquares(ArrayList<ArrayList<Square>>  squares);
 
-    void setTwoSquareMovedPawn(Piece twoSquareMovedPawn);
-
-    void setTwoSquareMovedPawn2(Piece twoSquareMovedPawn2);
 
     void setBreakCastling(boolean breakCastling);
 

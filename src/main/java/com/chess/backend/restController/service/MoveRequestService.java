@@ -1,9 +1,11 @@
 package com.chess.backend.restController.service;
 
+import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.restController.controller.MoveRequestController;
 import com.chess.backend.restController.objects.MoveRequestInputObject;
 import com.chess.backend.restController.objects.MoveRequestOutputObject;
 import com.chess.backend.services.ChessGameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +15,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MoveRequestService {
+    private final ChessGameService gameService;
+
+    @Autowired
+    public MoveRequestService(ChessGameService gameService ){
+        this.gameService = gameService;
+    }
+
     /**
      * This method gets the possible moves from the {@link ChessGameService}.
      *
@@ -21,8 +30,7 @@ public class MoveRequestService {
      */
     public MoveRequestOutputObject getPossibleMoves(MoveRequestInputObject moveRequestInputObject) {
 
-        ChessGameService gc = ChessGameService.getInstance();
-
-        return new MoveRequestOutputObject(gc.getPossibleMoves(moveRequestInputObject.getGameID(), moveRequestInputObject.getPiecePosition()));
+        ChessGame game = this.gameService.getGame(moveRequestInputObject.getGameID());
+        return new MoveRequestOutputObject(gameService.getPossibleMoves(game, moveRequestInputObject.getPiecePosition()));
     }
 }
