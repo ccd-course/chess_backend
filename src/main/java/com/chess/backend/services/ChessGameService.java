@@ -174,7 +174,7 @@ public class ChessGameService {
                     new int[]{newPiecePosition[1],newPiecePosition[0]}, game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
             switchActive(game);
-            checkEndingConditions(game);
+            List<EventObject> endingConditionEvents  = checkEndingConditions(game);
             EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
             List<EventObject> events = new ArrayList<>();
