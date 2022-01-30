@@ -2,7 +2,10 @@ package com.chess.backend.services;
 
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Color;
+import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.repository.metadata.EventMetadata;
+import com.chess.backend.repository.metadata.EventObject;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -214,7 +217,8 @@ public class ChessboardService {
      * @param chessboard Chessboard object
      * @param move       Move object
      */
-    public static void move(Chessboard chessboard, Move move) {
+    public static ArrayList<EventObject> move(Chessboard chessboard, Move move) {
+        ArrayList<EventObject> events = new ArrayList<>();
         Piece piece = move.getMovedPiece();
 
         chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece(piece);
@@ -229,11 +233,14 @@ public class ChessboardService {
 
             if(checkPawnPromotion(piece)){
                 promotePawn(chessboard, piece);
+                events.add(new EventObject(Event.PROMOTE, new EventMetadata(new int[]{move.getFrom().getPosY(), move.getFrom().getPosX()}, new int[]{move.getTo().getPosY(), move.getTo().getPosX()}, piece.getPlayer().getId(), piece.getPlayer().getName())));
             }
         }
+        return events;
     }
 
-    public static Chessboard move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
+    public static ArrayList<EventObject> move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
+        ArrayList<EventObject> events = new ArrayList<>();
         Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
 
         chessboard.getSquares().get(toX).get(toY).setPiece(piece);
@@ -250,9 +257,10 @@ public class ChessboardService {
 
             if(checkPawnPromotion(piece)){
                 promotePawn(chessboard, piece);
+                events.add(new EventObject(Event.PROMOTE, new EventMetadata(new int[]{fromY, fromX}, new int[]{toY, toX}, piece.getPlayer().getId(), piece.getPlayer().getName())));
             }
         }
-        return chessboard;
+        return events;
 
     }
 

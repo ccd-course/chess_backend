@@ -168,7 +168,8 @@ public class ChessGameService {
     public String executedMove(int gameID, int[] previousPiecePosition, int[] newPiecePosition) {
         ChessGame game = this.getGame(gameID);
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
-            ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]);
+            List<EventObject> events = new ArrayList<>();
+            events.addAll(ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]));
             EventMetadata eventMetaData = new EventMetadata(
                     new int[]{previousPiecePosition[1],previousPiecePosition[0]},
                     new int[]{newPiecePosition[1],newPiecePosition[0]}, game.getActivePlayer().getId(), game.getActivePlayer().getName());
@@ -177,7 +178,7 @@ public class ChessGameService {
             List<EventObject> endingConditionEvents  = checkEndingConditions(game);
             EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
-            List<EventObject> events = new ArrayList<>();
+
             events.add(eventObject);
             events.add(switchPlayerEvent);
             events.addAll(endingConditionEvents);
