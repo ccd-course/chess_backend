@@ -177,7 +177,7 @@ public class ChessGameService {
      * Get the name of the active player.
      * @return The name of the active player.
      */
-    public String getActivePlayerName(ChessGame game){
+    public static String getActivePlayerName(ChessGame game){
         return game.getActivePlayer().getName();
     }
 

@@ -3,6 +3,7 @@ package com.chess.backend.services;
 import com.chess.backend.ChessGameInitializationTests;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
+import com.chess.backend.gamemodel.Player;
 import com.chess.backend.gamemodel.Square;
 import com.chess.backend.gamemodel.constants.PieceType;
 import com.chess.backend.repository.GameRepositoryMock;
@@ -100,17 +101,25 @@ public class ChessGameServiceTests {
 
     @Test
     void getActivePlayerName() {
+        assertEquals("Test Player 1", ChessGameService.getActivePlayerName(game));
     }
 
     @Test
     void switchActive() {
+        Player oldActivePlayer = game.getActivePlayer();
+        ChessGameService.switchActive(game);
+        assertNotEquals(game.getActivePlayer(), oldActivePlayer);
     }
 
     @Test
     void getPlayerTurn() {
+        ChessGameService chessGameService = new ChessGameService(gameRepository);
+        assertEquals("Test Player 1", chessGameService.getPlayerTurn(game.getId()));
     }
 
     @Test
     void setActivePlayer() {
+        game.setActivePlayer(game.getPlayers().get(1));
+        assertEquals("Test Player 2", game.getActivePlayer().getName());
     }
 }
