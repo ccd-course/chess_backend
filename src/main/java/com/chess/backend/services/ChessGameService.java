@@ -5,6 +5,8 @@ import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.repository.metadata.EventMetadata;
+import com.chess.backend.repository.metadata.EventObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -163,7 +165,7 @@ public class ChessGameService {
                     new int[]{previousPiecePosition[1],previousPiecePosition[0]},
                     new int[]{newPiecePosition[1],newPiecePosition[0]});
             EventObject eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
-            EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId());
+            EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
             List<EventObject> events = game.getEvents();
             events.add(eventObject);
@@ -197,7 +199,7 @@ public class ChessGameService {
             // the next player in the move order who can capture the players king wins
             List<EventObject> events = game.getEvents();
             Player winner = determineWinnerByMoveOrder(game, game.getActivePlayer());
-            events.add(new EventObject(Event.CHECKMATED,  new EventMetadata(winner.getId())));
+            events.add(new EventObject(Event.CHECKMATED,  new EventMetadata(winner.getId(), winner.getName())));
             game.setEvents(events);
             game.setWinner(winner);
         } else {
@@ -216,7 +218,7 @@ public class ChessGameService {
                     // the active player wins
                     // the captured players loose
                     List<EventObject> events = game.getEvents();
-                    events.add(new EventObject(Event.CHECKMATED, new EventMetadata(game.getActivePlayer().getId())));
+                    events.add(new EventObject(Event.CHECKMATED, new EventMetadata(game.getActivePlayer().getId(), game.getActivePlayer().getName())));
                     game.setEvents(events);
                     game.setWinner(game.getActivePlayer());
                     //ArrayList<Player> loosers = capturedPlayers;
