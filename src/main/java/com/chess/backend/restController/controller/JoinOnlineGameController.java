@@ -51,7 +51,7 @@ public class JoinOnlineGameController {
         if(game.getEvents() == null) {
             game.setEvents(new ArrayList<>());
         }
-        List<EventObject> events = game.getEvents();
+        List<EventObject> events = new ArrayList<>();
 
         for(int i =0; i< players.size(); i++){
             Player player = players.get(i);
@@ -80,8 +80,7 @@ public class JoinOnlineGameController {
         if(toJoinPlayers.size() == 0){
             events.add(new EventObject(Event.GAME_STARTED));
         }
-        game.setEvents(events);
-        this.gameRepository.createNewGame(game.getId(), game);
+        this.gameRepository.updateGame(game.getId(), game, events);
         return game.getId();
     }
 }
