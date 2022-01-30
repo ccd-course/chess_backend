@@ -1,12 +1,7 @@
 package com.chess.backend.gamemodel;
-
+import com.chess.backend.domain.models.IBoard;
 import com.chess.backend.domain.models.IGame;
-import com.chess.backend.gamemodel.constants.GameMode;
-import com.chess.backend.repository.metadata.EventObject;
-import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * Class responsible for the starts of new games, loading games,
@@ -15,15 +10,79 @@ import java.util.List;
  * a move at the moment
  */
 @Data
-@IgnoreExtraProperties
 public class ChessGame implements IGame {
     private Chessboard chessboard;
     private Moves moves;
     private Player activePlayer;
     private int id;
-    private List<Player> players;
-    private List<EventObject> events;
-    private Player winner;
-    private GameMode type;
+    private Player[] players;
 
+    public String getActivePlayerName(){
+        return activePlayer.getName();
+    }
+
+    public Square[][] getAllSquaresFromChessboard(){
+        return this.chessboard.getSquares();
+    }
+
+//    /**
+//     * Method to switch active players after move
+//     */
+//    public void switchActive() {
+//        for (int i = 0; i < players.length; i++) {
+//            if (players[i].equals(activePlayer)) {
+//                if (i == (players.length - 1)) {
+//                    activePlayer = players[0];
+//                    break;
+//                } else {
+//                    activePlayer = players[i+1];
+//                    break;
+//                }
+//            }
+//        }
+//    }
+
+//    public String getActivePlayerName(){
+//        return this.activePlayer.getName();
+//    }
+
+//    /**
+//     * Method to go to next move (checks if game is local/network etc.)
+//     */
+//    public void nextMove() {
+//        switchActive();
+//        System.out.println("next move, active player: " + activePlayer.getName() + ", color: " + activePlayer.getColor().name());
+//    }
+//
+//    /**
+//     * Method to simulate Move to check if it's correct etc. (usable for network game).
+//     *
+//     * @param beginX from which X (on chessboard) move starts
+//     * @param beginY from which Y (on chessboard) move starts
+//     * @param endX   to   which X (on chessboard) move go
+//     * @param endY   to   which Y (on chessboard) move go
+//     */
+//    public boolean simulateMove(int beginX, int beginY, int endX, int endY) {
+//        try {
+//            if (chessboard.getSquares()[beginX][beginY].getPiece().getAllowedMoves(this).contains(chessboard.getSquares()[endX][endY])) //move
+//            {
+//                ChessboardService.move(chessboard, beginX, beginY, endX, endY);
+//            } else {
+//                System.out.println("Bad move");
+//                return false;
+//            }
+//            nextMove();
+//
+//            return true;
+//
+//        } catch (StringIndexOutOfBoundsException exc) {
+//            return false;
+//        } catch (ArrayIndexOutOfBoundsException exc) {
+//            return false;
+//        } catch (NullPointerException exc) {
+//            return false;
+//        } finally {
+//            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, "ERROR");
+//        }
+//    }
 }

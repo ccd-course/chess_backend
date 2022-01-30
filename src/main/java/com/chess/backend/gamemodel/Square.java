@@ -22,14 +22,15 @@ package com.chess.backend.gamemodel;
 
 
 import com.chess.backend.gamemodel.constants.PieceType;
-import lombok.Data;
 
 /**
  * Represents a chessboard square.
  */
-@Data
 public class Square {
     private final Position position;
+    /**
+     * Piece on a square
+     */
     private Piece piece = null;
 
     public Square(int posX, int posY, Piece piece) {
@@ -37,27 +38,26 @@ public class Square {
         this.piece = piece;
     }
 
-    public void setPiece(Piece piece) {
-        if (piece.getType() == PieceType.CANNON) {
-            int a = 0;
-        }
+    Square(Square square) {
+        this.position = square.getPos();
+        this.piece = square.getPiece();
+    }
 
-        piece.setPosX(this.getPosX());
-        piece.setPosY(this.getPosY());
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
         this.piece = piece;
+        this.piece.setSquare(this);
     }
 
     public PieceType getPieceTypeOfPiece(){
-       if(this.piece!=null){
-           return this.piece.getType();
-       }
-       else{
-           return null;
-       }
+        return piece.getType();
     }
 
     /**
-     * Removes the piece from the square.
+     * Removes the piece from tha square.
      */
     public void removePiece() {
         this.piece = null;
@@ -79,11 +79,14 @@ public class Square {
     public String toString() {
         return "Square{" +
                 "position=" + position +
-                "piece=" + piece +
                 '}';
     }
 
     public boolean hasPiece(){
-        return getPiece() != null;
+        if(getPiece() == null){
+            return false;
+        } else {
+            return true;
+        }
     }
 }

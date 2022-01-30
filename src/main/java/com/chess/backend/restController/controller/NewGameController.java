@@ -1,10 +1,7 @@
 package com.chess.backend.restController.controller;
 
 import com.chess.backend.domain.services.INewGameService;
-import com.chess.backend.gamemodel.constants.GameMode;
-import com.chess.backend.restController.objects.NewGameObject;
-import com.chess.backend.restController.service.NewOnlineGameService;
-
+import com.chess.backend.restController.objects.NewPlayersObject;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,36 +17,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/createNewGame")
 public class NewGameController {
 
-    private final NewOnlineGameService newOnlineGameService;
     private final INewGameService newGameService;
 
     @Autowired
-    public NewGameController(NewOnlineGameService newOnlineGameService,
-                                        @Qualifier("NewChessGameService") INewGameService newGameService) {
-        this.newOnlineGameService = newOnlineGameService;
+    public NewGameController(@Qualifier("NewChessGameService")INewGameService newGameService) {
         this.newGameService = newGameService;
     }
 
     /**
      * Method that is called on a post request.
      *
+     * @param players in the request body containing the playerNames.
+     * @return the id of the new created game.
      */
     @Operation(
-            summary = "Start a new online game",
+            summary = "Start a new game",
             description = "Returns the Game ID of a newly created game."
     )
     @PostMapping
-    public int createNewGame(@RequestBody NewGameObject newGameObject) {
-        if(newGameObject.getType()== GameMode.ONLINE ){
-            System.out.println("ONLINE WORKS");
-            return newOnlineGameService.getNewGameID(newGameObject);
+    public int createNewGame(@RequestBody NewPlayersObject players) {
 
-        }
-        else if(newGameObject.getType()== GameMode.OFFLINE){
-            return newGameService.getNewGameID(newGameObject);
-
-        }{
-            throw new Error("Type is not accepted");
-        }
+        return newGameService.getNewGameID(players);
     }
 }
