@@ -170,16 +170,11 @@ public class ChessGameService {
         if (this.validateMove(gameID, previousPiecePosition, newPiecePosition)) {
             List<EventObject> events = new ArrayList<>();
             events.addAll(ChessboardService.move(game.getChessboard(), previousPiecePosition[0], previousPiecePosition[1], newPiecePosition[0], newPiecePosition[1]));
-            EventMetadata eventMetaData = new EventMetadata(
-                    new int[]{previousPiecePosition[1],previousPiecePosition[0]},
-                    new int[]{newPiecePosition[1],newPiecePosition[0]}, game.getActivePlayer().getId(), game.getActivePlayer().getName());
-            EventObject eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
             switchActive(game);
             List<EventObject> endingConditionEvents  = checkEndingConditions(game);
             EventMetadata switchPlayerMetaData = new EventMetadata(game.getActivePlayer().getId(), game.getActivePlayer().getName());
             EventObject switchPlayerEvent = new EventObject(Event.PLAYER_CHANGE, switchPlayerMetaData);
 
-            events.add(eventObject);
             events.add(switchPlayerEvent);
             events.addAll(endingConditionEvents);
             this.gameRepository.updateGame(game.getId(), game, events);

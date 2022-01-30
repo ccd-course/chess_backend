@@ -212,39 +212,32 @@ public class ChessboardService {
     }
 
     /**
-     * Apply move to chessboard
+     * Apply move to chessboard.
      *
-     * @param chessboard Chessboard object
-     * @param move       Move object
+     * @param chessboard The chessboard.
+     * @param fromX From position x.
+     * @param fromY From position Y.
+     * @param toX To position X.
+     * @param toY To position Y.
+     * @return List of performed events.
      */
-    public static ArrayList<EventObject> move(Chessboard chessboard, Move move) {
-        ArrayList<EventObject> events = new ArrayList<>();
-        Piece piece = move.getMovedPiece();
-
-        chessboard.getSquares().get(move.getTo().getPosX()).get(move.getTo().getPosY()).setPiece(piece);
-        chessboard.getSquares().get(move.getFrom().getPosX()).get(move.getFrom().getPosY()).removePiece();
-
-        if(piece.getType() == PieceType.PAWN){
-            rankUpPawn(piece, move.getFrom().getPosY(), move.getTo().getPosY(), getChessboardLength(chessboard));
-
-            if(checkPawnPromotion(piece)){
-                promotePawn(chessboard, piece);
-                events.add(new EventObject(Event.PROMOTE, new EventMetadata(new int[]{move.getFrom().getPosY(), move.getFrom().getPosX()}, new int[]{move.getTo().getPosY(), move.getTo().getPosX()}, piece.getPlayer().getId(), piece.getPlayer().getName())));
-            }
-        }
-        return events;
-    }
-
     public static ArrayList<EventObject> move(Chessboard chessboard, int fromX, int fromY, int toX, int toY) {
         ArrayList<EventObject> events = new ArrayList<>();
         Piece piece = chessboard.getSquares().get(fromX).get(fromY).getPiece();
+        EventObject eventObject;
 
         if (piece.getType() != PieceType.CANNON) {
-            chessboard.getSquares()
-                    .get(toX).get(toY).setPiece(piece);
+            chessboard.getSquares().get(toX).get(toY).setPiece(piece);
             chessboard.getSquares().get(fromX).get(fromY).removePiece();
+
+            EventMetadata eventMetaData = new EventMetadata(new int[]{fromY, fromX}, new int[]{toY, toX}, piece.getPlayer().getId(), piece.getPlayer().getName());
+            eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
+            events.add(eventObject);
         } else {
             chessboard.getSquares().get(toX).get(toY).removePiece();
+            EventMetadata eventMetaData = new EventMetadata(new int[]{fromY, fromX}, new int[]{toY, toX}, piece.getPlayer().getId(), piece.getPlayer().getName(), true);
+            eventObject = new EventObject(Event.NEW_MOVE, eventMetaData);
+            events.add(eventObject);
         }
         if(piece.getType() == PieceType.PAWN){
             rankUpPawn(piece, fromY, toY, getChessboardLength(chessboard));
