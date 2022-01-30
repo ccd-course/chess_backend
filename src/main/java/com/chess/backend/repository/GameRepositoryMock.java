@@ -2,8 +2,10 @@ package com.chess.backend.repository;
 
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
+import com.chess.backend.repository.metadata.EventObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A GameRepository mocking class for testing.
@@ -17,7 +19,22 @@ public class GameRepositoryMock implements IGameRepository {
     }
 
     @Override
+    public void createNewGame(Integer gameId, ChessGame game, List<EventObject> events) {
+        games.put(gameId, game);
+    }
+
+    @Override
     public void createNewGame(Integer gameId, ChessGame game) {
+        games.put(gameId, game);
+    }
+
+    @Override
+    public void updateGame(Integer gameId, ChessGame game, List<EventObject> events) {
+        games.put(gameId, game);
+    }
+
+    @Override
+    public void updateGame(Integer gameId, ChessGame game) {
         games.put(gameId, game);
     }
 }
