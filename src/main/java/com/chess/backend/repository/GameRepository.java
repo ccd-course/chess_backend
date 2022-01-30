@@ -79,12 +79,13 @@ public class GameRepository implements IGameRepository {
         updateGame(gameId, game, null);
     }
 
-        public void createNewGame(Integer gameId, ChessGame game, List<EventObject> events)  {
+    public void createNewGame(Integer gameId, ChessGame game, List<EventObject> events)  {
         String gameJson = new Gson().toJson(game);
         Map<String, Object> data = new HashMap<>();
         data.put("value", gameJson);
         data.put("events", new Gson().toJson(game.getEvents()));
         data.put("type", game.getType());
+        data.put("chat", new ArrayList<>());
         String chessboardJson = new Gson().toJson(transformChessboard(game.getChessboard()));
         data.put("chessboard", chessboardJson);
         this.firebase.addDocument(collection, String.valueOf(gameId),data);
