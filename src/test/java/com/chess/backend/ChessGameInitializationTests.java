@@ -22,7 +22,7 @@ public class ChessGameInitializationTests {
      * Helper method to create a ChessGame test object
      * @return ChessGame
      */
-    public static ChessGame createNewTestGame() {
+    public static ChessGame createNewTestGame(IGameRepository gameRepository) {
         String[] players = {"Test Player 1", "Test Player 2", "Test Player 3"};
         NewPlayerObject[] newPlayerObjects = new NewPlayerObject[players.length];
         for (int i = 0; i < players.length; i++) {
@@ -31,14 +31,20 @@ public class ChessGameInitializationTests {
             newPlayerObjects[i] = newPlayerObject;
         }
         NewGameObject gameObject = new NewGameObject();
-//        NewPlayersObject newPlayersObject = new NewPlayersObject();
-//        newPlayersObject.setPlayers(newPlayerObjects);
-        IGameRepository gameRepository = new GameRepositoryMock();
         ChessGameService chessGameService = new ChessGameService(gameRepository);
         NewChessGameService newChessGameService = new NewChessGameService(chessGameService, gameRepository);
         gameObject.setPlayers(newPlayerObjects);
         int gameID = newChessGameService.getNewGameID(gameObject);
         return chessGameService.getGame(gameID);
+    }
+
+    /**
+     * Helper method to create a ChessGame test object
+     * @return ChessGame
+     */
+    public static ChessGame createNewTestGame() {
+        IGameRepository gameRepository = new GameRepositoryMock();
+        return createNewTestGame(gameRepository);
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.chess.backend;
 
+import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.PieceType;
+import com.chess.backend.repository.GameRepositoryMock;
 import com.chess.backend.services.ChessboardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AbstractMovementTests {
 
     ChessGame game;
+    IGameRepository gameRepository;
 
     @BeforeEach
     void setUp() {
-        game = ChessGameInitializationTests.createNewTestGame();
+        gameRepository = new GameRepositoryMock();
+        game = ChessGameInitializationTests.createNewTestGame(gameRepository);
     }
 
     void setUpChessboard(Piece piece) {
