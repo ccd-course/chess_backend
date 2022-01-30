@@ -1,4 +1,4 @@
-package com.chess.backend.gamemodel;
+package com.chess.backend.repository.metadata;
 
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 
@@ -7,11 +7,15 @@ public class EventMetadata{
     int[] start;
     int[] end;
     int playerId;
+    String playerName;
     public EventMetadata(int [] start, int[] end){
         this.start = start;
         this.end = end;
     }
-    public EventMetadata(int playerId){
+    public EventMetadata(int playerId, String playerName){
         this.playerId = playerId;
+        this.playerName = playerName;
     }
+
+
 }
