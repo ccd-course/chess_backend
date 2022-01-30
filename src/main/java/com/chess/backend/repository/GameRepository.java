@@ -3,13 +3,13 @@ package com.chess.backend.repository;
 import com.chess.backend.domain.repository.IGameRepository;
 import com.chess.backend.gamemodel.ChessGame;
 import com.chess.backend.gamemodel.Chessboard;
-import com.chess.backend.gamemodel.EventObject;
 import com.chess.backend.gamemodel.Piece;
 import com.chess.backend.restController.objects.SquareObject;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import com.chess.backend.repository.metadata.EventObject;
 
 import java.util.*;
 

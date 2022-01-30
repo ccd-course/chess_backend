@@ -4,6 +4,8 @@ package com.chess.backend.restController.controller;
 import com.chess.backend.gamemodel.*;
 import com.chess.backend.gamemodel.constants.Event;
 import com.chess.backend.repository.GameRepository;
+import com.chess.backend.repository.metadata.EventMetadata;
+import com.chess.backend.repository.metadata.EventObject;
 import com.chess.backend.restController.objects.JoinOnlineGameObject;
 import com.chess.backend.services.ChessGameService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +58,7 @@ public class JoinOnlineGameController {
             if(player.getName()==null){
                 player.setName(joinOnlineGameObject.getPlayer());
                 players.set(i, player);
-                events.add(new EventObject(Event.NEW_PLAYER_JOIN) );
+                events.add(new EventObject(Event.NEW_PLAYER_JOIN, new EventMetadata(player.getId(), player.getName())) );
                 int playerID = player.getId();
                 ArrayList<ArrayList<Square>> squares = game.getChessboard().getSquares();
                 for (ArrayList<Square> row:

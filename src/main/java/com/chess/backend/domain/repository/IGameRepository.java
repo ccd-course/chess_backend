@@ -2,7 +2,7 @@ package com.chess.backend.domain.repository;
 
 
 import com.chess.backend.gamemodel.ChessGame;
-import com.chess.backend.gamemodel.EventObject;
+import com.chess.backend.repository.metadata.EventObject;
 
 import java.util.List;
 

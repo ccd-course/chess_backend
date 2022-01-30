@@ -1,4 +1,4 @@
-package com.chess.backend.gamemodel;
+package com.chess.backend.repository.metadata;
 
 import com.chess.backend.gamemodel.constants.Event;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
