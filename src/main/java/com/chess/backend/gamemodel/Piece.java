@@ -22,7 +22,7 @@ public class Piece  {
     private  PieceType type;
     private  boolean motioned;
     private  boolean clockwise; // TODO: 4 of the 8 Pawns move in the other direction. Initialize accordingly.
-    private  int rank;
+    private  int rank = 2;
 
     public Piece(PieceType pieceType, Player player, boolean clockwise) {
         this.type = pieceType;
