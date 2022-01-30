@@ -4,6 +4,11 @@ import com.chess.backend.gamemodel.Chessboard;
 import com.chess.backend.gamemodel.Moves;
 import com.chess.backend.gamemodel.Player;
 
+import java.util.List;
+
+/**
+ * Interface of Game class
+ */
 public interface IGame {
     Chessboard getChessboard();
 
@@ -13,7 +18,7 @@ public interface IGame {
 
     int getId();
 
-    Player[] getPlayers();
+    List<Player> getPlayers();
 
     void setChessboard(Chessboard chessboard);
 
@@ -23,5 +28,5 @@ public interface IGame {
 
     void setId(int id);
 
-    void setPlayers(Player[] players);
+    void setPlayers(List<Player> players);
 }

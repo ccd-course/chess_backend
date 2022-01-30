@@ -1,6 +1,7 @@
 package com.chess.backend.restController.service;
 
 import com.chess.backend.services.ChessGameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,6 +9,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EndGameService {
+    private final ChessGameService gameService;
+
+    @Autowired
+    public EndGameService(ChessGameService gameService ){
+        this.gameService = gameService;
+    }
+
     /**
      * This method tells the {@link ChessGameService} to end the game with the responding game ID and returns a boolean value indicating the success.
      *
@@ -15,8 +23,6 @@ public class EndGameService {
      * @return a boolean value indicating if the ending of the game was successful or not.
      */
     public boolean endGame(int gameID) {
-        ChessGameService gc = ChessGameService.getInstance();
-
-        return gc.endGame(gameID);
+        return true;
     }
 }

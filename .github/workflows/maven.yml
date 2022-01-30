@@ -110,7 +110,7 @@ jobs:
         run: dir target/
 
       - name: Copy generated jar to ./staging
-        run: mkdir staging && cp target/backend-1.0.0.jar staging
+        run: mkdir staging && cp target/backend-2.0.0.jar staging
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v1
