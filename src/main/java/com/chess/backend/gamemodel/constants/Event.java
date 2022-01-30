@@ -9,7 +9,8 @@ public enum Event {
     NEW_MOVE("NEW_MOVE"),
     PLAYER_CHANGE("PLAYER_CHANGE"),
     CHECKMATED("CHECKMATED"),
-    DRAW("DRAW");
+    DRAW("DRAW"),
+    PROMOTE("PROMOTE");
 
 
     private final String label;
