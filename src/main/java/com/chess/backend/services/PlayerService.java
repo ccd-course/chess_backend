@@ -39,6 +39,6 @@ public class PlayerService {
      * @return Player object in Y
      */
     public static int getBaseY(Player player) {
-        return player.getColor().getPosition() * 9;
+        return player.getColor().getPosition() * 10;
     }
 }
